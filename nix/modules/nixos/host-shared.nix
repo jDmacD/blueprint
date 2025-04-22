@@ -1,7 +1,22 @@
 { pkgs, ... }:
 {
 
-  users.users.jmacdonald.isNormalUser = true;
+  users.users = {
+    jmacdonald = {
+      isNormalUser = true;
+      initialPassword = "password";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "audio"
+      "sound"
+      "video"
+      "docker"
+    ];
+    packages = [ ];
+    };
+  };
+  
   nixpkgs.config.allowUnfree = true;
 
   nix = {
