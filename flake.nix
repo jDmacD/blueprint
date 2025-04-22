@@ -10,13 +10,18 @@
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    hyprland.url = "github:hyprwm/Hyprland";
+
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   # Load the blueprint
   outputs = inputs:
     inputs.blueprint {
       inherit inputs;
-      nixpkgs.config.allowUnfree = true;
+      systems = [ "aarch64-linux" "x86_64-linux" ];
       prefix = "nix/";
     };
 }
