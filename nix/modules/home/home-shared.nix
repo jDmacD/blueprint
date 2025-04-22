@@ -1,6 +1,10 @@
 { pkgs, osConfig, ... }:
 {
 
+  imports = [
+    ./terminal.nix
+  ];
+
   # only available on linux, disabled on macos
   services.ssh-agent.enable = pkgs.stdenv.isLinux;
 

@@ -7,12 +7,16 @@
 {
   imports = [
     inputs.self.nixosModules.host-shared
-    inputs.self.nixosModules.hyprland
+    inputs.self.nixosModules.ui
   ];
 
   environment.systemPackages = [ ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
+
+  networking = {
+    hostName = "riker";
+  };
 
   system.stateVersion = "24.11";
 }
