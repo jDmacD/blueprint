@@ -1,14 +1,18 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
+
+  imports = [
+    inputs.stylix.nixosModules.stylix
+  ];
+
   stylix = {
     enable = true;
     autoEnable = true;
-    targets = {
-      # hyprpaper.enable = false;
+    image = pkgs.fetchurl {
+      url = "https://github.com/jDmacD/wallpapers/blob/main/3440x1440/simon_stalenhag/AknbEel.jpeg?raw=true";
+      sha256 = "sha256-fieTqLhftyXiOfWE39K81xqQUcW47yUOeci2INlCOWU=";
     };
-    # https://imgur.com/a/JxOff0y
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
-    image = screen2;
+    targets = { };
     polarity = "dark";
     fonts = {
       serif = {
