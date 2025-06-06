@@ -13,7 +13,11 @@
     hyprland.url = "github:hyprwm/Hyprland";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     sops-nix.url = "github:Mic92/sops-nix";
-    stylix.url = "github:danth/stylix/release-24.11";
+    stylix.url = "github:danth/stylix/release-25.05";
+    raspberry-pi-nix = {
+      url = "github:nix-community/raspberry-pi-nix/v0.4.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # Load the blueprint
