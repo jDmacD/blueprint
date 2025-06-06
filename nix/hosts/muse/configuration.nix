@@ -5,8 +5,8 @@
   inputs,
   outputs,
   ...
-}: let
-in {
+}:
+{
   imports = [
     ./hardware-configuration.nix
     inputs.raspberry-pi-nix.nixosModules.raspberry-pi
@@ -28,7 +28,7 @@ in {
       "cgroup_memory=1"
       "cgroup_enable=memory"
     ];
-    kernelModules = ["rbd"];
+    kernelModules = [ "rbd" ];
     kernelPatches = [
       {
         name = "envoy-kernel-config";

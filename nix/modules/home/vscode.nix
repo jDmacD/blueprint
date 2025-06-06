@@ -12,7 +12,6 @@
       default = {
         userSettings = {
           workbench.colorTheme = "Stylix";
-          vsc-webshark.sharkdFullPath = "/etc/profiles/per-user/jmacdonald/bin/sharkd";
           git.autofetch = true;
           git.confirmSync = false;
           sqltools.useNodeRuntime = false;
