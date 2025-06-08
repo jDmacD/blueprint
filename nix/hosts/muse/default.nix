@@ -3,7 +3,9 @@
   class = "nixos";
 
   value = inputs.nixos-raspberrypi.lib.nixosSystemFull {
-    specialArgs = inputs;
+    specialArgs = {
+      inherit (inputs) nixos-raspberrypi;
+    };
     modules = [
       (
         {
@@ -15,7 +17,7 @@
         }:
         {
           imports = with nixos-raspberrypi.nixosModules; [
-            # Hardware configuration
+            ./configuration.nix
             raspberry-pi-5.base
             raspberry-pi-5.display-vc4
             sd-image

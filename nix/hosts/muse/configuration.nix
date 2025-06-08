@@ -9,7 +9,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    inputs.self.nixosModules.k3s-server
+    ../../modules/nixos/host-shared.nix
+    ../../modules/nixos/k3s-server.nix
   ];
 
   environment.systemPackages = with pkgs; [
