@@ -19,7 +19,7 @@
   networking.firewall.allowedUDPPorts = [
     8472 # k3s, flannel: required if using multi-node for inter-node networking
   ];
-
+  # https://search.nixos.org/options?channel=25.05&from=0&size=50&sort=relevance&type=packages&query=services.k3s
   services.k3s = {
     enable = true;
     package = pkgs.k3s_1_33;

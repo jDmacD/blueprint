@@ -1,6 +1,11 @@
 # nix build github:jDmacD/blueprint#nixosConfigurations.muse.config.system.build.sdImage
-# OR 
+# or
 # nix build .#nixosConfigurations.muse.config.system.build.sdImage
+# to build the image
+# Once deployed it can be updated with
+# nixos-rebuild switch --flake .#muse --target-host muse.lan --build-host localhost --use-remote-sudo
+# or
+# nixos-rebuild switch --flake github:jDmacD/blueprint#muse --target-host muse.lan --build-host localhost --use-remote-sudo
 {
   config,
   inputs,
