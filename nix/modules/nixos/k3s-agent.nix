@@ -25,23 +25,14 @@
     package = pkgs.k3s_1_33;
     role = "agent"; # Or "agent" for worker only nodes
     # sudo cat /var/lib/rancher/k3s/server/agent-token
-    token = "<server token>";
+    # use sops to write out the token file
+    tokenFile = /var/run/secrets/k3s/token;
     serverAddr = "https://<server>:6443";
     extraFlags = toString [
       # otherwise the node will pull the nixos-rpi hostname of the bootstapper
       "--node-name ${config.networking.hostName}"
     ];
   };
-
-  # needed for ceph
-  fileSystems."/lib/modules" = {
-    device = "/run/booted-system/kernel-modules/lib/modules";
-    fsType = "none";
-    options = [ "bind" ];
-    depends = [ "/run/booted-system/kernel-modules/lib/modules" ];
-  };
-
-  programs.nbd.enable = true; # required for ceph
 
   environment.systemPackages = with pkgs; [
     lvm2
