@@ -13,6 +13,8 @@
     ./hardware-configuration.nix
     # Because we're pulling this into default.nix,
     # we need to use relative paths otherwise it causes a recursion error.
+    ../../modules/nixos/ssh.nix
+    ../../modules/nixos/users.nix
     ../../modules/nixos/host-shared.nix
     ../../modules/nixos/k3s-server.nix
   ];
