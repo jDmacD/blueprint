@@ -1,3 +1,6 @@
+# nix build github:jDmacD/blueprint#nixosConfigurations.muse.config.system.build.sdImage
+# OR 
+# nix build .#nixosConfigurations.muse.config.system.build.sdImage
 {
   config,
   inputs,
