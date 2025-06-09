@@ -5,7 +5,7 @@
     jmacdonald = {
       isNormalUser = true;
       initialPassword = "password";
-      openssh.authorizedKeys.keys = [];
+      openssh.authorizedKeys.keys = [ ];
       extraGroups = [
         "networkmanager"
         "wheel"
@@ -19,7 +19,7 @@
     awilson = {
       isNormalUser = true;
       initialPassword = "password";
-      openssh.authorizedKeys.keys = [];
+      openssh.authorizedKeys.keys = [ ];
       extraGroups = [
         "networkmanager"
         "wheel"
