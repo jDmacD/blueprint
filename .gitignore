@@ -5,3 +5,4 @@
 result
 result-*
 *.qcow2
+nixos-sd-image-*
