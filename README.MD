@@ -4,3 +4,6 @@ I'm hoping to simplify the management of my pi fleet through the use of [nixos-r
 
 ## Blueprint Examples
 - https://github.com/zimbatm/home
+
+## Raspberry Pi Examples
+- https://github.com/nvmd/nixos-raspberrypi-demo
