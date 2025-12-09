@@ -18,7 +18,6 @@
     defaultSopsFile = ../../secrets/personal.yaml;
 
     secrets.data = {
-      # sops --age $(age-keygen -y ~/.age-key.txt) --output-type yaml -e ~/.kube/config | yq ".turing_kube_config = .data | del(.data)" > ~/.nix/secrets/turing.yaml
       sopsFile = ../../secrets/turing.yaml;
       path = "${config.home.homeDirectory}/.kube/config";
     };
@@ -51,6 +50,11 @@
       mode = "0600";
       path = "${config.home.homeDirectory}/.ssh/opnsense_ed25519";
     };
+
+    secrets.hcloud_cli = {
+      mode = "600";
+      path = "${config.home.homeDirectory}/.config/hcloud/cli.toml";
+    };
   };
 
   programs.ssh.matchBlocks = {
@@ -62,22 +66,15 @@
       identityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    tpi = {
-      host = "tpi0*";
+    turingpi = {
+      host = "turingpi.lan";
       user = "root";
       port = 22;
       identityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    dietPi = {
-      host = "pi04.lan";
-      user = "root";
-      port = 22;
-      identityFile = config.sops.secrets.id_ed25519.path;
-    };
-
-    nixPi = {
-      host = "pi01.lan pi02.lan pi03.lan pi05.lan";
+    pis = {
+      host = "tpi01.lan tpi02.lan tpi03.lan tpi04.lan pi01.lan pi02.lan pi03.lan pi05.lan";
       user = "jmacdonald";
       port = 22;
       identityFile = config.sops.secrets.id_ed25519.path;
@@ -90,8 +87,8 @@
       identityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    lwh = {
-      host = "lwh";
+    lwh-hotapril = {
+      host = "lwh-hotapril";
       hostname = "lwh-hotapril.lan";
       user = "jmacdonald";
       identityFile = config.sops.secrets.id_ed25519.path;
@@ -111,25 +108,18 @@
       identityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    # prx = {
-    #   host = "prx0*";
-    #   user = "root";
-    #   port = 22;
-    #   identityFile = "~/.ssh/prx_ed25519";
-    # };
+    worf = {
+      host = "worf";
+      hostname = "worf.jtec.xyz";
+      user = "jmacdonald";
+      identityFile = config.sops.secrets.id_ed25519.path;
+    };
 
-    # pi400 = {
-    #   host = "pi400.lan";
-    #   user = "admin";
-    #   port = 22;
-    #   identityFile = "~/.ssh/pi400_rsa";
-    # };
-
-    # piload = {
-    #   host = "piload*";
-    #   user = "root";
-    #   port = 22;
-    #   identityFile = config.sops.secrets.piload_rsa.path;
-    # };
+    gitlab = {
+      host = "git";
+      hostname = "git.heanet.ie";
+      user = "james.macdonald";
+      identityFile = config.sops.secrets.id_ed25519.path;
+    };
   };
 }
