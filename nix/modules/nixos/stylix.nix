@@ -2,7 +2,7 @@
 {
 
   imports = [
-    inputs.stylix.nixosModules.stylix
+    inputs.stylix.darwinModules.stylix
   ];
 
   stylix = {
@@ -12,7 +12,8 @@
       url = "https://github.com/jDmacD/wallpapers/blob/main/3440x1440/simon_stalenhag/AknbEel.jpeg?raw=true";
       sha256 = "sha256-fieTqLhftyXiOfWE39K81xqQUcW47yUOeci2INlCOWU=";
     };
-    targets = { };
+    targets = {
+    };
     polarity = "dark";
     fonts = {
       serif = {
@@ -31,7 +32,7 @@
       };
 
       emoji = {
-        package = pkgs.noto-fonts-emoji;
+        package = pkgs.noto-fonts-color-emoji;
         name = "Noto Color Emoji";
       };
     };

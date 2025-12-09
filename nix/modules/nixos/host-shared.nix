@@ -3,8 +3,13 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  imports = [
+    ./stylix.nix
+  ];
+
   nix = {
     settings = {
+      experimental-features = "nix-command flakes";
       substituters = [
         "https://hyprland.cachix.org"
         "https://nix-community.cachix.org"
@@ -27,5 +32,7 @@
   # you can check if host is darwin by using pkgs.stdenv.isDarwin
   environment.systemPackages = [
     pkgs.btop
-  ] ++ (pkgs.lib.optionals pkgs.stdenv.isDarwin [ pkgs.xbar ]);
+    pkgs.git
+  ]
+  ++ (pkgs.lib.optionals pkgs.stdenv.isDarwin [ pkgs.xbar ]);
 }

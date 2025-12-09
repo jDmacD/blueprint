@@ -8,12 +8,25 @@
     blueprint.url = "github:numtide/blueprint";
     blueprint.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
     hyprland.url = "github:hyprwm/Hyprland";
+
     treefmt-nix.url = "github:numtide/treefmt-nix";
+
     sops-nix.url = "github:Mic92/sops-nix";
-    stylix.url = "github:danth/stylix/release-25.05";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    stylix.url = "github:nix-community/stylix";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
+
+    nur.url = "github:nix-community/NUR";
+    nur.inputs.nixpkgs.follows = "nixpkgs";
+
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
   };
 
@@ -36,6 +49,7 @@
       systems = [
         "aarch64-linux"
         "x86_64-linux"
+        "aarch64-darwin"
       ];
       prefix = "nix/";
     };

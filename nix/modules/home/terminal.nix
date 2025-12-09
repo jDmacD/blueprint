@@ -1,6 +1,40 @@
 { pkgs, osConfig, ... }:
 {
 
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+    };
+  };
+  programs.claude-code = {
+    enable = true;
+  };
+  programs.nh = {
+    enable = true;
+    darwinFlake = "/Users/jmacdonald/blueprint";
+  };
+  programs.k9s = {
+    enable = true;
+  };
+  programs.ghostty = {
+    enable = true;
+    package = null;
+    enableZshIntegration = true;
+  };
+  programs.btop = {
+    enable = true;
+  };
+  programs.zsh = {
+    enable = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+
+    shellAliases = {
+      update = "sudo nix run nix-darwin -- switch --flake ~/blueprint/";
+    };
+    history.size = 10000;
+  };
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
@@ -8,15 +42,15 @@
   programs.alacritty = {
     enable = true;
   };
-  programs.foot = {
-    enable = true;
-    package = pkgs.foot;
-    settings = {
-      main = {
-        term = "xterm-256color";
-      };
-    };
-  };
+  # programs.foot = {
+  #   enable = true;
+  #   package = pkgs.foot;
+  #   settings = {
+  #     main = {
+  #       term = "xterm-256color";
+  #     };
+  #   };
+  # };
   programs.kitty = {
     enable = true;
     settings = {
