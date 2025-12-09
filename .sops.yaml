@@ -4,19 +4,21 @@ keys:
   - &hel-1 age17ymrxestjdajl0k7lgyurtqd0dgg0kan53v38s9vkrzctm8lmpfqr4vulk
   - &picard age17leaj82hje5y6ckpsuhkfk0rjk9wpyf62wdezh7pls32vmhlayestdz0y7
   - &surface age1j2s4pc26w7cvq4603ml42pnev02wgzzskvc6cmqk956npmy7v4ssc32rs2
+  - &lore age1n3sy82k0fqme3ffsul8eme5j428z74aadk47kejwzewt0pkleqxqv29j29
 creation_rules:
-  - path_regex: modules/home-manager/personas/secrets/(personal|turing).(yaml|json|env|ini)$
+  - path_regex: ^secrets\/(personal|turing).(yaml|json|env|ini)$
     key_groups:
     - age:
       - *personal
-  - path_regex: modules/home-manager/personas/secrets/heanet.(yaml|json|env|ini)$
+  - path_regex: ^secrets\/heanet.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *heanet
-  - path_regex: nixos/hosts/secrets.(yaml|json|env|ini)$
+  - path_regex: ^nix\/hosts\/(.*)\/secrets.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *personal
       - *hel-1
       - *picard
       - *surface
+      - *lore
