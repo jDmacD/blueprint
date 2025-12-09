@@ -38,6 +38,18 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+    settings = {
+      kubernetes = {
+        disabled = false;
+      };
+      localip = {
+        ssh_only = false;
+        disabled = false;
+      };
+      status = {
+        disabled = false;
+      };
+    };
   };
   programs.alacritty = {
     enable = true;
