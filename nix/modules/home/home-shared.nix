@@ -22,7 +22,6 @@
   home.packages = [
     pkgs.devbox
     pkgs.pre-commit
-    pkgs.kubectl
   ]
   ++ (
     # you can access the host configuration using osConfig.

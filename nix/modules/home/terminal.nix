@@ -14,9 +14,6 @@
     enable = true;
     darwinFlake = "/Users/jmacdonald/blueprint";
   };
-  programs.k9s = {
-    enable = true;
-  };
   programs.ghostty = {
     enable = true;
     package = null;
@@ -54,15 +51,15 @@
   programs.alacritty = {
     enable = true;
   };
-  # programs.foot = {
-  #   enable = true;
-  #   package = pkgs.foot;
-  #   settings = {
-  #     main = {
-  #       term = "xterm-256color";
-  #     };
-  #   };
-  # };
+  programs.foot = {
+    enable = pkgs.stdenv.isLinux;
+    package = pkgs.foot;
+    settings = {
+      main = {
+        term = "xterm-256color";
+      };
+    };
+  };
   programs.kitty = {
     enable = true;
     settings = {
