@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   osConfig,
   ...
 }:
@@ -17,6 +18,7 @@
           sqltools.useNodeRuntime = false;
           gitlab.duoChat.enabled = false;
           gitlab.duoCodeSuggestions.enabled = false;
+          sops.defaults.ageKeyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
         };
         extensions = [
           pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
@@ -26,6 +28,7 @@
           pkgs.vscode-extensions.jnoortheen.nix-ide
           pkgs.vscode-extensions.ms-azuretools.vscode-docker
           pkgs.vscode-extensions.mechatroner.rainbow-csv
+          pkgs.vscode-extensions.signageos.signageos-vscode-sops
           # (pkgs.vscode-utils.buildVscodeMarketplaceExtension {
           #   mktplcRef = {
           #     name = "continue";
