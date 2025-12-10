@@ -5,6 +5,7 @@ keys:
   - &picard age17leaj82hje5y6ckpsuhkfk0rjk9wpyf62wdezh7pls32vmhlayestdz0y7
   - &surface age1j2s4pc26w7cvq4603ml42pnev02wgzzskvc6cmqk956npmy7v4ssc32rs2
   - &lore age1n3sy82k0fqme3ffsul8eme5j428z74aadk47kejwzewt0pkleqxqv29j29
+  - &worf age1a7rd5exug5qcatf3kyyqlm9dejcgrvgyf6hp0xr0gq9c9563m52sywpckf
 creation_rules:
   - path_regex: ^nix\/secrets\/(personal|turing).(yaml|json|env|ini)$
     key_groups:
@@ -22,3 +23,4 @@ creation_rules:
       - *picard
       - *surface
       - *lore
+      - *worf
