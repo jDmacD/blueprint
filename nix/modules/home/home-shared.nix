@@ -22,6 +22,7 @@
   home.packages = [
     pkgs.devbox
     pkgs.pre-commit
+    pkgs.sops
   ]
   ++ (
     # you can access the host configuration using osConfig.
