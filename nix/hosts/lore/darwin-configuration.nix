@@ -8,7 +8,7 @@
   imports = [
     inputs.self.nixosModules.host-shared
     inputs.self.nixosModules.homebrew
-    ];
+  ];
 
   users.users.jmacdonald.home = "/Users/jmacdonald";
 

@@ -6,7 +6,8 @@
   pkgs,
   modulesPath,
   ...
-}: {
+}:
+{
   imports = [
     ./hardware-configuration.nix
     ./disk-configuration.nix
@@ -23,11 +24,15 @@
 
   boot = {
     initrd = {
-      availableKernelModules = ["xhci_pci" "virtio_scsi" "sr_mod"];
-      kernelModules = ["dm-snapshot"];
+      availableKernelModules = [
+        "xhci_pci"
+        "virtio_scsi"
+        "sr_mod"
+      ];
+      kernelModules = [ "dm-snapshot" ];
     };
-    kernelModules = [];
-    extraModulePackages = [];
+    kernelModules = [ ];
+    extraModulePackages = [ ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -44,8 +49,8 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnim/f3xwmFw/DB9zeHtQSr9i2uKxwsiXkEgE2FdFcY root@picard"
     ];
   };
-  users.groups.arm64builder = {};
-  nix.settings.trusted-users = ["arm64builder"];
+  users.groups.arm64builder = { };
+  nix.settings.trusted-users = [ "arm64builder" ];
 
   sops.defaultSopsFile = ../secrets.yaml;
   sops.defaultSopsFormat = "yaml";
