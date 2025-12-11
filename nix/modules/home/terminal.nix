@@ -19,6 +19,12 @@
     package = null;
     enableZshIntegration = true;
   };
+  programs.eza = {
+    enable = true;
+    enableZshIntegration = true;
+    git = true;
+    icons = "auto";
+  };
   programs.btop = {
     enable = true;
   };
@@ -29,6 +35,7 @@
 
     shellAliases = {
       update = "sudo nix run nix-darwin -- switch --flake ~/blueprint/";
+      ls = "eza";
     };
     history.size = 10000;
   };
