@@ -12,6 +12,7 @@
     profiles = {
       default = {
         userSettings = {
+          terminal.integrated.fontFamily = "Symbols Nerd Font Mono";
           workbench.colorTheme = "Stylix";
           git.autofetch = true;
           git.confirmSync = false;
