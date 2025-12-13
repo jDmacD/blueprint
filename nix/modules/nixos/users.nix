@@ -12,6 +12,8 @@ let
   ];
 in
 {
+
+  programs.zsh.enable = true;
   users.users.jmacdonald = {
     shell = pkgs.zsh;
     isNormalUser = true;
