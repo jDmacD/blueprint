@@ -14,12 +14,12 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     inputs.disko.nixosModules.disko
-    inputs.sops-nix.nixosModules.sops
-    outputs.nixosModules.common
-    outputs.nixosModules.users
-    outputs.nixosModules.ssh
-    outputs.nixosModules.gatus
-    outputs.nixosModules.bedrock
+    # inputs.sops-nix.nixosModules.sops
+    # outputs.nixosModules.common
+    # outputs.nixosModules.users
+    # outputs.nixosModules.ssh
+    # outputs.nixosModules.gatus
+    # outputs.nixosModules.bedrock
   ];
 
   boot = {
@@ -37,7 +37,6 @@
 
   environment.systemPackages = with pkgs; [
     git
-    btop
   ];
 
   users.users.arm64builder = {
@@ -57,6 +56,12 @@
   sops.secrets."docker-gatus/.dockerenv" = {
     owner = "root";
   };
+
+  networking.hostName = "worf";
+  systemd.network.networks."10-wan".address = [
+    "37.27.34.153"
+    "2a01:4f9:c010:9195::/64"
+  ];
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }
