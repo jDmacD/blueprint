@@ -5,9 +5,11 @@
   ...
 }:
 {
-  imports = [
-    inputs.self.nixosModules.host-shared
-    inputs.self.nixosModules.homebrew
+  imports = with inputs.self.nixosModules; [
+    host-shared
+    homebrew
+    stylix
+    fonts
   ];
 
   users.users.jmacdonald.home = "/Users/jmacdonald";

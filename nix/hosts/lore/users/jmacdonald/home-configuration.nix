@@ -1,9 +1,17 @@
 { pkgs, inputs, ... }:
 {
 
-  imports = [
-    inputs.self.homeModules.home-shared
-    inputs.self.homeModules.personal
-    inputs.self.homeModules.kubernetes-utils
+  imports = with inputs.self.homeModules; [
+    home-shared
+    personal
+    kubernetes-utils
+    git-utils
+    terminals
+    terminal-utils
+    firefox
+    vscode
+    sops
   ];
+
+  home.stateVersion = "25.11"; # initial home-manager state
 }
