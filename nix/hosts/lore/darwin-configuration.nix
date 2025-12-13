@@ -6,6 +6,7 @@
 }:
 {
   imports = with inputs.self.nixosModules; [
+    ssh
     host-shared
     homebrew
     stylix
@@ -23,11 +24,6 @@
     domain = "lan";
   };
 
-  services.openssh = {
-    enable = true;
-  };
-
   nixpkgs.hostPlatform = "aarch64-darwin";
-
   system.stateVersion = 6;
 }
