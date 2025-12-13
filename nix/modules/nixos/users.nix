@@ -13,6 +13,7 @@ let
 in
 {
   users.users.jmacdonald = {
+    shell = pkgs.zsh;
     isNormalUser = true;
     description = "James MacDonald";
     openssh.authorizedKeys.keys = authorizedKeys;

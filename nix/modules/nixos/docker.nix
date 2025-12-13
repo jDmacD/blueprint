@@ -3,8 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
-in {
+}:
+{
   virtualisation.docker.enable = true;
   virtualisation.docker.rootless = {
     enable = true;
