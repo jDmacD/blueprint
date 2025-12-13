@@ -10,7 +10,7 @@
       hostName = "worf.jtec.xyz";
       system = "aarch64-linux";
       sshUser = "arm64builder";
-      sshKey = "/root/.ssh/arm64builder";
+      sshKey = "/run/secrets/armbuilder_ed25519";
       protocol = "ssh-ng";
       # if the builder supports building for multiple architectures,
       # replace the previous line by, e.g.

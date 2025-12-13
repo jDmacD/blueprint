@@ -15,12 +15,14 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
-    inputs.self.nixosModules.ssh
-    inputs.self.nixosModules.users
-    inputs.self.nixosModules.host-shared
-    inputs.self.nixosModules.docker
-    inputs.self.nixosModules.docker-bedrock
-  ];
+  ]
+  ++ (with inputs.self.nixosModules; [
+    ssh
+    users
+    host-shared
+    docker
+    docker-bedrock
+  ]);
 
   boot = {
     initrd = {
