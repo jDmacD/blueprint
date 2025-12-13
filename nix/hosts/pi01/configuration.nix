@@ -29,6 +29,15 @@
     config.boot.kernelPackages.kernel.version
   ];
 
+  boot = {
+    kernelModules = [ "rbd" ];
+    kernelParams = [
+      "cgroup_enable=cpuset"
+      "cgroup_memory=1"
+      "cgroup_enable=memory"
+    ];
+  };
+
   sops.defaultSopsFile = ../secrets.yaml;
   sops.defaultSopsFormat = "yaml";
   sops.secrets."k3s/token" = {
