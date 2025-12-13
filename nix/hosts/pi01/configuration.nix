@@ -2,6 +2,7 @@
   inputs,
   lib,
   pkgs,
+  config,
   ...
 }:
 {
@@ -19,6 +20,14 @@
     # users
     # rpi-common
   ]);
+
+  system.nixos.tags = let
+    cfg = config.boot.loader.raspberryPi;
+  in [
+    "raspberry-pi-${cfg.variant}"
+    cfg.bootloader
+    config.boot.kernelPackages.kernel.version
+  ];
 
   sops.defaultSopsFile = ../secrets.yaml;
   sops.defaultSopsFormat = "yaml";
