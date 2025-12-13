@@ -11,6 +11,8 @@
     homebrew
     stylix
     fonts
+    builder-arm
+    builder-x86
   ];
 
   users.users.jmacdonald.home = "/Users/jmacdonald";
