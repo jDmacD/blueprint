@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  perSystem,
   ...
 }:
 {
@@ -22,6 +23,7 @@
 
   services.k3s = {
     enable = true;
+    # package = perSystem.nixpkgs-24-11.nix.k3s_1_30;
     package = pkgs.k3s_1_31;
     role = "agent"; # Or "agent" for worker only nodes
     # sudo cat /var/lib/rancher/k3s/server/agent-token
