@@ -23,17 +23,18 @@
 
   services.k3s = {
     enable = true;
-    # package = perSystem.nixpkgs-24-11.nix.k3s_1_30;
-    package = pkgs.k3s_1_31;
+    package = perSystem.nixpkgs-24-11.pkgs.k3s_1_30;
     role = "agent"; # Or "agent" for worker only nodes
     # sudo cat /var/lib/rancher/k3s/server/agent-token
     # use sops to write out the token file
     tokenFile = "/run/secrets/k3s/token";
     serverAddr = "https://tpi01.lan:6443";
     extraFlags = toString [
-      # otherwise the node will pull the nixos-rpi hostname of the bootstapper
+      # Otherwise the node will pull the nixos-rpi hostname of the bootstapper
       "--node-name ${config.networking.hostName}"
-      "--nonroot-devices"
+      # This is for later versions of k3s, maybe.
+      # I can't rember why I set it
+      # "--nonroot-devices"
     ];
   };
 
