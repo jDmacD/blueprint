@@ -68,13 +68,24 @@ This repository uses Blueprint with a `nix/` prefix convention:
 - `nix/hosts/` - Per-host configurations
 - `nix/modules/nixos/` - NixOS system modules (shared configurations)
 - `nix/modules/home/` - home-manager modules (user configurations)
+- `nix/lib/` - Shared helper functions
+  - `rpi-host.nix` - Helper for creating Raspberry Pi host configurations
 - `nix/devshell.nix` - Development environment
 - `nix/formatter.nix` - Code formatting (deadnix + nixfmt-rfc-style)
+
+**Blueprint's perSystem:**
+Blueprint provides a `perSystem` argument to modules, which allows accessing per-system outputs from flake inputs. For example, `perSystem.nixpkgs-25-05.pkgs` is equivalent to `inputs.nixpkgs-25-05.legacyPackages.<system>`. This is used in modules like `k3s-agent.nix` to access packages from specific nixpkgs versions.
 
 ### Host Types and Naming
 
 The repository manages several host types with Star Trek-themed names:
-- **muse**: Raspberry Pi 5 running NixOS with k3s server
+
+**Raspberry Pi Fleet (k3s cluster):**
+- **pi01, pi02, pi03**: Raspberry Pi 4B - k3s agents
+- **pi04, pi05**: Raspberry Pi 5 - k3s agents
+- **tpi01, tpi02, tpi03, tpi04**: Compute Module 4 (CM4) - tpi01 is control plane, others are agents
+
+**Other Hosts:**
 - **riker**: x86_64 Linux workstation with UI (Hyprland)
 - **lore**: macOS (aarch64-darwin) with nix-darwin and homebrew
 - **worf**: VPS/cloud host with disko for disk management
@@ -127,17 +138,32 @@ Age keys for hosts: hel-1, picard, surface, lore, worf (defined in `.sops.yaml`)
 Each host follows this structure:
 ```
 nix/hosts/<hostname>/
-├── default.nix              # Blueprint class definition
+├── default.nix              # Optional: Blueprint class definition (required for Raspberry Pi hosts)
 ├── configuration.nix        # Main system configuration
-├── hardware-configuration.nix  # Hardware-specific settings
+├── hardware-configuration.nix  # Hardware-specific settings (optional)
 └── users/
     └── <username>/
         └── home-configuration.nix  # User home-manager config
 ```
 
-The `default.nix` sets the Blueprint class:
-- `class = "nixos"` for NixOS hosts
-- `class = "darwin"` for macOS hosts (implied by using darwinConfigurationFull)
+**Standard hosts** (worf, riker, lore) don't need `default.nix` - Blueprint automatically discovers them via `configuration.nix` or `darwin-configuration.nix`.
+
+**Raspberry Pi hosts** require `default.nix` using the `mkRpiHost` helper from `nix/lib/rpi-host.nix`:
+```nix
+{ flake, inputs, ... }:
+let
+  mkRpiHost = import ../../lib/rpi-host.nix {
+    inherit inputs flake;
+  };
+in
+mkRpiHost {
+  board = "4";  # or "5" for RPi 5
+  rpiModules = [ "sd-image" "usb-gadget-ethernet" ];
+  extraModules = [ ./configuration.nix ];
+}
+```
+
+This is necessary because Raspberry Pi hosts use `nixos-raspberrypi.lib.nixosSystemFull` which applies RPi-specific overlays. The helper abstracts the boilerplate while keeping `configuration.nix` consistent with other hosts.
 
 ### Cachix Integration
 
@@ -149,12 +175,29 @@ The configuration uses multiple binary caches:
 
 ### Raspberry Pi Specifics
 
-Raspberry Pi 5 hosts use [nixos-raspberrypi](https://github.com/nvmd/nixos-raspberrypi) modules:
-- `raspberry-pi-5.base` - Base Raspberry Pi 5 support
-- `raspberry-pi-5.display-vc4` - VideoCore 4 display driver
-- `sd-image` - SD card image generation
+All Raspberry Pi hosts use [nixos-raspberrypi](https://github.com/nvmd/nixos-raspberrypi) integration via the `nix/lib/rpi-host.nix` helper.
 
-SD images can be built and flashed to SD cards for deployment.
+**Available nixos-raspberrypi modules:**
+- `raspberry-pi-4.base` - Base Raspberry Pi 4B/CM4 support
+- `raspberry-pi-5.base` - Base Raspberry Pi 5 support
+- `raspberry-pi-5.page-size-16k` - 16K page size for RPi 5
+- `raspberry-pi-5.display-vc4` - VideoCore 4 display driver
+- `raspberry-pi-5.display-rp1` - RP1 display driver
+- `sd-image` - SD card image generation
+- `usb-gadget-ethernet` - USB gadget mode for networking
+
+**Why Raspberry Pi hosts need special handling:**
+- Cannot use global nixos-raspberrypi overlays (causes conflicts with non-RPi hosts)
+- Must use `nixos-raspberrypi.lib.nixosSystemFull` to apply RPi overlays in isolated context
+- The `mkRpiHost` helper in `nix/lib/rpi-host.nix` abstracts this complexity
+- Helper also provides `perSystem` for accessing packages from alternate nixpkgs versions (e.g., `nixpkgs-25-05`)
+
+**Building SD images:**
+```bash
+nix build .#nixosConfigurations.<hostname>.config.system.build.sdImage
+```
+
+SD images can be flashed to SD cards for deployment.
 
 ## Key Dependencies
 
@@ -175,3 +218,17 @@ SD images can be built and flashed to SD cards for deployment.
 - System state versions are pinned per-host and should not be changed after initial installation
 - k3s cluster token is stored in SOPS and deployed to `/var/run/secrets/k3s/token`
 - Host platform is explicitly set in each configuration (`nixpkgs.hostPlatform`)
+- Modules should be imported using `inputs.self.nixosModules.<name>` or `inputs.self.homeModules.<name>` syntax rather than relative paths for consistency
+- `networking.hostName` is set in each host's `configuration.nix`, not in `default.nix` helpers
+
+## Remote Deployment
+
+Deploy to remote Raspberry Pi hosts using:
+```bash
+nixos-rebuild --use-remote-sudo --target-host <user>@<hostname>.lan --flake .#<hostname> switch
+```
+
+Example:
+```bash
+nixos-rebuild --use-remote-sudo --target-host jmacdonald@pi01.lan --flake .#pi01 switch
+```

@@ -42,17 +42,16 @@ in
       inherit (inputs) nixos-raspberrypi;
       perSystem = perSystemOutputs;
     };
-    modules =
-      [
-        baseModule
-        {
-          nixpkgs.hostPlatform = system;
-        }
-      ]
-      ++ (map (mod: inputs.nixos-raspberrypi.nixosModules.${mod}) rpiModules)
-      ++ extraModules
-      ++ [
-        inputs.sops-nix.nixosModules.sops
-      ];
+    modules = [
+      baseModule
+      {
+        nixpkgs.hostPlatform = system;
+      }
+    ]
+    ++ (map (mod: inputs.nixos-raspberrypi.nixosModules.${mod}) rpiModules)
+    ++ extraModules
+    ++ [
+      inputs.sops-nix.nixosModules.sops
+    ];
   };
 }
