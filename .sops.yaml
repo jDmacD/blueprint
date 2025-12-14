@@ -7,6 +7,7 @@ keys:
   - &lore age1n3sy82k0fqme3ffsul8eme5j428z74aadk47kejwzewt0pkleqxqv29j29
   - &worf age1a7rd5exug5qcatf3kyyqlm9dejcgrvgyf6hp0xr0gq9c9563m52sywpckf
   - &pi01 age1fm8jf6jpczhp7lv6feda0k5ktnvuq7gkr7qyc2c4yv663xcqhpwqg6mt7n
+  - &pi02 age135vl4avwkw385xwtqe5g80ygh6rue8vh2ermufezafmjuyplj34s0dr0eu
 creation_rules:
   - path_regex: ^nix\/secrets\/(personal|turing).(yaml|json|env|ini)$
     key_groups:
@@ -26,6 +27,7 @@ creation_rules:
       - *lore
       - *worf
       - *pi01
-# ssh-to-age --run 'ssh-keyscan pi01.lan | ssh-to-age'
+      - *pi02
+# nix-shell -p ssh-to-age --run 'ssh-keyscan pi01.lan | ssh-to-age'
 # export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 # nix-shell -p sops --run "sops updatekeys nix/hosts/secrets.yaml"

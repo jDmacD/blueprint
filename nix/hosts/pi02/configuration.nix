@@ -40,6 +40,6 @@
   sops.secrets."k3s/token" = {
     owner = "root";
   };
-  networking.hostName = "pi01";
+  networking.hostName = "pi02";
   system.stateVersion = "24.05"; # Did you read the comment?
 }

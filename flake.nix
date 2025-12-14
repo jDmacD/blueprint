@@ -4,7 +4,7 @@
   # Add all your dependencies here
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
-    nixpkgs-24-11.url = "github:NixOS/nixpkgs?ref=24.11";
+    nixpkgs-25-05.url = "github:NixOS/nixpkgs?ref=25.05";
 
     blueprint.url = "github:numtide/blueprint";
     blueprint.inputs.nixpkgs.follows = "nixpkgs";
