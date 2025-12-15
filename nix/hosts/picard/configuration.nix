@@ -1,0 +1,158 @@
+{
+  inputs,
+  outputs,
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
+{
+  imports = [
+    ./hardware-configuration.nix
+    ./disk-configuration.nix
+    (modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
+    inputs.disko.nixosModules.disko
+    inputs.sops-nix.nixosModules.sops
+  ]
+  ++ (with inputs.self.nixosModules; [
+    ssh
+    users
+    host-shared
+    k3s-agent-gpu
+    docker
+    # stylix
+    fonts
+    builder-arm
+  ]);
+
+  boot = {
+    loader = {
+      systemd-boot = {
+        enable = true;
+        memtest86.enable = true;
+      };
+      efi.canTouchEfiVariables = true;
+    };
+  };
+
+  hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+    nvidia = {
+      open = false;
+      modesetting.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
+    };
+    bluetooth = {
+      enable = true; # enables support for Bluetooth
+      powerOnBoot = true; # powers up the default Bluetooth controller on boot
+      package = pkgs.bluez;
+      settings = {
+        General = {
+          Experimental = true;
+        };
+      };
+    };
+    enableAllFirmware = true;
+    enableRedistributableFirmware = true;
+  };
+
+  users.users.x86Builder = {
+    isNormalUser = true;
+    createHome = false;
+    ignoreShellProgramCheck = true;
+    group = "x86Builder";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnim/f3xwmFw/DB9zeHtQSr9i2uKxwsiXkEgE2FdFcY root@picard"
+    ];
+  };
+  users.groups.x86Builder = { };
+  nix.settings.trusted-users = [ "x86Builder" ];
+
+  services = {
+    blueman = {
+      enable = true;
+    };
+    xserver = {
+      xkb.layout = "gb";
+      xkb.variant = "";
+      videoDrivers = [ "nvidia" ];
+    };
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+    # Doesn't work with wayland / hyrland
+    kmscon = {
+      enable = false;
+    };
+    # solaar = {
+    #   enable = true;
+    # };
+    nfs = {
+      server = {
+        enable = true;
+        exports = ''
+          /export *(rw,fsid=0,no_subtree_check)
+          /export/calibre-library *(rw,insecure,no_subtree_check)
+        '';
+      };
+    };
+  };
+
+  networking = {
+    hostName = "picard";
+    networkmanager.enable = true;
+    firewall = {
+      checkReversePath = false;
+      enable = true;
+      allowedTCPPorts = [
+        22
+        111
+        2049
+        1110
+        4045
+        5432
+      ];
+      allowedUDPPorts = [
+        111
+        2049
+        1110
+        4045
+      ];
+    };
+    extraHosts = ''
+      37.27.34.153 hel-1
+    '';
+  };
+
+  environment.systemPackages = with pkgs; [
+    git
+    mangohud
+    lutris
+    cloudflared
+  ];
+
+  virtualisation.docker.daemon.settings = {
+    "hosts" = [
+      "unix:///var/run/docker.sock"
+      "tcp://0.0.0.0:2375"
+    ];
+  };
+
+  # https://discourse.nixos.org/t/nvidia-drm-kernel-driver-nvidia-drm-in-use-nvk-requires-nouveau/46124
+  environment.variables = {
+    VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+  };
+
+  sops.defaultSopsFile = ../secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+
+  system.stateVersion = "24.05"; # Did you read the comment?
+}

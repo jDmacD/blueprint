@@ -1,8 +1,11 @@
 { pkgs, osConfig, ... }:
+let
+  ghosttyPackage = if pkgs.system == "aarch64-darwin" then null else pkgs.ghostty;
+in
 {
   programs.ghostty = {
     enable = true;
-    package = null;
+    package = ghosttyPackage;
     enableZshIntegration = true;
   };
   programs.alacritty = {
