@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  perSystem,
   ...
 }:
 {
@@ -22,7 +23,7 @@
   # https://search.nixos.org/options?channel=25.05&from=0&size=50&sort=relevance&type=packages&query=services.k3s
   services.k3s = {
     enable = true;
-    package = pkgs.k3s_1_33;
+    package = perSystem.nixpkgs-25-05.pkgs.k3s_1_30;
     role = "server"; # Or "agent" for worker only nodes
     extraFlags = toString [
       "--disable=traefik"
@@ -35,8 +36,17 @@
     ];
   };
 
+  # needed for ceph
+  fileSystems."/lib/modules" = {
+    device = "/run/booted-system/kernel-modules/lib/modules";
+    fsType = "none";
+    options = [ "bind" ];
+    depends = [ "/run/booted-system/kernel-modules/lib/modules" ];
+  };
+
+  programs.nbd.enable = true; # required for ceph
+
   environment.systemPackages = with pkgs; [
-    kubectl
-    k9s
+    lvm2
   ];
 }

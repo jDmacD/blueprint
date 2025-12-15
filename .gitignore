@@ -7,3 +7,4 @@ result-*
 *.qcow2
 nixos-sd-image-*
 e2e.log
+backups/

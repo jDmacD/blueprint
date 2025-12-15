@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p gum
 # Script to rebuild all Raspberry Pi hosts in the cluster
-# Usage: ./rebuild-rpis.sh [--dry-run]
+# Usage: ./rebuild-rpis.sh [--dry-run] [--all] [--no-select]
 
 set -euo pipefail
 
@@ -8,32 +9,56 @@ set -euo pipefail
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
 USER="jmacdonald"
 DOMAIN=".lan"
 DRY_RUN=false
+SELECT_HOSTS=true
+ALL_HOSTS=false
 
 # Parse arguments
-if [[ "${1:-}" == "--dry-run" ]]; then
-    DRY_RUN=true
+for arg in "$@"; do
+    case $arg in
+        --dry-run)
+            DRY_RUN=true
+            ;;
+        --all)
+            ALL_HOSTS=true
+            SELECT_HOSTS=false
+            ;;
+        --no-select)
+            SELECT_HOSTS=false
+            ;;
+        *)
+            echo "Unknown argument: $arg"
+            echo "Usage: $0 [--dry-run] [--all] [--no-select]"
+            exit 1
+            ;;
+    esac
+done
+
+if [[ "${DRY_RUN}" == true ]]; then
     echo -e "${YELLOW}DRY RUN MODE - No changes will be made${NC}\n"
 fi
 
 # Define all Raspberry Pi hosts
 # Format: "hostname:description"
-declare -a RPI_HOSTS=(
+declare -a ALL_RPI_HOSTS=(
     "pi01:Raspberry Pi 4B - k3s agent"
     "pi02:Raspberry Pi 4B - k3s agent"
     "pi03:Raspberry Pi 4B - k3s agent"
     "pi04:Raspberry Pi 5 - k3s agent"
     "pi05:Raspberry Pi 5 - k3s agent"
-    # "tpi01:Compute Module 4 - k3s control plane"
-    # "tpi02:Compute Module 4 - k3s agent"
-    # "tpi03:Compute Module 4 - k3s agent"
+    "tpi01:Compute Module 4 - k3s control plane"
+    "tpi02:Compute Module 4 - k3s agent"
+    "tpi03:Compute Module 4 - k3s agent"
     "tpi04:Compute Module 4 - k3s agent"
 )
+
+declare -a RPI_HOSTS=()
 
 # Track results
 declare -a SUCCEEDED=()
@@ -87,8 +112,8 @@ rebuild_host() {
 
     if [[ "${boot_usage}" != "unknown" ]]; then
         log_info "Boot partition usage: ${boot_usage}%"
-        if [[ ${boot_usage} -gt 80 ]]; then
-            log_warn "Boot partition is >80% full, cleaning up..."
+        if [[ ${boot_usage} -gt 50 ]]; then
+            log_warn "Boot partition is >50% full, cleaning up..."
             if [[ "${DRY_RUN}" == false ]]; then
                 ssh "${target}" "sudo rm -rf /boot/firmware/nixos/*.tmp.* /boot/firmware/nixos/*-default" || true
                 ssh "${target}" "sudo nix-collect-garbage -d" || true
@@ -117,9 +142,66 @@ rebuild_host() {
     fi
 }
 
+# Select hosts using gum
+select_hosts() {
+    # Check if gum is installed
+    if ! command -v gum &> /dev/null; then
+        log_error "gum is not installed. Please install it: https://github.com/charmbracelet/gum"
+        exit 1
+    fi
+
+    echo -e "${BLUE}Select hosts to rebuild (Space to select, Enter to confirm):${NC}"
+    echo ""
+
+    # Create options for gum
+    local options=()
+    for host_entry in "${ALL_RPI_HOSTS[@]}"; do
+        IFS=':' read -r hostname description <<< "${host_entry}"
+        options+=("${hostname} (${description})")
+    done
+
+    # Use gum to select hosts
+    local selected
+    selected=$(printf '%s\n' "${options[@]}" | gum choose --no-limit --header "Select hosts to rebuild:")
+
+    if [[ -z "${selected}" ]]; then
+        log_error "No hosts selected"
+        exit 1
+    fi
+
+    # Parse selected hosts back into RPI_HOSTS array
+    while IFS= read -r line; do
+        # Extract hostname from "hostname (description)" format
+        local hostname
+        hostname=$(echo "${line}" | sed 's/ (.*//')
+
+        # Find matching entry in ALL_RPI_HOSTS
+        for host_entry in "${ALL_RPI_HOSTS[@]}"; do
+            if [[ "${host_entry}" == "${hostname}:"* ]]; then
+                RPI_HOSTS+=("${host_entry}")
+                break
+            fi
+        done
+    done <<< "${selected}"
+
+    echo ""
+    log_info "Selected ${#RPI_HOSTS[@]} host(s) for rebuild"
+}
+
 # Main execution
 main() {
-    log_info "Starting rebuild of ${#RPI_HOSTS[@]} Raspberry Pi hosts"
+    # Determine which hosts to rebuild
+    if [[ "${ALL_HOSTS}" == true ]]; then
+        RPI_HOSTS=("${ALL_RPI_HOSTS[@]}")
+        log_info "Rebuilding ALL ${#RPI_HOSTS[@]} Raspberry Pi hosts"
+    elif [[ "${SELECT_HOSTS}" == true ]]; then
+        select_hosts
+    else
+        # Default to all if --no-select is passed
+        RPI_HOSTS=("${ALL_RPI_HOSTS[@]}")
+        log_info "Rebuilding ${#RPI_HOSTS[@]} Raspberry Pi hosts (no selection)"
+    fi
+
     log_info "User: ${USER}"
     log_info "Domain: ${DOMAIN}"
     echo ""
