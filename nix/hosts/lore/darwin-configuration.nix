@@ -34,13 +34,6 @@
     settings.trusted-users = [ "jmacdonald" ];
   };
 
-  sops.defaultSopsFile = ../secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.secrets."armbuilder_ed25519" = {
-    owner = "root";
-    mode = "0600";
-  };
-
   nixpkgs.hostPlatform = "aarch64-darwin";
   system.stateVersion = 6;
 }

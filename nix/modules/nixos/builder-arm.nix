@@ -5,6 +5,12 @@
   ...
 }:
 {
+
+  sops.secrets."armbuilder_ed25519" = {
+    owner = "root";
+    mode = "0600";
+  };
+
   nix.buildMachines = [
     {
       hostName = "worf.jtec.xyz";

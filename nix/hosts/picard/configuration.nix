@@ -14,7 +14,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     inputs.disko.nixosModules.disko
-    inputs.sops-nix.nixosModules.sops
   ]
   ++ (with inputs.self.nixosModules; [
     ssh
@@ -25,6 +24,7 @@
     # stylix
     fonts
     builder-arm
+    sops
   ]);
 
   boot = {
@@ -150,9 +150,6 @@
   environment.variables = {
     VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
   };
-
-  sops.defaultSopsFile = ../secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

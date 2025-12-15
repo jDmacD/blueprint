@@ -12,6 +12,7 @@
     users
     rpi-common
     k3s-agent
+    sops
   ];
 
   boot = {
@@ -35,11 +36,6 @@
     ];
   };
 
-  sops.defaultSopsFile = ../secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.secrets."k3s/token" = {
-    owner = "root";
-  };
   networking.hostName = "pi03";
   system.stateVersion = "24.05"; # Did you read the comment?
 }

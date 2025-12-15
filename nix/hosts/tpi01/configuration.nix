@@ -15,6 +15,7 @@
     users
     rpi-common
     k3s-server
+    sops
   ]);
 
   boot = {
@@ -38,11 +39,6 @@
     ];
   };
 
-  sops.defaultSopsFile = ../secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.secrets."k3s/token" = {
-    owner = "root";
-  };
   networking.hostName = "tpi01";
   system.stateVersion = "24.11"; # Did you read the comment?
 }

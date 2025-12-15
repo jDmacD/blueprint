@@ -24,6 +24,10 @@
 
   hardware.nvidia-container-toolkit.enable = true;
 
+  sops.secrets."k3s/token" = {
+    owner = "root";
+  };
+
   services.k3s = {
     enable = true;
     package = perSystem.nixpkgs-25-05.pkgs.k3s_1_30;

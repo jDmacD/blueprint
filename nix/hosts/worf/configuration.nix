@@ -14,7 +14,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     inputs.disko.nixosModules.disko
-    inputs.sops-nix.nixosModules.sops
   ]
   ++ (with inputs.self.nixosModules; [
     ssh
@@ -22,6 +21,7 @@
     host-shared
     docker
     docker-bedrock
+    sops
   ]);
 
   boot = {
@@ -52,12 +52,6 @@
   };
   users.groups.arm64builder = { };
   nix.settings.trusted-users = [ "arm64builder" ];
-
-  sops.defaultSopsFile = ../secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.secrets."docker-gatus/.dockerenv" = {
-    owner = "root";
-  };
 
   networking = {
     hostName = "worf";
