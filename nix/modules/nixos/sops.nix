@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 let
   importSops =
     if pkgs.system == "aarch64-darwin" then
