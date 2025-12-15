@@ -6,6 +6,5 @@
     deploy-rs
     nixos-rebuild
     nixos-rebuild-ng
-    nixos-generate-config
   ];
 }
