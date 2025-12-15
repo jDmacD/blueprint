@@ -8,6 +8,7 @@
     git-utils
     terminals
     terminal-utils
+    nix-utils
     firefox
     vscode
     sops

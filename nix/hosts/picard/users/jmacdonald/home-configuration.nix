@@ -3,12 +3,12 @@
 
   imports = with inputs.self.homeModules; [
     home-shared
-    terminal-utils
     personal
     kubernetes-utils
     git-utils
     terminals
     terminal-utils
+    nix-utils
     sops
   ];
 
