@@ -3,6 +3,7 @@
 
   imports = [
     inputs.stylix.darwinModules.stylix
+    inputs.stylix.nixosModules.stylix
   ];
 
   stylix = {
