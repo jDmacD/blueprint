@@ -75,6 +75,8 @@
         nodes = {
           pi01 = {
             hostname = "pi01.lan";
+            sshUser = "jmacdonald";
+            user = "root";
             profiles.system = {
               path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos bp.nixosConfigurations.pi01;
             };
