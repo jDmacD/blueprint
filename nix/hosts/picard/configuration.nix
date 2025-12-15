@@ -26,6 +26,7 @@
     builder-x86-user
     sops
     nvidia
+    locale
   ]);
 
   boot = {

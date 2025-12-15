@@ -23,6 +23,7 @@
     docker-bedrock
     sops
     builder-arm-user
+    locale
   ]);
 
   boot = {

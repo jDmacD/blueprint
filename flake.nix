@@ -65,6 +65,7 @@
     {
       inherit (bp)
         nixosConfigurations
+        darwinConfigurations
         nixosModules
         homeModules
         packages

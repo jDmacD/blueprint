@@ -19,9 +19,7 @@
 
   users.users.jmacdonald.home = "/Users/jmacdonald";
 
-  environment.systemPackages = [
-    pkgs.nixos-rebuild-ng
-  ];
+  environment.systemPackages = [];
 
   networking = {
     hostName = "lore";

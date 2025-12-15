@@ -10,12 +10,8 @@
     ./disk-configuration.nix
   ]
   ++ (with inputs.self.nixosModules; [
-    host-shared
-    ssh
-    users
     rpi-common
     k3s-agent
-    sops
   ]);
 
   boot = {
