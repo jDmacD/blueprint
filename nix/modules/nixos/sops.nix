@@ -8,6 +8,6 @@
   ];
 
   # Configure sops
-  sops.defaultSopsFile = ../secrets.yaml;
+  sops.defaultSopsFile = ../../hosts/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
 }
