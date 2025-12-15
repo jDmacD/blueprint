@@ -81,9 +81,15 @@
                 sshUser ? "jmacdonald",
                 user ? "root",
                 arch ? "aarch64-linux",
+                remoteBuild ? false,
               }:
               {
-                inherit hostname sshUser user;
+                inherit
+                  hostname
+                  sshUser
+                  user
+                  remoteBuild
+                  ;
                 profiles.system = {
                   path = inputs.deploy-rs.lib.${arch}.activate.nixos bp.nixosConfigurations.${name};
                 };
@@ -97,6 +103,7 @@
             lore = mkNode {
               name = "lore";
               arch = "aarch64-darwin";
+              remoteBuild = true;
             };
             worf = mkNode {
               name = "worf";
