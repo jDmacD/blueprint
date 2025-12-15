@@ -100,12 +100,13 @@
             picard = mkNode {
               name = "picard";
               arch = "x86_64-linux";
+              remoteBuild = true;
             };
-            # lore = mkNode {
-            #   name = "lore";
-            #   arch = "aarch64-darwin";
-            #   remoteBuild = true;
-            # };
+            lore = mkNode {
+              name = "lore";
+              arch = "aarch64-darwin";
+              remoteBuild = true;
+            };
             worf = mkNode {
               name = "worf";
               hostname = "worf.jtec.xyz";

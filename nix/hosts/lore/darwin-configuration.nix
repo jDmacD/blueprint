@@ -19,7 +19,7 @@
 
   users.users.jmacdonald.home = "/Users/jmacdonald";
 
-  environment.systemPackages = [];
+  environment.systemPackages = [ ];
 
   networking = {
     hostName = "lore";
@@ -31,6 +31,9 @@
     linux-builder.enable = true;
     settings.trusted-users = [ "jmacdonald" ];
   };
+
+  sops.defaultSopsFile = ../../hosts/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   system.stateVersion = 6;

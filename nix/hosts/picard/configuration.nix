@@ -21,6 +21,7 @@
     host-shared
     k3s-agent-gpu
     docker
+    stylix
     fonts
     builder-arm
     builder-x86-user

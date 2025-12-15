@@ -11,6 +11,6 @@
     ];
   };
   users.groups.x86builder = { };
-  nix.settings.trusted-users = [ "x86builder" ]; 
+  nix.settings.trusted-users = [ "x86builder" ];
 
 }

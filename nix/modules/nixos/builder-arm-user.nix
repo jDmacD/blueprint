@@ -11,6 +11,6 @@
     ];
   };
   users.groups.arm64builder = { };
-  nix.settings.trusted-users = [ "arm64builder" ]; 
+  nix.settings.trusted-users = [ "arm64builder" ];
 
 }

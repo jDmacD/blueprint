@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -12,8 +13,8 @@
     ssh
     users
     sops
-  ]
- 
+  ];
+
   boot = {
     # Limit boot generations due to 128MB boot partition
     # Each generation is ~48MB, so limit to 2 (default + 1 old)

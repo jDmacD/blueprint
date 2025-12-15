@@ -6,19 +6,19 @@
   pkgs,
   modulesPath,
   ...
-}
+}:
 {
   imports = [
     ./hardware-configuration.nix
-    outputs.nixosModules.common
-    outputs.nixosModules.hyprland
-    outputs.nixosModules.users
-    outputs.nixosModules.ssh
-    outputs.nixosModules.builderArm
-    outputs.nixosModules.builderX86
-    outputs.nixosModules.laptops
-    outputs.nixosModules.homeManager
-    outputs.nixosModules.stylix
+    # outputs.nixosModules.common
+    # outputs.nixosModules.hyprland
+    # outputs.nixosModules.users
+    # outputs.nixosModules.ssh
+    # outputs.nixosModules.builderArm
+    # outputs.nixosModules.builderX86
+    # outputs.nixosModules.laptops
+    # outputs.nixosModules.homeManager
+    # outputs.nixosModules.stylix
   ];
 
   services.flatpak.enable = true;
@@ -53,9 +53,6 @@
         53317 # localsend
       ];
     };
-    extraHosts = ''
-      37.27.34.153 hel-1
-    '';
   };
 
   hardware = {
