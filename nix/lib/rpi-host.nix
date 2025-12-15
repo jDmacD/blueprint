@@ -27,9 +27,14 @@ let
   # Select the appropriate base module based on board version
   baseModule =
     if board == "4" then
-      inputs.nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+      [
+        inputs.nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+      ]
     else if board == "5" then
-      inputs.nixos-raspberrypi.nixosModules.raspberry-pi-5.base
+      [
+        inputs.nixos-raspberrypi.nixosModules.raspberry-pi-5.base
+        inputs.nixos-raspberrypi.nixosModules.raspberry-pi-5.page-size-16k
+      ]
     else
       throw "Unsupported board version: ${board}. Use '4' or '5'";
 in
@@ -42,16 +47,17 @@ in
       inherit (inputs) nixos-raspberrypi;
       perSystem = perSystemOutputs;
     };
-    modules = [
+    modules =
       baseModule
-      {
-        nixpkgs.hostPlatform = system;
-      }
-    ]
-    ++ (map (mod: inputs.nixos-raspberrypi.nixosModules.${mod}) rpiModules)
-    ++ extraModules
-    ++ [
-      inputs.sops-nix.nixosModules.sops
-    ];
+      ++ [
+        {
+          nixpkgs.hostPlatform = system;
+        }
+      ]
+      ++ (map (mod: inputs.nixos-raspberrypi.nixosModules.${mod}) rpiModules)
+      ++ extraModules
+      ++ [
+        inputs.sops-nix.nixosModules.sops
+      ];
   };
 }

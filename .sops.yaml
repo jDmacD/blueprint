@@ -9,6 +9,12 @@ keys:
   - &pi01 age1fm8jf6jpczhp7lv6feda0k5ktnvuq7gkr7qyc2c4yv663xcqhpwqg6mt7n
   - &pi02 age135vl4avwkw385xwtqe5g80ygh6rue8vh2ermufezafmjuyplj34s0dr0eu
   - &pi03 age1s66yghcr7lzej3n8kvwj7snnch4czfx0cru7kpvkpef4kahx0a9sdsxwng
+  - &pi04 age19hwszg4wwp5y7z56sqr6zk57dz269gxk3c0raawreldjfzy0lvpsmd8rpd
+  - &pi05 age1h4cqg2vdt5atnnajg0zrfazscm9ktu95hylpa43d4rm34hds8dfqts4e8d
+  - &tpi01 age1cwutx4fl84ffymnm6qup7kymraxy5hmnnwjxgne44vu44ndyaq3ssa4e6x
+  - &tpi02 age15wtwk00rw3mkk0p9enl3yfca0axp08su89s8y6rkwns60qdw6y5q2kh86u
+  - &tpi03 age1nf684fe0vk3jfjugp36yyhldkzja0c8hmdz3mhag33zjhvw7qfvqkrsuvw
+  - &tpi04 age1frwwl5nc5ccp4grqlparrxlw5lt5wc3dx37djrg8pdqcg5t9hszsqms85q
 creation_rules:
   - path_regex: ^nix\/secrets\/(personal|turing).(yaml|json|env|ini)$
     key_groups:
@@ -30,6 +36,12 @@ creation_rules:
       - *pi01
       - *pi02
       - *pi03
+      - *pi04
+      - *pi05
+      - *tpi01
+      - *tpi02
+      - *tpi03
+      - *tpi04
 # nix-shell -p ssh-to-age --run 'ssh-keyscan pi01.lan | ssh-to-age'
 # export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 # nix-shell -p sops --run "sops updatekeys nix/hosts/secrets.yaml"

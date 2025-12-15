@@ -3,7 +3,6 @@
 
   imports = with inputs.self.homeModules; [
     home-shared
-    terminal-utils
     sops
   ];
 

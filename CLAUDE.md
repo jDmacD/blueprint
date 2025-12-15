@@ -221,6 +221,11 @@ SD images can be flashed to SD cards for deployment.
 - Modules should be imported using `inputs.self.nixosModules.<name>` or `inputs.self.homeModules.<name>` syntax rather than relative paths for consistency
 - `networking.hostName` is set in each host's `configuration.nix`, not in `default.nix` helpers
 
+## Test Building
+```bash
+nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel 
+```
+
 ## Remote Deployment
 
 Deploy to remote Raspberry Pi hosts using:
@@ -232,3 +237,40 @@ Example:
 ```bash
 nixos-rebuild --use-remote-sudo --target-host jmacdonald@pi01.lan --flake .#pi01 switch
 ```
+
+### Troubleshooting Boot Partition Full
+
+Raspberry Pi hosts have a 128MB FAT32 boot partition (`/boot/firmware`) that can fill up with old bootloader files and generations, causing deployment failures with errors like:
+
+```
+cp: error writing '/boot/firmware/start4cd.elf.tmp.XXXX': No space left on device
+Failed to install bootloader
+```
+
+**Quick fix:**
+
+```bash
+# SSH into the affected host
+ssh <user>@<hostname>.lan
+
+# Remove temporary files
+sudo rm -rf /boot/firmware/*.tmp* /boot/firmware/nixos/*.tmp.*
+
+# Delete old system generations (keeps current + recent)
+sudo nix-collect-garbage --delete-older-than 1d
+
+# Delete specific old generations
+sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 7 8 9
+
+# Remove old boot generation directories
+sudo rm -rf /boot/firmware/nixos/*-default
+
+# Verify space is available (should have 40MB+ free)
+df -h /boot/firmware
+```
+
+**Prevention:**
+
+1. Run `sudo nix-collect-garbage --delete-old` regularly on Raspberry Pi hosts
+2. Consider limiting boot generations in configuration (currently installs default + last 3 generations)
+3. If rebuilding SD images, increase boot partition size to 256MB or 512MB in disk configuration
