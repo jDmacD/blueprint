@@ -6,7 +6,7 @@
 }:
 {
 
-  sops.secrets."armbuilder_ed25519" = {
+  sops.secrets."builder_ed25519" = {
     owner = "root";
     mode = "0600";
   };
@@ -18,9 +18,6 @@
       sshUser = "arm64builder";
       sshKey = "/run/secrets/armbuilder_ed25519";
       protocol = "ssh-ng";
-      # if the builder supports building for multiple architectures,
-      # replace the previous line by, e.g.
-      # systems = ["x86_64-linux" "aarch64-linux"];
       maxJobs = 1;
       speedFactor = 2;
       supportedFeatures = [

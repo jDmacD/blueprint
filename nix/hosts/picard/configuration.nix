@@ -21,10 +21,11 @@
     host-shared
     k3s-agent-gpu
     docker
-    # stylix
     fonts
     builder-arm
+    builder-x86-user
     sops
+    nvidia
   ]);
 
   boot = {
@@ -38,15 +39,6 @@
   };
 
   hardware = {
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
-    nvidia = {
-      open = false;
-      modesetting.enable = true;
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
-    };
     bluetooth = {
       enable = true; # enables support for Bluetooth
       powerOnBoot = true; # powers up the default Bluetooth controller on boot
@@ -127,9 +119,6 @@
         4045
       ];
     };
-    extraHosts = ''
-      37.27.34.153 hel-1
-    '';
   };
 
   environment.systemPackages = with pkgs; [
@@ -145,11 +134,5 @@
       "tcp://0.0.0.0:2375"
     ];
   };
-
-  # https://discourse.nixos.org/t/nvidia-drm-kernel-driver-nvidia-drm-in-use-nvk-requires-nouveau/46124
-  environment.variables = {
-    VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
-  };
-
   system.stateVersion = "24.05"; # Did you read the comment?
 }
