@@ -72,16 +72,46 @@
         checks
         ;
       deploy = {
-        nodes = {
-          pi01 = {
-            hostname = "pi01.lan";
-            sshUser = "jmacdonald";
-            user = "root";
-            profiles.system = {
-              path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos bp.nixosConfigurations.pi01;
+        nodes =
+          let
+            mkNode =
+              {
+                name,
+                hostname ? "${name}.lan",
+                sshUser ? "jmacdonald",
+                user ? "root",
+                arch ? "aarch64-linux",
+              }:
+              {
+                inherit hostname sshUser user;
+                profiles.system = {
+                  path = inputs.deploy-rs.lib.${arch}.activate.nixos bp.nixosConfigurations.${name};
+                };
+              };
+          in
+          {
+            picard = mkNode {
+              name = "picard";
+              arch = "x86_64-linux";
             };
+            lore = mkNode {
+              name = "lore";
+              arch = "aarch64-darwin";
+            };
+            worf = mkNode {
+              name = "worf";
+              hostname = "worf.jtec.xyz";
+            };
+            pi01 = mkNode { name = "pi01"; };
+            pi02 = mkNode { name = "pi02"; };
+            pi03 = mkNode { name = "pi03"; };
+            pi04 = mkNode { name = "pi04"; };
+            pi05 = mkNode { name = "pi05"; };
+            tpi01 = mkNode { name = "tpi01"; };
+            tpi02 = mkNode { name = "tpi02"; };
+            tpi03 = mkNode { name = "tpi03"; };
+            tpi04 = mkNode { name = "tpi04"; };
           };
-        };
       };
     };
 }
