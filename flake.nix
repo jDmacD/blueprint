@@ -32,6 +32,9 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
+
+    deploy-rs.url = "github:serokell/deploy-rs";
+    deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   nixConfig = {
@@ -48,13 +51,35 @@
   # Load the blueprint
   outputs =
     inputs:
-    inputs.blueprint {
-      inherit inputs;
-      systems = [
-        "aarch64-linux"
-        "x86_64-linux"
-        "aarch64-darwin"
-      ];
-      prefix = "nix/";
+    let
+      bp = inputs.blueprint {
+        inherit inputs;
+        systems = [
+          "aarch64-linux"
+          "x86_64-linux"
+          "aarch64-darwin"
+        ];
+        prefix = "nix/";
+      };
+    in
+    {
+      inherit (bp)
+        nixosConfigurations
+        nixosModules
+        homeModules
+        packages
+        devShells
+        checks
+        ;
+      deploy = {
+        nodes = {
+          pi01 = {
+            hostname = "pi01.lan";
+            profiles.system = {
+              path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos bp.nixosConfigurations.pi01;
+            };
+          };
+        };
+      };
     };
 }
