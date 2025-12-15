@@ -54,10 +54,6 @@
     '';
   };
 
-  sops.secrets."k3s/token" = {
-    owner = "root";
-  };
-
   # needed for ceph
   fileSystems."/lib/modules" = {
     device = "/run/booted-system/kernel-modules/lib/modules";
