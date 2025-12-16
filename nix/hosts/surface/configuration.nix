@@ -19,7 +19,17 @@
     # outputs.nixosModules.laptops
     # outputs.nixosModules.homeManager
     # outputs.nixosModules.stylix
-  ];
+  ] ++ (with inputs.self.nixosModules;[
+    ssh
+    users
+    host-shared
+    stylix
+    fonts
+    builder-arm
+    builder-x86
+    sops
+    locale
+  ]);
 
   services.flatpak.enable = true;
 
