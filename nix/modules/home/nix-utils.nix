@@ -13,6 +13,6 @@
   programs.nh = {
     enable = true;
     darwinFlake = "${config.home.homeDirectory}/blueprint";
-    flake = "${config.home.homeDirectory}/blueprint"
+    flake = "${config.home.homeDirectory}/blueprint";
   };
 }
