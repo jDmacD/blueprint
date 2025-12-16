@@ -19,7 +19,8 @@
     # outputs.nixosModules.laptops
     # outputs.nixosModules.homeManager
     # outputs.nixosModules.stylix
-  ] ++ (with inputs.self.nixosModules;[
+  ]
+  ++ (with inputs.self.nixosModules; [
     ssh
     users
     host-shared
