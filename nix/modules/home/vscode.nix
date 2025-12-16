@@ -5,7 +5,8 @@
   ...
 }:
 let
-  nativeBuildInputs = if pkgs.stdenv.hostPlatform.system == "aarch64-darwin" then [ ] else [ pkgs.autoPatchelfHook ];
+  nativeBuildInputs =
+    if pkgs.stdenv.hostPlatform.system == "aarch64-darwin" then [ ] else [ pkgs.autoPatchelfHook ];
 in
 {
 
