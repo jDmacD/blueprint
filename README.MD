@@ -23,9 +23,11 @@ nix build .#nixosConfigurations.pi01.config.system.build.sdImage
 The SD image will be created in `./result/sd-image/` and can be flashed to an SD card:
 
 ```bash
-# Flash to SD card (replace /dev/sdX with your SD card device)
-sudo dd if=./result/sd-image/nixos-sd-image-*.img of=/dev/sdX bs=4M status=progress
-sudo sync
+# For uncompressed .img files
+sudo dd if=./result/sd-image/nixos-sd-image-*.img of=/dev/sdX bs=4M status=progress conv=fsync
+
+# For compressed .img.zst files (decompress and flash in one step)
+zstd -d -c ./result/sd-image/nixos-sd-image-*.img.zst | sudo dd of=/dev/sdX bs=4M status=progress conv=fsync
 ```
 
 **Note**: SD images are configured with a 512MB boot partition (defined in `sd-image-config.nix`) to provide sufficient space for multiple generations and prevent "No space left on device" errors during deployments.
