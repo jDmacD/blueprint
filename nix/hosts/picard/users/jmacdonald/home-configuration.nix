@@ -10,6 +10,7 @@
     terminal-utils
     nix-utils
     sops
+    nixvim
   ];
 
   home.stateVersion = "24.05";
