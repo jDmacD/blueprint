@@ -2,8 +2,7 @@
 {
 
   imports = with inputs.self.homeModules; [
-    home-shared
-    sops
+    rpi-common
   ];
 
   home.stateVersion = "25.11"; # initial home-manager state
