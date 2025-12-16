@@ -55,18 +55,6 @@
     enableRedistributableFirmware = true;
   };
 
-  users.users.x86Builder = {
-    isNormalUser = true;
-    createHome = false;
-    ignoreShellProgramCheck = true;
-    group = "x86Builder";
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnim/f3xwmFw/DB9zeHtQSr9i2uKxwsiXkEgE2FdFcY root@picard"
-    ];
-  };
-  users.groups.x86Builder = { };
-  nix.settings.trusted-users = [ "x86Builder" ];
-
   services = {
     blueman = {
       enable = true;
