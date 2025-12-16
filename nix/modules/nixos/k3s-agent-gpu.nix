@@ -49,7 +49,7 @@
         runtime_type = "io.containerd.runc.v2"
 
       [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
-        BinaryName = "${pkgs.nvidia-container-toolkit}/bin/nvidia-container-runtime"
+        BinaryName = "${perSystem.nixpkgs-24-11.pkgs.nvidia-container-toolkit}/bin/nvidia-container-runtime"
 
     '';
   };
