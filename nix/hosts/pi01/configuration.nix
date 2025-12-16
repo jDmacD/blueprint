@@ -9,7 +9,12 @@
   imports = with inputs.self.nixosModules; [
     rpi-common
     k3s-agent
+    sd-image-config
+    rpi-minimal-firmware
   ];
+
+  # Enable minimal firmware to save ~1.3MB on /boot/firmware
+  boot.loader.raspberryPi.useMinimalFirmware = true;
 
   networking.hostName = "pi01";
   system.stateVersion = "24.05"; # Did you read the comment?
