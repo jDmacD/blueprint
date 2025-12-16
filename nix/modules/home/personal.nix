@@ -116,13 +116,6 @@
       identityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    turingpi = {
-      host = "turingpi.lan";
-      user = "root";
-      port = 22;
-      identityFile = config.sops.secrets.id_ed25519.path;
-    };
-
     gitlab = {
       host = "git";
       hostname = "git.heanet.ie";
