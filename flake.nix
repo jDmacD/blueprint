@@ -67,6 +67,7 @@
         nixosConfigurations
         darwinConfigurations
         nixosModules
+        darwinModules
         homeModules
         packages
         devShells

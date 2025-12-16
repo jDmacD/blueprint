@@ -7,11 +7,11 @@
 {
   imports = [
     inputs.sops-nix.darwinModules.sops
+    inputs.self.darwinModules.stylix
   ]
   ++ (with inputs.self.nixosModules; [
     host-shared
     homebrew
-    stylix
     fonts
     builder-arm
     builder-x86
