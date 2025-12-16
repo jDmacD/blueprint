@@ -7,5 +7,6 @@
     nixos-rebuild
     nixos-rebuild-ng
     nixos-anywhere
+    disko
   ];
 }
