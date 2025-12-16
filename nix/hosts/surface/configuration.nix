@@ -32,7 +32,9 @@
     locale
   ]);
 
-  services.flatpak.enable = true;
+  # for minecraft i think
+  xdg.portal.enable = false;
+  services.flatpak.enable = false;
 
   boot = {
     loader = {
