@@ -5,9 +5,9 @@
   ...
 }:
 {
-  imports = [
-    inputs.sops-nix.darwinModules.sops
-    inputs.self.darwinModules.stylix
+  imports = with inputs.self.darwinModules; [
+    sops
+    stylix
   ]
   ++ (with inputs.self.nixosModules; [
     host-shared
@@ -31,9 +31,6 @@
     linux-builder.enable = true;
     settings.trusted-users = [ "jmacdonald" ];
   };
-
-  sops.defaultSopsFile = ../../hosts/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   system.stateVersion = 6;
