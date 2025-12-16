@@ -6,6 +6,6 @@
   ];
 
   # Configure sops
-  sops = import ../../lib/sops.nix;
+  sops = import ../../lib/sops.nix { };
 
 }

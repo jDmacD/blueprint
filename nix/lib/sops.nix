@@ -1,5 +1,5 @@
-{  }:
+{ }:
 {
-    defaultSopsFile = ../../hosts/secrets.yaml;
-    sops.defaultSopsFormat = "yaml";
+  defaultSopsFile = ../hosts/secrets.yaml;
+  defaultSopsFormat = "yaml";
 }

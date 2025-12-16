@@ -5,17 +5,19 @@
   ...
 }:
 {
-  imports = with inputs.self.darwinModules; [
-    sops
-    stylix
-  ]
-  ++ (with inputs.self.nixosModules; [
-    host-shared
-    homebrew
-    fonts
-    builder-arm
-    builder-x86
-  ]);
+  imports =
+    with inputs.self.darwinModules;
+    [
+      sops
+      stylix
+    ]
+    ++ (with inputs.self.nixosModules; [
+      host-shared
+      homebrew
+      fonts
+      builder-arm
+      builder-x86
+    ]);
 
   users.users.jmacdonald.home = "/Users/jmacdonald";
 
