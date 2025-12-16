@@ -1,18 +1,5 @@
 { pkgs, osConfig, ... }:
 {
-
-  home.packages = with pkgs; [
-    devbox
-    jq
-    yq-go
-  ];
-  programs.claude-code = {
-    enable = true;
-  };
-  programs.nh = {
-    enable = true;
-    darwinFlake = "/Users/jmacdonald/blueprint";
-  };
   programs.eza = {
     enable = true;
     enableZshIntegration = true;
@@ -21,17 +8,6 @@
   };
   programs.btop = {
     enable = true;
-  };
-  programs.zsh = {
-    enable = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-    shellAliases = {
-      update = "sudo nix run nix-darwin -- switch --flake ~/blueprint/";
-      ls = "eza";
-      cd = "z";
-    };
-    history.size = 10000;
   };
   programs.zoxide = {
     enable = true;

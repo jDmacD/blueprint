@@ -1,4 +1,4 @@
-{ pkgs, osConfig, ... }:
+{ pkgs, config, ... }:
 {
 
   home.packages = with pkgs; [
@@ -9,4 +9,10 @@
     nixos-anywhere
     disko
   ];
+
+  programs.nh = {
+    enable = true;
+    darwinFlake = "${config.home.homeDirectory}/blueprint";
+    flake = "${config.home.homeDirectory}/blueprint"
+  };
 }

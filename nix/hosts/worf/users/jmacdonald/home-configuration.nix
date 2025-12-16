@@ -6,6 +6,7 @@
     terminal-utils
     sops
     nix-utils
+    shells
   ];
 
   home.stateVersion = "25.11"; # initial home-manager state

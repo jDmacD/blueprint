@@ -116,6 +116,7 @@
             worf = mkNode {
               name = "worf";
               hostname = "worf.jtec.xyz";
+              remoteBuild = true;
             };
             pi01 = mkNode { name = "pi01"; };
             pi02 = mkNode { name = "pi02"; };
