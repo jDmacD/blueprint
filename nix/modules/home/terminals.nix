@@ -1,6 +1,6 @@
 { pkgs, osConfig, ... }:
 let
-  ghosttyPackage = if pkgs.system == "aarch64-darwin" then null else pkgs.ghostty;
+  ghosttyPackage = if pkgs.stdenv.hostPlatform.system == "aarch64-darwin" then null else pkgs.ghostty;
 in
 {
   programs.ghostty = {
