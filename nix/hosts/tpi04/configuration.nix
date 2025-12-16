@@ -11,7 +11,7 @@
   ]
   ++ (with inputs.self.nixosModules; [
     rpi-common
-    # k3s-agent
+    k3s-agent
     disko
   ]);
 
