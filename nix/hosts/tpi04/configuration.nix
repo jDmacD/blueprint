@@ -12,7 +12,6 @@
   ++ (with inputs.self.nixosModules; [
     rpi-common
     k3s-agent
-    # disko
   ]);
 
   networking.hostName = "tpi04";

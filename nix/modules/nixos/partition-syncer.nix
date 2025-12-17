@@ -1,3 +1,15 @@
+/*
+This is for the cm4s with connected disks
+
+1. disable the ./disk-configuration.nix import
+2. build an image and push  it to the turingpi
+3. flash
+4. boot
+5. re-enable the ./disk-configuration.nix import
+6. !!!!! perform a rebuild using boot `nixos-rebuild --target-host jmacdonald@tpi04.lan --use-remote-sudo --flake .#tpi04 boot`
+7. ssh into the node and run `sudo partsync`
+8. reboot
+*/
 {
   config,
   lib,
@@ -5,14 +17,14 @@
   ...
 }:
 let
-  partmover = pkgs.pkgs.writeShellScriptBin "partmover" ''
+  partsync = pkgs.pkgs.writeShellScriptBin "partsync" ''
     ${pkgs.rsync}/bin/rsync --archive --hard-links --acls --one-file-system --verbose /nix/ /mnt/nix
     ${pkgs.rsync}/bin/rsync --archive --hard-links --acls --one-file-system --verbose /var/ /mnt/var
   '';
 in
 {
   environment.systemPackages = with pkgs; [
-    partmover
+    partsync
   ];
 
   fileSystems = {

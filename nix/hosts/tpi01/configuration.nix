@@ -11,7 +11,8 @@
   ]
   ++ (with inputs.self.nixosModules; [
     rpi-common
-    k3s-server
+    # k3s-server
+    partition-syncer
   ]);
 
   networking.hostName = "tpi01";
