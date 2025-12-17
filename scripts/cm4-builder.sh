@@ -1,7 +1,7 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -i bash -p bash zstd
 
-for host in tpi01 tpi02 tpi03; do
+for host in tpi01 tpi02 tpi03 tpi04; do
   echo "Building $host..."
   nix build ".#nixosConfigurations.$host.config.system.build.sdImage"
   sleep 5s
