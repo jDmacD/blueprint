@@ -90,6 +90,10 @@
                 arch ? "aarch64-linux",
                 remoteBuild ? false,
               }:
+              let
+                isDarwin = builtins.match ".*-darwin" arch != null;
+                configurations = if isDarwin then bp.darwinConfigurations else bp.nixosConfigurations;
+              in
               {
                 inherit
                   hostname
@@ -98,7 +102,7 @@
                   remoteBuild
                   ;
                 profiles.system = {
-                  path = inputs.deploy-rs.lib.${arch}.activate.nixos bp.nixosConfigurations.${name};
+                  path = inputs.deploy-rs.lib.${arch}.activate.nixos configurations.${name};
                 };
               };
           in
