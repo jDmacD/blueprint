@@ -7,12 +7,11 @@
 }:
 {
   imports = [
-    # ./disk-configuration.nix
+    ./disk-configuration.nix
   ]
   ++ (with inputs.self.nixosModules; [
     rpi-common
-    # k3s-server
-    partition-syncer
+    k3s-server
   ]);
 
   networking.hostName = "tpi01";
