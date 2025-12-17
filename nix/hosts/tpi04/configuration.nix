@@ -7,12 +7,12 @@
 }:
 {
   imports = [
-    ./disk-configuration.nix
+    # ./disk-configuration.nix
   ]
   ++ (with inputs.self.nixosModules; [
     rpi-common
     # k3s-agent
-    # disko
+    disko
   ]);
 
   # environment.etc."disko/configuration.nix" = {
