@@ -92,6 +92,7 @@
               }:
               let
                 isDarwin = builtins.match ".*-darwin" arch != null;
+                activator = if isDarwin then "darwin" else "nixos";
                 configurations = if isDarwin then bp.darwinConfigurations else bp.nixosConfigurations;
               in
               {
@@ -102,7 +103,7 @@
                   remoteBuild
                   ;
                 profiles.system = {
-                  path = inputs.deploy-rs.lib.${arch}.activate.nixos configurations.${name};
+                  path = inputs.deploy-rs.lib.${arch}.activate.${activator} configurations.${name};
                 };
               };
           in
@@ -112,11 +113,11 @@
               arch = "x86_64-linux";
               remoteBuild = true;
             };
-            # lore = mkNode {
-            #   name = "lore";
-            #   arch = "aarch64-darwin";
-            #   remoteBuild = true;
-            # };
+            lore = mkNode {
+              name = "lore";
+              arch = "aarch64-darwin";
+              remoteBuild = true;
+            };
             worf = mkNode {
               name = "worf";
               hostname = "worf.jtec.xyz";
