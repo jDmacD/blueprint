@@ -14,7 +14,7 @@ keys:
   - &tpi01 age1cwutx4fl84ffymnm6qup7kymraxy5hmnnwjxgne44vu44ndyaq3ssa4e6x
   - &tpi02 age15wtwk00rw3mkk0p9enl3yfca0axp08su89s8y6rkwns60qdw6y5q2kh86u
   - &tpi03 age1nf684fe0vk3jfjugp36yyhldkzja0c8hmdz3mhag33zjhvw7qfvqkrsuvw
-  - &tpi04 age1d37nchz70zxnj2ck6p8hfr30ngdulcj848v3mld5fqndjh6gwckqpevk5g
+  - &tpi04 age1at9me34tufn6enrwjjuz4tsrudz7kjqg7rlcgdk54kmfmq22nghqztphv9
 creation_rules:
   - path_regex: ^nix\/secrets\/(personal|turing).(yaml|json|env|ini)$
     key_groups:
