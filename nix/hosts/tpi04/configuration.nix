@@ -7,7 +7,7 @@
 }:
 {
   imports = [
-    # ./disk-configuration.nix
+    ./disk-configuration.nix
   ]
   ++ (with inputs.self.nixosModules; [
     rpi-common
