@@ -27,7 +27,7 @@
 
   services.k3s = {
     enable = true;
-    package = perSystem.nixpkgs-25-05.pkgs.k3s_1_30;
+    package = pkgs.k3s_1_32;
     role = "agent"; # Or "agent" for worker only nodes
     # sudo cat /var/lib/rancher/k3s/server/agent-token
     # use sops to write out the token file
