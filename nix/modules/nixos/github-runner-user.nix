@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
 
-
   users.users.githubrunner = {
     isNormalUser = true;
     createHome = true;
