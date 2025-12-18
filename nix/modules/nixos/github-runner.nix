@@ -8,8 +8,8 @@
       picard = {
         enable = true;
         name = "picard";
-        user = "githubrunner";
-        group = "githubrunner";
+        user = "jmacdonald";
+        group = "users";
         tokenFile = "/run/secrets/github/token";
         url = "https://github.com/jDmacD/blueprint-ci";
         extraPackages = [
