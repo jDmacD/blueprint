@@ -14,7 +14,7 @@
     ignoreShellProgramCheck = true;
     group = "githubrunner";
     openssh.authorizedKeys.keyFiles = [
-      "/home/githubrunner/.ssh/githubrunner_ed25519.pub"
+      "~/.ssh/githubrunner_ed25519.pub"
     ];
   };
   users.groups.githubrunner = { };
