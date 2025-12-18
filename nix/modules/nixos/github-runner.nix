@@ -26,6 +26,7 @@
         extraPackages = [
           pkgs.deploy-rs
           pkgs.openssh
+          pkgs.cachix
         ];
       };
     };
