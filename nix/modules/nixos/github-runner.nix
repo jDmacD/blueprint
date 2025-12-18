@@ -14,6 +14,7 @@
     github-runners = {
       picard = {
         enable = true;
+        replace = true;
         name = "picard";
         user = "githubrunner";
         group = "githubrunner";
