@@ -7,6 +7,7 @@
     };
     "githubrunner/githubrunner_ed25519" = {
       mode = "0600";
+      owner = "githubrunner";
       path = "/home/githubrunner/.ssh/githubrunner_ed25519";
     };
   };
