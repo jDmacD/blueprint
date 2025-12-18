@@ -22,7 +22,7 @@
 
   users.users.githubrunner = {
     isNormalUser = true;
-    createHome = false;
+    createHome = true;
     ignoreShellProgramCheck = true;
     group = "githubrunner";
     openssh.authorizedKeys.keys = [
