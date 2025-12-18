@@ -13,9 +13,9 @@
     createHome = true;
     ignoreShellProgramCheck = true;
     group = "githubrunner";
-    openssh.authorizedKeys.keyFiles = [
-      "~/.ssh/githubrunner_ed25519.pub"
-    ];
+    # openssh.authorizedKeys.keyFiles = [
+    #   "~/.ssh/githubrunner_ed25519.pub"
+    # ];
   };
   users.groups.githubrunner = { };
   nix.settings.trusted-users = [ "githubrunner" ];
