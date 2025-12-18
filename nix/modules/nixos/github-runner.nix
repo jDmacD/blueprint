@@ -12,7 +12,7 @@
         url = "https://github.com/jDmacD/blueprint-ci";
         extraPackages = [
           pkgs.deploy-rs 
-        ]
+        ];
       };
     };
   };
