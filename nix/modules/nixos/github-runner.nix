@@ -1,7 +1,14 @@
 { pkgs, ... }:
 {
 
-  sops.secrets."github/token" = { };
+  sops.secrets = {
+    "githubrunner/token" = {
+      owner = "githubrunner";
+    };
+    "githubrunner/githubrunner_ed25519" = {
+      owner = "githubrunner";
+    };
+  };
 
   services = {
     github-runners = {
@@ -10,7 +17,7 @@
         name = "picard";
         user = "githubrunner";
         group = "githubrunner";
-        tokenFile = "/run/secrets/github/token";
+        tokenFile = "/run/secrets/githubrunner/token";
         url = "https://github.com/jDmacD/blueprint-ci";
         extraPackages = [
           pkgs.deploy-rs
@@ -19,16 +26,4 @@
       };
     };
   };
-
-  users.users.githubrunner = {
-    isNormalUser = true;
-    createHome = true;
-    ignoreShellProgramCheck = true;
-    group = "githubrunner";
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnim/f3xwmFw/DB9zeHtQSr9i2uKxwsiXkEgE2FdFcY root@picard"
-    ];
-  };
-  users.groups.githubrunner = { };
-  nix.settings.trusted-users = [ "githubrunner" ];
 }

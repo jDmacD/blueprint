@@ -1,7 +1,9 @@
 { pkgs, ... }:
 {
 
-  imports = [ ];
+  imports = [
+    ./github-runner-user.nix
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
