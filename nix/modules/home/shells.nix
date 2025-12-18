@@ -3,6 +3,7 @@
 
   programs.zsh = {
     enable = true;
+    enableCompletion = false; # Disabled to avoid nix-zsh-completions conflict with nixos-rebuild-ng
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     shellAliases = {
@@ -11,6 +12,10 @@
       cd = "z";
     };
     history.size = 10000;
+    initExtra = ''
+      # Manually enable completions without nix-zsh-completions
+      autoload -U compinit && compinit
+    '';
   };
 
 }
