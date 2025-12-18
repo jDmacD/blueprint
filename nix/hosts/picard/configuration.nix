@@ -28,6 +28,7 @@
     sops
     nvidia
     locale
+    github-runner
   ]);
 
   boot = {
