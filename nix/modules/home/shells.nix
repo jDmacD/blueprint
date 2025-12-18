@@ -12,7 +12,7 @@
       cd = "z";
     };
     history.size = 10000;
-    initExtra = ''
+    initContent = ''
       # Manually enable completions without nix-zsh-completions
       autoload -U compinit && compinit
     '';
