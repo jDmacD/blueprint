@@ -3,7 +3,8 @@
 
   sops.secrets = {
     "githubrunner/githubrunner_ed25519.pub" = {
-      owner = "githubrunner";
+      mode = "0600";
+      path = "/home/githubrunner/.ssh/githubrunner_ed25519.pub";
     };
   };
 
@@ -13,7 +14,7 @@
     ignoreShellProgramCheck = true;
     group = "githubrunner";
     openssh.authorizedKeys.keyFiles = [
-      "/run/secrets/githubrunner/githubrunner_ed25519.pub"
+      "/home/githubrunner/.ssh/githubrunner_ed25519.pub"
     ];
   };
   users.groups.githubrunner = { };
