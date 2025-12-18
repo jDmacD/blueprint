@@ -10,6 +10,9 @@
         name = "picard";
         tokenFile = "/run/secrets/github/token";
         url = "https://github.com/jDmacD/blueprint-ci";
+        extraPackages = [
+          pkgs.deploy-rs 
+        ]
       };
     };
   };
