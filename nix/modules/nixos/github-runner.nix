@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, perSystem, ... }:
 {
 
   sops.secrets = {
@@ -27,7 +27,12 @@
           pkgs.deploy-rs
           pkgs.openssh
           pkgs.cachix
-        ];
+        ]
+        ++ (with perSystem.self; [
+          fleet-deploy
+          cachix-update
+          flake-lock-push
+        ]);
       };
     };
   };
