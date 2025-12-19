@@ -1,7 +1,7 @@
 { pkgs, inputs, ... }:
 {
 
-  modules = [
+  imports = [
     inputs.solaar.nixosModules.default
   ];
 
