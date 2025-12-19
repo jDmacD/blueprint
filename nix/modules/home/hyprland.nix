@@ -18,8 +18,6 @@
       "$mod" = "SUPER";
 
       bind = [
-        # Execute Rofi with only the SUPER key
-        "$mod, Super_L, exec, pkill rofi || rofi -show drun"
         "$mod, K, exec, ghostty"
       ];
       # Startup Apps
