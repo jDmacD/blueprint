@@ -24,7 +24,9 @@
       exec-once = [
         "hyprpanel"
       ];
-
+      input = {
+        kb_layout = "gb";
+      };
       bindm = [
         # mouse movements
         "$mod, mouse:272, movewindow"

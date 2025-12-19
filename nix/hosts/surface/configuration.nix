@@ -10,15 +10,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    # outputs.nixosModules.common
-    # outputs.nixosModules.hyprland
-    # outputs.nixosModules.users
-    # outputs.nixosModules.ssh
-    # outputs.nixosModules.builderArm
-    # outputs.nixosModules.builderX86
-    # outputs.nixosModules.laptops
-    # outputs.nixosModules.homeManager
-    # outputs.nixosModules.stylix
   ]
   ++ (with inputs.self.nixosModules; [
     ssh
@@ -29,12 +20,12 @@
     builder-arm
     builder-x86
     sops
+    ui
+    nvidia
     locale
+    github-runner
+    peripherals
   ]);
-
-  # for minecraft i think
-  xdg.portal.enable = false;
-  services.flatpak.enable = false;
 
   boot = {
     loader = {
@@ -80,10 +71,6 @@
   };
 
   services = {
-    xserver = {
-      xkb.layout = "gb";
-      xkb.variant = "";
-    };
     pipewire = {
       enable = true;
       pulse.enable = true;

@@ -29,10 +29,11 @@
     '';
   };
 
+  # console.keyMap = "ukext";
   services = {
     xserver = {
       xkb.layout = "gb";
-      xkb.variant = "";
+      xkb.variant = "intl";
     };
   };
 
