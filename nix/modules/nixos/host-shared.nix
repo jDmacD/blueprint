@@ -29,6 +29,14 @@
     '';
   };
 
+  console.keyMap = "gb";
+  services = {
+    xserver = {
+      xkb.layout = "gb";
+      xkb.variant = "";
+    };
+  };
+
   time.timeZone = "Europe/Dublin";
 
   # you can check if host is darwin by using pkgs.stdenv.isDarwin
