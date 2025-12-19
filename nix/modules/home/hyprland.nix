@@ -14,11 +14,7 @@
   wayland.windowManager.hyprland = {
     systemd.enable = false;
     settings = {
-      decoration = {
-        shadow_offset = "0 5";
-        "col.shadow" = "rgba(00000099)";
-      };
-
+      decoration = {};
       "$mod" = "SUPER";
 
       bind = [
@@ -27,6 +23,9 @@
 
         "$mod, K, exec, ghostty"
       ];
+      input = {
+        kb_layout = "gb";
+      };
 
       # Startup Apps
       exec-once = [
