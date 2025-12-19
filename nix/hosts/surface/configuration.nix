@@ -15,16 +15,12 @@
     ssh
     users
     host-shared
-    stylix
-    fonts
     builder-arm
     builder-x86
     sops
-    ui
-    nvidia
     locale
-    github-runner
-    peripherals
+    desktop
+
   ]);
 
   boot = {
@@ -60,21 +56,8 @@
   };
 
   hardware = {
-    bluetooth = {
-      enable = true; # enables support for Bluetooth
-      powerOnBoot = true; # powers up the default Bluetooth controller on boot
-    };
-    graphics = {
-      # package = mesa;
-    };
     enableAllFirmware = true;
-  };
-
-  services = {
-    pipewire = {
-      enable = true;
-      pulse.enable = true;
-    };
+    enableRedistributableFirmware = true;
   };
 
   system.stateVersion = "24.05"; # Did you read the comment?

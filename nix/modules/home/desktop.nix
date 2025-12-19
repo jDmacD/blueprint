@@ -16,15 +16,13 @@
     };
   };
 
-  # hhttps://hyprpanel.com/getting_started/installation.html
+  # https://hyprpanel.com/getting_started/installation.html
   home.packages = with pkgs; [
     wireplumber
     libgtop
     bluez
     bluez-tools
-    networkmanager
     wl-clipboard
-    upower
     gvfs
   ];
 }
