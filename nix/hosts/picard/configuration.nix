@@ -76,9 +76,9 @@
     kmscon = {
       enable = false;
     };
-    # solaar = {
-    #   enable = true;
-    # };
+    solaar = {
+      enable = true;
+    };
     nfs = {
       server = {
         enable = true;
