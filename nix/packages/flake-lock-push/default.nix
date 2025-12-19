@@ -26,4 +26,5 @@ pkgs.writeShellScriptBin "flake-lock-push" ''
     
     # Push using the token for authentication
     ${pkgs.git}/bin/git push origin HEAD:main || echo "Failed to push: $?"
+  fi
 ''
