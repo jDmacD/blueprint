@@ -14,10 +14,8 @@
     nix-utils
     sops
     nixvim
-    vscode
-    firefox
     rpi-utils
-    hyprland
+    desktop
   ];
 
   home.stateVersion = "24.05";
