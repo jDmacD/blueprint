@@ -15,6 +15,7 @@
     sops
     nixvim
     rpi-utils
+    hyprland
   ];
 
   home.stateVersion = "24.05";
