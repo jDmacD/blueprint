@@ -14,11 +14,11 @@
   wayland.windowManager.hyprland = {
     systemd.enable = false;
     settings = {
-      decoration = { };
       "$mod" = "SUPER";
 
       bind = [
         "$mod, K, exec, ghostty"
+        "$mod, C, exec, code"
       ];
       # Startup Apps
       exec-once = [

@@ -18,6 +18,8 @@
     nix-utils
     sops
     nixvim
+    vscode
+    firefox
     rpi-utils
     hyprland
   ];
