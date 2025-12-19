@@ -26,6 +26,7 @@
     builder-arm
     builder-x86-user
     sops
+    ui
     nvidia
     locale
     github-runner
