@@ -30,6 +30,7 @@
     nvidia
     locale
     github-runner
+    peripherals
   ]);
 
   boot = {
@@ -75,9 +76,6 @@
     # Doesn't work with wayland / hyrland
     kmscon = {
       enable = false;
-    };
-    solaar = {
-      enable = true;
     };
     nfs = {
       server = {
