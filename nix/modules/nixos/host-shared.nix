@@ -29,7 +29,6 @@
     '';
   };
 
-  console.keyMap = "gb";
   services = {
     xserver = {
       xkb.layout = "gb";

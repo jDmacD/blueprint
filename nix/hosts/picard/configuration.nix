@@ -63,8 +63,6 @@
       enable = true;
     };
     xserver = {
-      xkb.layout = "gb";
-      xkb.variant = "";
       videoDrivers = [ "nvidia" ];
     };
     pipewire = {
