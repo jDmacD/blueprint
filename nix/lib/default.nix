@@ -4,11 +4,14 @@
   k3s = import ./k3s.nix;
 
   # Helper for creating Raspberry Pi host configurations
-  mkRpiHost = import ./rpi-host.nix { inherit inputs flake; };
+  # This is a function that needs to be imported with { inputs, flake }
+  rpi-host = ./rpi-host.nix;
 
   # Default SOPS configuration
-  sops = import ./sops.nix { };
+  # This is a function that needs to be imported with { }
+  sops = ./sops.nix;
 
   # Default Stylix theme configuration
-  stylix = import ./stylix.nix;
+  # This is a function that needs to be imported with { pkgs }
+  stylix = ./stylix.nix;
 }
