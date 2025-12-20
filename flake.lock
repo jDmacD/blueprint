@@ -952,6 +952,30 @@
         "type": "github"
       }
     },
+    "oom-hardware": {
+      "inputs": {
+        "nixos-raspberrypi": [
+          "nixos-raspberrypi"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1765965006,
+        "narHash": "sha256-vknTskzJaYivv1DJ6isPzm5KZgL4JfxYT2LfEXDTX9U=",
+        "owner": "robertjakub",
+        "repo": "oom-hardware",
+        "rev": "330aa09757bc5848cd8b697d318312a526c886c0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "robertjakub",
+        "ref": "devel",
+        "repo": "oom-hardware",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -989,6 +1013,7 @@
         "nixpkgs-25-05": "nixpkgs-25-05",
         "nixvim": "nixvim",
         "nur": "nur",
+        "oom-hardware": "oom-hardware",
         "solaar": "solaar",
         "sops-nix": "sops-nix",
         "stylix": "stylix",
