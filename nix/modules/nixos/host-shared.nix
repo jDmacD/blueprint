@@ -37,15 +37,6 @@
   };
 
   # console.keyMap = "ukext";
-  services = {
-    xserver = {
-      enable = false;
-      xkb = {
-        layout = "gb";
-        variant = "intl";
-      };
-    };
-  };
 
   time.timeZone = "Europe/Dublin";
 

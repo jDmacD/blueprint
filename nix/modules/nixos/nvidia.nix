@@ -1,6 +1,12 @@
 { pkgs, config, ... }:
 {
 
+  services = {
+    xserver = {
+      enable = false;
+      videoDrivers = [ "nvidia" ];
+    };
+  };
   hardware = {
     graphics = {
       enable = true;
