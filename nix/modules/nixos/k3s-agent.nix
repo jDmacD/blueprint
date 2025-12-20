@@ -1,7 +1,7 @@
 {
   config,
-  lib,
   pkgs,
+  inputs,
   perSystem,
   ...
 }:
@@ -27,7 +27,7 @@
 
   services.k3s = {
     enable = true;
-    package = pkgs.k3s_1_32;
+    package = inputs.self.lib.k3s { inherit pkgs; };
     role = "agent"; # Or "agent" for worker only nodes
     # sudo cat /var/lib/rancher/k3s/server/agent-token
     # use sops to write out the token file

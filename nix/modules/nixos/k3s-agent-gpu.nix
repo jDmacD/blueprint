@@ -1,8 +1,8 @@
 {
   config,
-  lib,
   pkgs,
   inputs,
+  lib,
   perSystem,
   ...
 }:
@@ -33,7 +33,7 @@
 
   services.k3s = {
     enable = true;
-    package = pkgs.k3s_1_32;
+    package = inputs.self.lib.k3s { inherit pkgs; };
     role = "agent";
     tokenFile = "/run/secrets/k3s/token";
     serverAddr = "https://tpi01.lan:6443";

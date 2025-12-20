@@ -76,6 +76,7 @@
     in
     {
       inherit (bp)
+        lib
         nixosConfigurations
         darwinConfigurations
         nixosModules

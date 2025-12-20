@@ -1,7 +1,7 @@
 {
   config,
-  lib,
   pkgs,
+  inputs,
   perSystem,
   ...
 }:
@@ -23,7 +23,7 @@
   # https://search.nixos.org/options?channel=25.05&from=0&size=50&sort=relevance&type=packages&query=services.k3s
   services.k3s = {
     enable = true;
-    package = pkgs.k3s_1_32;
+    package = inputs.self.lib.k3s { inherit pkgs; };
     role = "server"; # Or "agent" for worker only nodes
     extraFlags = toString [
       "--disable=traefik"
