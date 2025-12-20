@@ -47,10 +47,6 @@
   };
 
   services = {
-    xserver = {
-      enable = false;
-      videoDrivers = [ "nvidia" ];
-    };
     nfs = {
       server = {
         enable = true;
