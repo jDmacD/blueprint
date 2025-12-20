@@ -22,7 +22,10 @@
     8472 # k3s, flannel: required if using multi-node for inter-node networking
   ];
 
-  hardware.nvidia-container-toolkit.enable = true;
+  hardware.nvidia-container-toolkit = {
+    enable = true;
+    suppressNvidiaDriverAssertion = true;
+  };
 
   sops.secrets."k3s/token" = {
     owner = "root";

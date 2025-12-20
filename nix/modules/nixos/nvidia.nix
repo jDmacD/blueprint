@@ -1,6 +1,9 @@
 { pkgs, config, ... }:
 {
 
+  environment.systemPackages = with pkgs; [
+    nvitop
+  ];
   services = {
     xserver = {
       enable = false;
