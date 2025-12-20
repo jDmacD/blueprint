@@ -15,7 +15,7 @@
     {
       hostName = "worf.jtec.xyz";
       system = "aarch64-linux";
-      sshUser = "arm64builder";
+      sshUser = "builder";
       sshKey = "/run/secrets/builder_ed25519";
       protocol = "ssh-ng";
       maxJobs = 1;
