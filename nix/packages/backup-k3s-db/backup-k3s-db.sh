@@ -1,5 +1,5 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -i bash -p gum rsync
+#!/usr/bin/env bash
+
 # Script to backup k3s database from tpi01 control plane
 # Usage: ./backup-k3s-db.sh [backup-directory]
 
