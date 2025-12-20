@@ -28,6 +28,7 @@
     locale
     github-runner
 
+    steam
     desktop
   ]);
 
