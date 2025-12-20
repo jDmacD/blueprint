@@ -32,8 +32,11 @@
   # console.keyMap = "ukext";
   services = {
     xserver = {
-      xkb.layout = "gb";
-      xkb.variant = "intl";
+      enable = false;
+      xkb = {
+        layout = "gb";
+        variant = "intl";
+      };
     };
   };
 

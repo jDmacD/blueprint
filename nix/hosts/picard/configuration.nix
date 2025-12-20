@@ -48,6 +48,7 @@
 
   services = {
     xserver = {
+      enabled = false;
       videoDrivers = [ "nvidia" ];
     };
     nfs = {
