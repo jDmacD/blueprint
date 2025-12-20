@@ -46,8 +46,8 @@
     };
 
     # this is purely for the uconsole
-    # nixos-raspberrypi.url = "github:robertjakub/nixos-raspberrypi/develop"; # stick with my branch
-    # nixos-raspberrypi.inputs.nixpkgs.follows = "nixpkgs";
+    oom-hardware-nixos-raspberrypi.url = "github:robertjakub/nixos-raspberrypi/develop"; # stick with my branch
+    oom-hardware-nixos-raspberrypi.inputs.nixpkgs.follows = "nixpkgs";
     oom-hardware.url = "github:robertjakub/oom-hardware/devel";
     oom-hardware.inputs.nixpkgs.follows = "nixpkgs";
     oom-hardware.inputs.nixos-raspberrypi.follows = "nixos-raspberrypi";
