@@ -21,8 +21,6 @@
   home.packages = with pkgs; [
     wireplumber
     libgtop
-    bluez
-    bluez-tools
     wl-clipboard
     gvfs
   ];
