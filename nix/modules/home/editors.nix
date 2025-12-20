@@ -8,6 +8,9 @@
   imports = [
     inputs.nixvim.homeModules.nixvim
   ];
+  programs.helix = {
+    enable = true;
+  };
   programs.nixvim = {
     enable = true;
     plugins = {

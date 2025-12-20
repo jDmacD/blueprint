@@ -13,7 +13,7 @@
     dev-utils
     nix-utils
     sops
-    nixvim
+    editors
     rpi-utils
     desktop
   ];

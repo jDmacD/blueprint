@@ -13,7 +13,7 @@
     dev-utils
     nix-utils
     sops
-    nixvim
+    editors
   ];
 
   home.stateVersion = "25.11"; # initial home-manager state
