@@ -31,11 +31,3 @@ zstd -d -c ./result/sd-image/nixos-sd-image-*.img.zst | sudo dd of=/dev/sdX bs=4
 ```
 
 **Note**: SD images are configured with a 512MB boot partition (defined in `sd-image-config.nix`) to provide sufficient space for multiple generations and prevent "No space left on device" errors during deployments.
-
-## Cachix
-Pushing customized rpi kernel to cachix
-```bash
-# linux_rpi-bcm2711-6.12.34-stable_20250702
-# zfs-kernel-2.3.5-6.12.34-stable_20250702
-nix path-info --all | grep -E "linux_rpi|linux-rpi|linux-headers-static|linux-firmware|zfs-kernel|linux-config" | cachix push jdmacd
-```

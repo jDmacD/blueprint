@@ -22,7 +22,10 @@
     8472 # k3s, flannel: required if using multi-node for inter-node networking
   ];
 
-  hardware.nvidia-container-toolkit.enable = true;
+  hardware.nvidia-container-toolkit = {
+    enable = true;
+    suppressNvidiaDriverAssertion = true;
+  };
 
   sops.secrets."k3s/token" = {
     owner = "root";
@@ -30,7 +33,7 @@
 
   services.k3s = {
     enable = true;
-    package = perSystem.nixpkgs-25-05.pkgs.k3s_1_30;
+    package = pkgs.k3s_1_32;
     role = "agent";
     tokenFile = "/run/secrets/k3s/token";
     serverAddr = "https://tpi01.lan:6443";

@@ -40,6 +40,11 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
+    solaar = {
+      url = "https://flakehub.com/f/Svenum/Solaar-Flake/*.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   nixConfig = {
@@ -90,6 +95,11 @@
                 arch ? "aarch64-linux",
                 remoteBuild ? false,
               }:
+              let
+                isDarwin = builtins.match ".*-darwin" arch != null;
+                activator = if isDarwin then "darwin" else "nixos";
+                configurations = if isDarwin then bp.darwinConfigurations else bp.nixosConfigurations;
+              in
               {
                 inherit
                   hostname
@@ -98,7 +108,7 @@
                   remoteBuild
                   ;
                 profiles.system = {
-                  path = inputs.deploy-rs.lib.${arch}.activate.nixos bp.nixosConfigurations.${name};
+                  path = inputs.deploy-rs.lib.${arch}.activate.${activator} configurations.${name};
                 };
               };
           in
@@ -106,13 +116,7 @@
             picard = mkNode {
               name = "picard";
               arch = "x86_64-linux";
-              remoteBuild = true;
             };
-            # lore = mkNode {
-            #   name = "lore";
-            #   arch = "aarch64-darwin";
-            #   remoteBuild = true;
-            # };
             worf = mkNode {
               name = "worf";
               hostname = "worf.jtec.xyz";

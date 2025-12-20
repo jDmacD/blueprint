@@ -7,6 +7,8 @@
 let
   nativeBuildInputs =
     if pkgs.stdenv.hostPlatform.system == "aarch64-darwin" then [ ] else [ pkgs.autoPatchelfHook ];
+  extensionArch =
+    if pkgs.stdenv.hostPlatform.system == "aarch64-darwin" then "aarch64-darwin" else "linux-x64";
 in
 {
 
@@ -41,8 +43,8 @@ in
               name = "continue";
               publisher = "Continue";
               version = "0.9.256";
-              sha256 = "sha256-+/0ZQkRS6AD8u5+t2hiPwQxzwhEc+n2F0GVk1s0n74U=";
-              arch = "${pkgs.stdenv.hostPlatform.system}";
+              sha256 = "sha256-oe6dF0pdodtEl963Z3czHOrLnzWH/ROGIZ+I+r0pV1o=";
+              arch = extensionArch;
             };
             nativeBuildInputs = nativeBuildInputs;
             buildInputs = [ pkgs.stdenv.cc.cc.lib ];

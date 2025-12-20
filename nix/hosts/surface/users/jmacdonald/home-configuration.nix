@@ -14,6 +14,8 @@
     nix-utils
     sops
     nixvim
+    rpi-utils
+    desktop
   ];
 
   home.stateVersion = "24.05";

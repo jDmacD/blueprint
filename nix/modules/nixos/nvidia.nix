@@ -1,6 +1,15 @@
 { pkgs, config, ... }:
 {
 
+  environment.systemPackages = with pkgs; [
+    nvitop
+  ];
+  services = {
+    xserver = {
+      enable = false;
+      videoDrivers = [ "nvidia" ];
+    };
+  };
   hardware = {
     graphics = {
       enable = true;

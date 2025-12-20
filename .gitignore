@@ -8,3 +8,4 @@ result-*
 nixos-sd-image-*
 e2e.log
 backups/
+tpi0*.img

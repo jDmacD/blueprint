@@ -8,7 +8,7 @@
     kubecm
     k3d
     kubeswitch
-    kubernetes-helm
+    kubectl-cnpg
   ];
 
   programs.k9s = {

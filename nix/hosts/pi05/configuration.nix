@@ -14,6 +14,10 @@
     k3s-agent
   ]);
 
+  environment.etc."disko/configuration.nix" = {
+    text = builtins.readFile ./disk-configuration.nix;
+  };
+
   networking.hostName = "pi05";
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 }

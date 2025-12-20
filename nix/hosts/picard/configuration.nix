@@ -21,13 +21,15 @@
     host-shared
     k3s-agent-gpu
     docker
-    stylix
-    fonts
     builder-arm
     builder-x86-user
     sops
     nvidia
     locale
+    github-runner
+
+    steam
+    desktop
   ]);
 
   boot = {
@@ -41,42 +43,11 @@
   };
 
   hardware = {
-    bluetooth = {
-      enable = true; # enables support for Bluetooth
-      powerOnBoot = true; # powers up the default Bluetooth controller on boot
-      package = pkgs.bluez;
-      settings = {
-        General = {
-          Experimental = true;
-        };
-      };
-    };
     enableAllFirmware = true;
     enableRedistributableFirmware = true;
   };
 
   services = {
-    blueman = {
-      enable = true;
-    };
-    xserver = {
-      xkb.layout = "gb";
-      xkb.variant = "";
-      videoDrivers = [ "nvidia" ];
-    };
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
-    # Doesn't work with wayland / hyrland
-    kmscon = {
-      enable = false;
-    };
-    # solaar = {
-    #   enable = true;
-    # };
     nfs = {
       server = {
         enable = true;
@@ -113,9 +84,6 @@
 
   environment.systemPackages = with pkgs; [
     git
-    mangohud
-    lutris
-    cloudflared
   ];
 
   virtualisation.docker.daemon.settings = {

@@ -1,7 +1,15 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  config,
+  ...
+}:
 {
 
-  imports = [ ];
+  imports = [
+    ./github-runner-user.nix
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -21,11 +29,14 @@
         "jdmacd.cachix.org-1:0DcSfXShBIng2EbPW44fxoXjXowKhZZWrbYqcozFhfM="
       ];
     };
+
     extraOptions = ''
       # Ensure we can still build when missing-server is not accessible
       fallback = true
     '';
   };
+
+  # console.keyMap = "ukext";
 
   time.timeZone = "Europe/Dublin";
 
