@@ -49,12 +49,14 @@
 
   nixConfig = {
     extra-substituters = [
-      "https://nixos-raspberrypi.cachix.org"
       "https://jdmacd.cachix.org"
+      "https://nixos-raspberrypi.cachix.org"
+      "https://hyprland.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
       "jdmacd.cachix.org-1:0DcSfXShBIng2EbPW44fxoXjXowKhZZWrbYqcozFhfM="
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     ];
   };
 

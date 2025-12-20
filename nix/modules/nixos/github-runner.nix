@@ -24,9 +24,6 @@
         tokenFile = "/run/secrets/githubrunner/token";
         url = "https://github.com/jDmacD/blueprint-ci";
         extraPackages = [
-          pkgs.deploy-rs
-          pkgs.openssh
-          pkgs.cachix
         ]
         ++ (with perSystem.self; [
           fleet-deploy

@@ -22,7 +22,7 @@
     docker
     docker-bedrock
     sops
-    builder-arm-user
+    builder-user
     locale
   ]);
 
