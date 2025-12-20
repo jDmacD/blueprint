@@ -83,9 +83,6 @@
 
   environment.systemPackages = with pkgs; [
     git
-    mangohud
-    lutris
-    cloudflared
   ];
 
   virtualisation.docker.daemon.settings = {
