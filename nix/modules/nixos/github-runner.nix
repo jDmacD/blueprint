@@ -18,7 +18,7 @@
       picard = {
         enable = true;
         replace = true;
-        name = "picard";
+        name = "picard-01";
         user = "githubrunner";
         group = "githubrunner";
         tokenFile = "/run/secrets/githubrunner/token";
