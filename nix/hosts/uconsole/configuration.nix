@@ -8,8 +8,8 @@
 }:
 {
   imports = [
-    inputs.nixos-raspberrypi.nixosModules.raspberry-pi-4.base
-    inputs.nixos-raspberrypi.nixosModules.raspberry-pi-4.bluetooth
+    inputs.oom-hardware-nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+    inputs.oom-hardware-nixos-raspberrypi.nixosModules.raspberry-pi-4.bluetooth
     inputs.oom-hardware.nixosModules.uc.kernel
     inputs.oom-hardware.nixosModules.uc.configtxt
     inputs.oom-hardware.nixosModules.uc.base-cm4
@@ -27,7 +27,7 @@
   # END:
   boot.loader.raspberryPi.bootloader = "kernel"; # default for new installation
   boot.consoleLogLevel = 7;
-  users.users.root.initialPassword = ""; # FIXME
+  users.users.root.initialPassword = "foo"; # FIXME
   console = {
     earlySetup = true;
     font = "ter-v32n";
