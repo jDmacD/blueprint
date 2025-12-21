@@ -30,7 +30,6 @@ in
     ];
     packages = [ ];
   };
-  # users.defaultUserShell = pkgs.zsh;
   security.sudo.wheelNeedsPassword = false;
   nix.settings.trusted-users = [ "jmacdonald" ];
 }
