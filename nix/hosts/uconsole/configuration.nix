@@ -8,13 +8,17 @@
 }:
 {
   imports = [
-    inputs.oom-hardware-nixos-raspberrypi.nixosModules.raspberry-pi-4.base
-    inputs.oom-hardware-nixos-raspberrypi.nixosModules.raspberry-pi-4.bluetooth
-    inputs.oom-hardware.nixosModules.uc.kernel
-    inputs.oom-hardware.nixosModules.uc.configtxt
-    inputs.oom-hardware.nixosModules.uc.base-cm4
     (lib.mkAliasOptionModule [ "environment" "checkConfigurationOptions" ] [ "_module" "check" ])
   ]
+  ++ (with inputs.oom-hardware-nixos-raspberrypi.nixosModules.raspberry-pi-4; [
+    base
+    bluetooth
+  ])
+  ++ (with inputs.oom-hardware.nixosModules.uc; [
+    kernel
+    configtxt
+    base-cm4
+  ])
   ++ (with inputs.self.nixosModules; [
     host-shared
     locale
@@ -24,10 +28,9 @@
   ]);
 
   disabledModules = [ (modulesPath + "/rename.nix") ];
-  # END:
   boot.loader.raspberryPi.bootloader = "kernel"; # default for new installation
   boot.consoleLogLevel = 7;
-  users.users.root.initialPassword = "foo"; # FIXME
+
   console = {
     earlySetup = true;
     font = "ter-v32n";
@@ -48,9 +51,12 @@
   environment.systemPackages = with pkgs; [
     wirelesstools
     iw
-    gitMinimal
+    git
   ];
-
+  networking.networkmanager.enable = true;
   networking.hostName = "uconsole";
-  system.stateVersion = "26.05"; # Did you read the comment?
+
+  systemd.services."serial-getty@ttyS0".enable = false; # there is no serial console? am I right?
+  system.stateVersion = config.system.nixos.release;
+  system.defaultChannel = "https://nixos.org/channels/nixos-unstable";
 }
