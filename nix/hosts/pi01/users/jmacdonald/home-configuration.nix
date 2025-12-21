@@ -5,5 +5,5 @@
     rpi-common
   ];
 
-  home.stateVersion = "25.11"; # initial home-manager state
+  home.stateVersion = "25.05"; # initial home-manager state
 }

@@ -11,7 +11,7 @@ mkRpiHost {
     "usb-gadget-ethernet"
   ];
   extraModules = [
-    inputs.home-manager.nixosModules.home-manager
+    inputs.home-manager-25-05.nixosModules.home-manager
     ./configuration.nix
   ];
 }

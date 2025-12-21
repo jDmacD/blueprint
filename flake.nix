@@ -16,6 +16,9 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    home-manager-25-05.url = "github:nix-community/home-manager/release-25.05";
+    home-manager-25-05.inputs.nixpkgs.follows = "nixpkgs-25-05";
+
     hyprland.url = "github:hyprwm/Hyprland";
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
