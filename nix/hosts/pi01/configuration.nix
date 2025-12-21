@@ -9,12 +9,7 @@
   imports = with inputs.self.nixosModules; [
     rpi-common
     k3s-agent
-    # sd-image-config
-    # rpi-minimal-firmware
   ];
-
-  # Enable minimal firmware to save ~1.3MB on /boot/firmware
-  # boot.loader.raspberryPi.useMinimalFirmware = false;
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };

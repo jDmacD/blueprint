@@ -31,6 +31,7 @@ in
       inputs.oom-hardware-nixos-raspberrypi.nixosModules.usb-gadget-ethernet
       ./configuration.nix
       inputs.sops-nix.nixosModules.sops
+      inputs.home-manager-25-05.nixosModules.home-manager
     ];
   };
 }

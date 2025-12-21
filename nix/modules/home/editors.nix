@@ -12,7 +12,7 @@
     enable = true;
   };
   programs.nixvim = {
-    enable = true;
+    enable = false;
     plugins = {
       # https://nix-community.github.io/nixvim/plugins/comment/index.html
       telescope.enable = true;

@@ -17,5 +17,5 @@
     editors
   ];
 
-  home.stateVersion = "26.05"; # initial home-manager state
+  home.stateVersion = "25.05"; # initial home-manager state
 }

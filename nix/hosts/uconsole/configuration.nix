@@ -27,6 +27,11 @@
     sops
   ]);
 
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users.jmacdonald = ./users/jmacdonald/home-configuration.nix;
+  };
+
   disabledModules = [ (modulesPath + "/rename.nix") ];
   boot.loader.raspberryPi.bootloader = "kernel"; # default for new installation
   boot.consoleLogLevel = 7;
