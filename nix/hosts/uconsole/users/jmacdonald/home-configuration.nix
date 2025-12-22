@@ -4,15 +4,14 @@
   imports = with inputs.self.homeModules; [
     rpi-common
     home-shared
-    personal
+    # personal
     kubernetes-utils
-    git-utils
+    # git-utils
     terminals
     shells
     terminal-utils
-    ai-utils
     dev-utils
-    nix-utils
+    # nix-utils
     sops
     editors
   ];

@@ -139,6 +139,7 @@
               hostname = "worf.jtec.xyz";
               remoteBuild = true;
             };
+            # uconsole = mkNode { name = "uconsole"; };
             pi01 = mkNode { name = "pi01"; };
             pi02 = mkNode { name = "pi02"; };
             pi03 = mkNode { name = "pi03"; };
