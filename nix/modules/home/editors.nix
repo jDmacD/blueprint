@@ -1,6 +1,5 @@
 {
   pkgs,
-  osConfig,
   inputs,
   ...
 }:
@@ -10,6 +9,24 @@
   ];
   programs.helix = {
     enable = true;
+    extraPackages = with pkgs; [
+      nil
+      nixd
+      marksman
+      ruff
+      bash-language-server
+      yaml-language-server
+      terraform-ls
+    ];
+    languages = {
+      language = [{
+        name = "nix";
+        auto-format = true;
+        formatter = {
+          command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt" ;
+        };
+      }];
+    };
   };
   programs.nixvim = {
     enable = false;
