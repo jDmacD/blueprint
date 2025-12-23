@@ -147,7 +147,7 @@
             pi05 = mkNode { name = "pi05"; };
             tpi01 = mkNode { name = "tpi01"; };
             tpi02 = mkNode { name = "tpi02"; };
-            tpi03 = mkNode { name = "tpi03"; };
+            # tpi03 = mkNode { name = "tpi03"; };
             tpi04 = mkNode { name = "tpi04"; };
           };
       };
