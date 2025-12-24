@@ -19,13 +19,15 @@
       terraform-ls
     ];
     languages = {
-      language = [{
-        name = "nix";
-        auto-format = true;
-        formatter = {
-          command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt" ;
-        };
-      }];
+      language = [
+        {
+          name = "nix";
+          auto-format = true;
+          formatter = {
+            command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";
+          };
+        }
+      ];
     };
   };
   programs.nixvim = {
