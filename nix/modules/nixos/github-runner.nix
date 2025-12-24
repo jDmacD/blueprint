@@ -18,15 +18,12 @@
       picard = {
         enable = true;
         replace = true;
-        name = "picard";
+        name = "picard-01";
         user = "githubrunner";
         group = "githubrunner";
         tokenFile = "/run/secrets/githubrunner/token";
         url = "https://github.com/jDmacD/blueprint-ci";
         extraPackages = [
-          pkgs.deploy-rs
-          pkgs.openssh
-          pkgs.cachix
         ]
         ++ (with perSystem.self; [
           fleet-deploy

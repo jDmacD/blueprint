@@ -5,5 +5,5 @@
     inputs.stylix.nixosModules.stylix
   ];
 
-  stylix = import ../../lib/stylix.nix { inherit pkgs; };
+  stylix = import inputs.self.lib.stylix { inherit pkgs; };
 }

@@ -15,7 +15,7 @@
     {
       hostName = "picard.lan";
       system = "x86_64-linux";
-      sshUser = "x86builder";
+      sshUser = "builder";
       sshKey = "/run/secrets/builder_ed25519";
       protocol = "ssh-ng";
       maxJobs = 1;

@@ -1,6 +1,5 @@
 {
   pkgs,
-  osConfig,
   inputs,
   ...
 }:
@@ -8,8 +7,31 @@
   imports = [
     inputs.nixvim.homeModules.nixvim
   ];
-  programs.nixvim = {
+  programs.helix = {
     enable = true;
+    extraPackages = with pkgs; [
+      nil
+      nixd
+      marksman
+      ruff
+      bash-language-server
+      yaml-language-server
+      terraform-ls
+    ];
+    languages = {
+      language = [
+        {
+          name = "nix";
+          auto-format = true;
+          formatter = {
+            command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";
+          };
+        }
+      ];
+    };
+  };
+  programs.nixvim = {
+    enable = false;
     plugins = {
       # https://nix-community.github.io/nixvim/plugins/comment/index.html
       telescope.enable = true;

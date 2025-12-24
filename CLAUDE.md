@@ -152,7 +152,7 @@ nix/hosts/<hostname>/
 ```nix
 { flake, inputs, ... }:
 let
-  mkRpiHost = import ../../lib/rpi-host.nix {
+  mkRpiHost = import inputs.self.lib.rpi-host {
     inherit inputs flake;
   };
 in

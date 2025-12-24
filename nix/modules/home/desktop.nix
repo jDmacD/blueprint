@@ -1,4 +1,9 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 {
 
   imports = with inputs.self.homeModules; [
@@ -10,6 +15,7 @@
   programs = {
     rofi = {
       enable = true;
+      theme = lib.mkDefault "material";
     };
     hyprpanel = {
       enable = true;
@@ -20,8 +26,6 @@
   home.packages = with pkgs; [
     wireplumber
     libgtop
-    bluez
-    bluez-tools
     wl-clipboard
     gvfs
   ];

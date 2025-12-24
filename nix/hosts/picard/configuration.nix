@@ -22,7 +22,7 @@
     k3s-agent-gpu
     docker
     builder-arm
-    builder-x86-user
+    builder-user
     sops
     nvidia
     locale
