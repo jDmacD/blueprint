@@ -45,40 +45,44 @@ in
           chat.showAgentSessionsViewDescription = false;
           sops.defaults.ageKeyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
         };
-        extensions = [
-          pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
-          pkgs.vscode-extensions.charliermarsh.ruff
-          pkgs.vscode-extensions.ms-python.python
-          pkgs.vscode-extensions.bbenoist.nix
-          pkgs.vscode-extensions.jnoortheen.nix-ide
-          pkgs.vscode-extensions.ms-azuretools.vscode-docker
-          pkgs.vscode-extensions.mechatroner.rainbow-csv
-          pkgs.vscode-extensions.signageos.signageos-vscode-sops
-          /*
-            Continue extension requires platform-specific builds:
-            - Linux: needs autoPatchelfHook to patch ELF binaries
-            - Darwin: uses native Mach-O binaries, no patching needed
-          */
-          (mkExtension
-            {
-              mktplcRef = {
-                name = "continue";
-                publisher = "Continue";
-                version = "0.9.256";
-                sha256 = "sha256-oe6dF0pdodtEl963Z3czHOrLnzWH/ROGIZ+I+r0pV1o=";
-                arch = "linux-x64";
-              };
-              nativeBuildInputs = [ pkgs.autoPatchelfHook ];
-              buildInputs = [ pkgs.stdenv.cc.cc.lib ];
-            }
-            {
-              # Darwin overrides: different arch, no ELF patching
-              mktplcRef.arch = "aarch64-darwin";
-              nativeBuildInputs = [ ];
-              buildInputs = [ ];
-            }
-          )
-        ];
+        extensions =
+          with pkgs.vscode-extensions;
+          [
+            ms-vscode-remote.remote-ssh
+            charliermarsh.ruff
+            ms-python.python
+            bbenoist.nix
+            jnoortheen.nix-ide
+            ms-azuretools.vscode-docker
+            mechatroner.rainbow-csv
+            signageos.signageos-vscode-sops
+            /*
+              Continue extension requires platform-specific builds:
+              - Linux: needs autoPatchelfHook to patch ELF binaries
+              - Darwin: uses native Mach-O binaries, no patching needed
+            */
+          ]
+          ++ [
+            (mkExtension
+              {
+                mktplcRef = {
+                  name = "continue";
+                  publisher = "Continue";
+                  version = "0.9.256";
+                  sha256 = "sha256-oe6dF0pdodtEl963Z3czHOrLnzWH/ROGIZ+I+r0pV1o=";
+                  arch = "linux-x64";
+                };
+                nativeBuildInputs = [ pkgs.autoPatchelfHook ];
+                buildInputs = [ pkgs.stdenv.cc.cc.lib ];
+              }
+              {
+                # Darwin overrides: different arch, no ELF patching
+                mktplcRef.arch = "aarch64-darwin";
+                nativeBuildInputs = [ ];
+                buildInputs = [ ];
+              }
+            )
+          ];
       };
     };
     mutableExtensionsDir = false;
