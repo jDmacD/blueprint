@@ -1,14 +1,30 @@
 {
   pkgs,
   config,
-  osConfig,
+  lib,
   ...
 }:
 let
-  nativeBuildInputs =
-    if pkgs.stdenv.hostPlatform.system == "aarch64-darwin" then [ ] else [ pkgs.autoPatchelfHook ];
-  extensionArch =
-    if pkgs.stdenv.hostPlatform.system == "aarch64-darwin" then "aarch64-darwin" else "linux-x64";
+  /*
+    Helper to build VSCode extensions with platform-specific overrides.
+
+    This function merges configuration attributes BEFORE building the derivation,
+    not after. Attempting to merge with // or lib.recursiveUpdate AFTER calling
+    buildVscodeMarketplaceExtension doesn't work because derivations are immutable -
+    the merge only changes external attributes, not the actual build specification.
+
+    Usage: mkExtension baseConfig darwinOverrides
+      baseConfig: Base configuration (typically Linux defaults)
+      darwinOverrides: Overrides to apply on Darwin (merged recursively)
+
+    On Darwin: recursiveUpdate merges the overrides into base, then builds
+    On Linux: darwinOverrides is ignored, builds with base config only
+  */
+  mkExtension =
+    base: darwinOverrides:
+    pkgs.vscode-utils.buildVscodeMarketplaceExtension (
+      lib.recursiveUpdate base (lib.optionalAttrs pkgs.stdenv.isDarwin darwinOverrides)
+    );
 in
 {
 
@@ -38,17 +54,30 @@ in
           pkgs.vscode-extensions.ms-azuretools.vscode-docker
           pkgs.vscode-extensions.mechatroner.rainbow-csv
           pkgs.vscode-extensions.signageos.signageos-vscode-sops
-          (pkgs.vscode-utils.buildVscodeMarketplaceExtension {
-            mktplcRef = {
-              name = "continue";
-              publisher = "Continue";
-              version = "0.9.256";
-              sha256 = "sha256-oe6dF0pdodtEl963Z3czHOrLnzWH/ROGIZ+I+r0pV1o=";
-              arch = extensionArch;
-            };
-            nativeBuildInputs = nativeBuildInputs;
-            buildInputs = [ pkgs.stdenv.cc.cc.lib ];
-          })
+          /*
+            Continue extension requires platform-specific builds:
+            - Linux: needs autoPatchelfHook to patch ELF binaries
+            - Darwin: uses native Mach-O binaries, no patching needed
+          */
+          (mkExtension
+            {
+              mktplcRef = {
+                name = "continue";
+                publisher = "Continue";
+                version = "0.9.256";
+                sha256 = "sha256-oe6dF0pdodtEl963Z3czHOrLnzWH/ROGIZ+I+r0pV1o=";
+                arch = "linux-x64";
+              };
+              nativeBuildInputs = [ pkgs.autoPatchelfHook ];
+              buildInputs = [ pkgs.stdenv.cc.cc.lib ];
+            }
+            {
+              # Darwin overrides: different arch, no ELF patching
+              mktplcRef.arch = "aarch64-darwin";
+              nativeBuildInputs = [ ];
+              buildInputs = [ ];
+            }
+          )
         ];
       };
     };
