@@ -3,6 +3,7 @@
 
   imports = with inputs.self.homeModules; [
     home-shared
+    terminals
     terminal-utils
     sops
     nix-utils

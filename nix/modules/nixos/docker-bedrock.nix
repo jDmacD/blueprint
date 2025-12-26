@@ -1,8 +1,6 @@
 {
-  config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 let
@@ -35,6 +33,7 @@ in
     environment = {
       ALLOW_CHEATS = "true";
       EULA = "TRUE";
+      GAMEMODE = "creative";
       DIFFICULTY = "1";
       SERVER_NAME = "Ted World";
       TZ = "Europe/Dublin";
