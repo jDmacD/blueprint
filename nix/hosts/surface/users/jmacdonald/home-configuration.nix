@@ -18,5 +18,10 @@
     desktop
   ];
 
+  home.packages = with pkgs; [
+    blender
+    inkscape
+  ];
+
   home.stateVersion = "24.05";
 }
