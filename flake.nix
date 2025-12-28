@@ -55,7 +55,7 @@
     oom-hardware.inputs.nixpkgs.follows = "nixpkgs";
     oom-hardware.inputs.nixos-raspberrypi.follows = "nixos-raspberrypi";
 
-    NixVirt = {
+    nixvirt = {
       url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };

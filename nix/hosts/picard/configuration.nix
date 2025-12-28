@@ -1,6 +1,5 @@
 {
   inputs,
-  outputs,
   config,
   lib,
   pkgs,
@@ -14,6 +13,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     inputs.disko.nixosModules.disko
+    inputs.nixvirt.nixosModules.default
   ]
   ++ (with inputs.self.nixosModules; [
     ssh
@@ -27,11 +27,25 @@
     nvidia
     locale
     github-runner
+    # home-assistant
 
     steam
     desktop
   ]);
 
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+    };
+  };
+  networking.bridges = {
+    "vmbr0" = {
+      interfaces = [ "enp3s0" ]; # Replace with your actual physical interface
+    };
+  };
   boot = {
     loader = {
       systemd-boot = {

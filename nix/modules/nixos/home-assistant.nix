@@ -34,6 +34,21 @@ in
 {
   # Note: nixvirt module must be imported in the host configuration
 
+  # Open Home Assistant port on the host
+  networking.firewall.allowedTCPPorts = [ 8123 ];
+
+  # Forward port 8123 from host to Home Assistant VM
+  # VM will get IP 192.168.122.100 (we'll configure this via DHCP reservation)
+  networking.firewall.extraCommands = ''
+    iptables -t nat -A PREROUTING -p tcp --dport 8123 -j DNAT --to-destination 192.168.122.100:8123
+    iptables -A FORWARD -p tcp -d 192.168.122.100 --dport 8123 -j ACCEPT
+  '';
+
+  networking.firewall.extraStopCommands = ''
+    iptables -t nat -D PREROUTING -p tcp --dport 8123 -j DNAT --to-destination 192.168.122.100:8123 2>/dev/null || true
+    iptables -D FORWARD -p tcp -d 192.168.122.100 --dport 8123 -j ACCEPT 2>/dev/null || true
+  '';
+
   # Create the libvirt images directory and copy HAOS image
   systemd.tmpfiles.rules = [
     "d /var/lib/libvirt/images 0755 root root -"
@@ -63,12 +78,35 @@ in
     connections."qemu:///session" = {
       networks = [
         {
-          definition = inputs.nixvirt.lib.network.writeXML (
-            inputs.nixvirt.lib.network.templates.bridge {
-              uuid = "41883939-1851-42fa-a2b6-f50ea327e725";
-              subnet_byte = 122;
-            }
-          );
+          definition = inputs.nixvirt.lib.network.writeXML {
+            name = "default";
+            uuid = "41883939-1851-42fa-a2b6-f50ea327e725";
+            forward = {
+              mode = "nat";
+            };
+            bridge = {
+              name = "virbr0";
+              stp = true;
+              delay = 0;
+            };
+            ip = {
+              address = "192.168.122.1";
+              netmask = "255.255.255.0";
+              dhcp = {
+                range = {
+                  start = "192.168.122.2";
+                  end = "192.168.122.254";
+                };
+                host = [
+                  {
+                    mac = "52:54:00:14:62:2e";
+                    name = "home-assistant";
+                    ip = "192.168.122.100";
+                  }
+                ];
+              };
+            };
+          };
           active = true;
         }
       ];
@@ -102,7 +140,10 @@ in
                 pool = "default";
                 volume = "haos-16.3.qcow2";
               };
-              graphics_type = "none";
+              mac = "52:54:00:14:62:2e";
+              graphics_type = "spice";
+              video_model = "qxl";
+              virtio_video = false;
             }
           );
           active = true;

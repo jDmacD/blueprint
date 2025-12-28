@@ -1,6 +1,4 @@
 {
-  config,
-  lib,
   pkgs,
   ...
 }:
@@ -27,6 +25,7 @@ in
       "sound"
       "video"
       "docker"
+      "libvirtd"
     ];
     packages = [ ];
   };
