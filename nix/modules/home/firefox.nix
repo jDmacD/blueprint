@@ -15,7 +15,6 @@
         bookmarks = {
           force = true;
           settings = [
-            "separator"
             {
               name = "Nix sites";
               toolbar = true;

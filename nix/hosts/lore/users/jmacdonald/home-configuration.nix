@@ -15,6 +15,7 @@
     sops
     editors
     vscode
+    firefox
   ];
 
   home.stateVersion = "25.11"; # initial home-manager state
