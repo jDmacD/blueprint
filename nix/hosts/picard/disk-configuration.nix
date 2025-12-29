@@ -1,5 +1,5 @@
 # Example to create a bios compatible gpt partition
-{ lib, ... }:
+{ ... }:
 {
   disko.devices = {
     disk.steam = {
@@ -44,6 +44,48 @@
               type = "filesystem";
               format = "ext4";
               mountpoint = "/";
+            };
+          };
+        };
+      };
+    };
+    # 6TB WD drives in btrfs RAID 0
+    disk.sda = {
+      type = "disk";
+      device = "/dev/sda";
+      content = {
+        type = "gpt";
+        partitions = {
+          storage = {
+            size = "100%";
+          };
+        };
+      };
+    };
+    disk.sdb = {
+      type = "disk";
+      device = "/dev/sdb";
+      content = {
+        type = "gpt";
+        partitions = {
+          storage = {
+            size = "100%";
+            content = {
+              type = "btrfs";
+              extraArgs = [
+                "-f"
+                "-d"
+                "raid0"
+                "-m"
+                "raid0"
+                "/dev/sda1"
+              ];
+              subvolumes = {
+                "/storage" = {
+                  mountpoint = "/storage";
+                  mountOptions = [ "noatime" ];
+                };
+              };
             };
           };
         };
