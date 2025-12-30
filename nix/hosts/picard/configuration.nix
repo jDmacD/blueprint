@@ -48,8 +48,8 @@
   };
 
   networking.interfaces = {
-    vmbr0.useDHCP = true;  # Bridge gets IP via DHCP
-    enp3s0.useDHCP = false;  # Physical interface has no IP (part of bridge)
+    vmbr0.useDHCP = true; # Bridge gets IP via DHCP
+    enp3s0.useDHCP = false; # Physical interface has no IP (part of bridge)
   };
   boot = {
     loader = {
@@ -80,8 +80,8 @@
 
   networking = {
     hostName = "picard";
-    useDHCP = false;  # Required for bridge configuration
-    networkmanager.enable = false;  # Disable NetworkManager for bridge setup
+    useDHCP = false; # Required for bridge configuration
+    networkmanager.enable = false; # Disable NetworkManager for bridge setup
     firewall = {
       checkReversePath = false;
       enable = true;

@@ -27,7 +27,9 @@ let
       unit = "GiB";
     };
     target = {
-      format = { type = "qcow2"; };
+      format = {
+        type = "qcow2";
+      };
     };
   };
 in
@@ -116,7 +118,9 @@ in
             name = "default";
             uuid = "650816df-aa63-4990-9e0a-4c586cb0f04c";
             type = "dir";
-            target = { path = "/var/lib/libvirt/images"; };
+            target = {
+              path = "/var/lib/libvirt/images";
+            };
           };
           active = true;
           volumes = [

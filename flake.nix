@@ -60,7 +60,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    attic.url = "github:zhaofengli/attic"
+    attic.url = "github:zhaofengli/attic";
     attic.inputs.nixpkgs.follows = "nixpkgs";
   };
 
