@@ -14,7 +14,7 @@
 
   # https://github.com/zhaofengli/attic/blob/main/server/src/config-template.toml
   services.atticd = {
-    enable = true;
+    enable = false;
 
     # Replace with absolute path to your environment file
     environmentFile = "/run/secrets/atticd.env";
