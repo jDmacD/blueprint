@@ -3,7 +3,8 @@
 {
   systemd.tmpfiles.rules = [
     # Type Path        Mode    UID     GID     Age  Argument
-    "d /spinner        0755    1002    100     -    -"
+    "d /spinner        0777    0       0       -    -"
+    "Z /spinner        0777    0       0       -    -"
   ];
   disko.devices = {
     disk.steam = {

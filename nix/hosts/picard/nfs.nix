@@ -19,7 +19,7 @@
     device = "/mnt/calibre-library";
     options = [ "bind" ];
   };
-  
+
   fileSystems."/export/spinner" = {
     device = "/spinner";
     options = [ "bind" ];

@@ -12,7 +12,7 @@
   };
 
   fileSystems."/spinner" = {
-    device = "picard.lan:/spinner";
+    device = "picard.lan:/export/spinner";
     fsType = "nfs";
     options = [
       "x-systemd.automount"
