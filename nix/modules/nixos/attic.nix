@@ -12,6 +12,7 @@
     owner = "root";
   };
 
+  # https://github.com/zhaofengli/attic/blob/main/server/src/config-template.toml
   services.atticd = {
     enable = true;
 
