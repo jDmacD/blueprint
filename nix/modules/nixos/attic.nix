@@ -24,6 +24,13 @@
 
       jwt = { };
 
+      storage = {
+        type = "s3";
+        region = "eu-west-1";
+        bucket = "jtec";
+        endpoint = "https://hel1.your-objectstorage.com";
+      };
+
       # Data chunking
       #
       # Warning: If you change any of the values here, it will be
