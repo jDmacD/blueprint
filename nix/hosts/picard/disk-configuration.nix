@@ -1,6 +1,10 @@
 # Example to create a bios compatible gpt partition
 { ... }:
 {
+  systemd.tmpfiles.rules = [
+    # Type Path        Mode    UID     GID     Age  Argument
+    "d /storage        0755    1002    100     -    -"
+  ];
   disko.devices = {
     disk.steam = {
       type = "disk";

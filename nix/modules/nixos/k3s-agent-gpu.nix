@@ -1,8 +1,8 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
-  lib,
   perSystem,
   ...
 }:
@@ -27,6 +27,11 @@
     suppressNvidiaDriverAssertion = true;
   };
 
+  # Create symlink so nvidia-container-runtime can find nvidia-ctk at expected location
+  systemd.tmpfiles.rules = [
+    "L+ /usr/bin/nvidia-ctk - - - - ${lib.getExe' pkgs.nvidia-container-toolkit "nvidia-ctk"}"
+  ];
+
   sops.secrets."k3s/token" = {
     owner = "root";
   };
@@ -39,7 +44,6 @@
     serverAddr = "https://tpi01.lan:6443";
     extraFlags = toString [
       "--node-name ${config.networking.hostName}"
-      "--node-taint 'gpu=true:NoSchedule'"
       "--nonroot-devices"
     ];
     containerdConfigTemplate = ''
@@ -52,7 +56,7 @@
         runtime_type = "io.containerd.runc.v2"
 
       [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
-        BinaryName = "${perSystem.nixpkgs-24-11.pkgs.nvidia-container-toolkit}/bin/nvidia-container-runtime"
+        BinaryName = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime"
 
     '';
   };
