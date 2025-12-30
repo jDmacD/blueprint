@@ -59,6 +59,9 @@
       url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    attic.url = "github:zhaofengli/attic"
+    attic.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   nixConfig = {

@@ -24,6 +24,7 @@
     sops
     builder-user
     locale
+    attic
   ]);
 
   boot = {
