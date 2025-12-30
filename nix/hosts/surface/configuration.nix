@@ -10,6 +10,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./nfs.nix
   ]
   ++ (with inputs.self.nixosModules; [
     ssh

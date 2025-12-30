@@ -35,15 +35,6 @@
     ];
   };
 
-  fileSystems."/mnt/calibre-library" = {
-    device = "picard.lan:/calibre-library";
-    fsType = "nfs";
-    options = [
-      "x-systemd.automount"
-      "noauto"
-    ];
-  };
-
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

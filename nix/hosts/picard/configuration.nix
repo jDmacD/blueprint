@@ -10,6 +10,7 @@
   imports = [
     ./hardware-configuration.nix
     ./disk-configuration.nix
+    ./nfs.nix
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     inputs.disko.nixosModules.disko
@@ -64,18 +65,6 @@
   hardware = {
     enableAllFirmware = true;
     enableRedistributableFirmware = true;
-  };
-
-  services = {
-    nfs = {
-      server = {
-        enable = true;
-        exports = ''
-          /export *(rw,fsid=0,no_subtree_check)
-          /export/calibre-library *(rw,insecure,no_subtree_check)
-        '';
-      };
-    };
   };
 
   networking = {
