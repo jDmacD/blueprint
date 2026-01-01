@@ -12,6 +12,7 @@
     ai-utils
     dev-utils
     nix-utils
+    cloud-utils
     sops
     editors
     rpi-utils

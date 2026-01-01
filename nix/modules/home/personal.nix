@@ -52,10 +52,6 @@
       path = "${config.home.homeDirectory}/.ssh/opnsense_ed25519";
     };
 
-    secrets.hcloud_cli = {
-      mode = "600";
-      path = "${config.home.homeDirectory}/.config/hcloud/cli.toml";
-    };
   };
 
   programs.ssh.matchBlocks = {
