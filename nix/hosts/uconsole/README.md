@@ -4,7 +4,7 @@ This directory contains the NixOS configuration for the ClockworkPi uConsole - a
 
 ## Special Hardware Requirements
 
-The uConsole requires specialized hardware support that is not available in the standard nixos-raspberrypi repository. This configuration uses the [oo-hardware fork](https://github.com/robertjakub/oom-hardware/tree/devel) of nixos-raspberrypi which includes:
+The uConsole requires specialized hardware support that is not available in the standard nixos-raspberrypi repository. This configuration uses the [oom-hardware fork](https://github.com/robertjakub/oom-hardware/tree/devel) of nixos-raspberrypi which includes:
 
 - Custom kernel with uConsole-specific patches
 - uConsole config.txt settings
