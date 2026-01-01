@@ -9,6 +9,8 @@
     k3d
     kubeswitch
     kubectl-cnpg
+    cilium-cli
+    hubble
   ];
 
   programs.k9s = {
