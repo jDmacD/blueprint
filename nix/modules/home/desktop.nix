@@ -15,7 +15,7 @@
   programs = {
     rofi = {
       enable = true;
-      theme = lib.mkDefault "material";
+      theme = lib.mkForce "${pkgs.rofi}/share/rofi/themes/material.rasi";
     };
     hyprpanel = {
       enable = true;
