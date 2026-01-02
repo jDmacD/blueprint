@@ -24,13 +24,39 @@
 
   hardware.nvidia-container-toolkit = {
     enable = true;
-    suppressNvidiaDriverAssertion = true;
   };
 
-  # Create symlink so nvidia-container-runtime can find nvidia-ctk at expected location
+  # Create symlinks so nvidia-container-runtime can find required binaries and libraries
   systemd.tmpfiles.rules = [
     "L+ /usr/bin/nvidia-ctk - - - - ${lib.getExe' pkgs.nvidia-container-toolkit "nvidia-ctk"}"
+    # "d /usr/lib 0755 root root - -"
+    # "L+ /usr/lib/libcuda.so - - - - ${pkgs.linuxPackages.nvidia_x11}/lib/libcuda.so"
+    # "L+ /usr/lib/libcuda.so.1 - - - - ${pkgs.linuxPackages.nvidia_x11}/lib/libcuda.so.1"
   ];
+
+  # nvidia-container-runtime config - needed for legacy mode to inject LD_LIBRARY_PATH
+  # environment.etc."nvidia-container-runtime/config.toml" = {
+  #   text = ''
+  #     disable-require = false
+
+  #     [nvidia-container-cli]
+  #     ldconfig = "@${lib.getExe' pkgs.glibc.bin "ldconfig"}"
+  #     path = "${lib.getExe' pkgs.libnvidia-container "nvidia-container-cli"}"
+
+  #     [nvidia-container-runtime]
+  #     mode = "legacy"
+  #     runtimes = ["${pkgs.runc}/bin/runc"]
+
+  #     [nvidia-container-runtime.discovery]
+  #     lib-root = "/usr/lib"
+
+  #     [nvidia-container-runtime-hook]
+  #     path = "${lib.getOutput "tools" pkgs.nvidia-container-toolkit}/bin/nvidia-container-runtime-hook"
+
+  #     [nvidia-ctk]
+  #     path = "${lib.getExe' pkgs.nvidia-container-toolkit "nvidia-ctk"}"
+  #   '';
+  # };
 
   sops.secrets."k3s/token" = {
     owner = "root";
