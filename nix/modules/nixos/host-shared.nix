@@ -37,6 +37,17 @@
 
   time.timeZone = "Europe/Dublin";
 
+  /*
+    This is for checking and updating firmware
+    fwupdmgr refresh
+    fwupdmgr get-updates
+    fwupdmgr update
+  */
+  services = {
+    udisks2.enable = pkgs.stdenv.isLinux;
+    fwupd.enable = pkgs.stdenv.isLinux;
+  };
+
   # you can check if host is darwin by using pkgs.stdenv.isDarwin
   environment.systemPackages = [
     pkgs.git
