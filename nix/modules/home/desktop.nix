@@ -24,6 +24,7 @@
 
   services = {
     hyprpaper = {
+      enable = true;
       settings = {
         /*
           # These are set by stylix
