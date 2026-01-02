@@ -22,6 +22,18 @@
     };
   };
 
+  services = {
+    hyprpaper = {
+      enable = true;
+      settings = {
+        wallpapers = [
+          "eDP-1,${(import inputs.self.lib.wallpapers { inherit pkgs; }).default}" # surface
+        ];
+      };
+    };
+
+  };
+
   # https://hyprpanel.com/getting_started/installation.html
   home.packages = with pkgs; [
     wireplumber

@@ -1,11 +1,8 @@
-{ pkgs }:
+{ pkgs, inputs }:
 {
   enable = true;
   autoEnable = true;
-  image = pkgs.fetchurl {
-    url = "https://github.com/jDmacD/wallpapers/blob/main/3440x1440/simon_stalenhag/AknbEel.jpeg?raw=true";
-    sha256 = "sha256-fieTqLhftyXiOfWE39K81xqQUcW47yUOeci2INlCOWU=";
-  };
+  image = (import inputs.self.lib.wallpapers { inherit pkgs; }).default;
   targets = { };
   polarity = "dark";
   fonts = {

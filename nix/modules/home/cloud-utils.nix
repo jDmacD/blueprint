@@ -28,6 +28,4 @@
     path = "${config.home.homeDirectory}/.config/hcloud/cli.toml";
   };
 
-
-
 }
