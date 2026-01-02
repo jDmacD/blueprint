@@ -15,6 +15,7 @@
     sops
   ];
 
+  services.udisks2.enable = true;
   services.fwupd.enable = true;
 
   boot = {
