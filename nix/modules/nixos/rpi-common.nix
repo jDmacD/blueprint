@@ -15,6 +15,8 @@
     sops
   ];
 
+  services.fwupd.enable = true;
+
   boot = {
     loader.generic-extlinux-compatible.configurationLimit = 2;
     kernelModules = [ "rbd" ];
