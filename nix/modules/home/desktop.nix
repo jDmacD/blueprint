@@ -24,11 +24,16 @@
 
   services = {
     hyprpaper = {
-      enable = true;
       settings = {
-        wallpapers = [
-          "eDP-1,${(import inputs.self.lib.wallpapers { inherit pkgs; }).default}" # surface
-        ];
+        /*
+          # These are set by stylix
+          preload = [
+            defaultWallpaper
+          ];
+          wallpapers = [
+            "eDP-1,${defaultWallpaper}" # surface
+          ];
+        */
       };
     };
 

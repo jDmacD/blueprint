@@ -61,6 +61,7 @@
       # Startup Apps
       exec-once = [
         "hyprpanel"
+        "hyprpaper"
       ];
       input = {
         kb_layout = "gb";

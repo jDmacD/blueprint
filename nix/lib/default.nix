@@ -15,6 +15,5 @@
   # This is a function that needs to be imported with { pkgs }
   stylix = ./stylix.nix;
 
-
   wallpapers = ./wallpapers.nix; # { inherit pkgs; }
 }

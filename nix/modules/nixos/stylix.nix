@@ -6,4 +6,5 @@
   ];
 
   stylix = import inputs.self.lib.stylix { inherit pkgs inputs; };
+
 }
