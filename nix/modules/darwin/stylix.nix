@@ -5,5 +5,5 @@
     inputs.stylix.darwinModules.stylix
   ];
 
-  stylix = import ../../lib/stylix.nix { inherit pkgs inputs; };
+  stylix = import inputs.self.lib.stylix { inherit pkgs inputs; };
 }
