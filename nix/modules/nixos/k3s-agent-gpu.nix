@@ -24,6 +24,7 @@
 
   hardware.nvidia-container-toolkit = {
     enable = true;
+    mount-nvidia-executables = true;
   };
 
   # Create symlinks so nvidia-container-runtime can find required binaries and libraries
@@ -70,8 +71,11 @@
     serverAddr = "https://tpi01.lan:6443";
     extraFlags = toString [
       "--node-name ${config.networking.hostName}"
-      "--nonroot-devices"
+      # "--nonroot-devices"
     ];
+    # https://github.com/NVIDIA/k8s-device-plugin/issues/1220
+    # nvidia-ctk runtime configure --runtime=containerd
+    # cat /var/lib/rancher/k3s/agent/etc/containerd/config.toml
     containerdConfigTemplate = ''
       {{ template "base" . }}
 
