@@ -10,9 +10,9 @@
     [
       sops
       stylix
+      host-shared
     ]
     ++ (with inputs.self.nixosModules; [
-      host-shared
       homebrew
       fonts
       builder-arm
