@@ -9,7 +9,7 @@
 
   imports = [
   ]
-  ++ (with inputs.nixosModules; [
+  ++ (with inputs.self.nixosModules; [
     github-runner-user
   ]);
 
