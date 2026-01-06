@@ -2,7 +2,6 @@
   pkgs,
   inputs,
   osConfig,
-  config,
   ...
 }:
 {
@@ -11,6 +10,18 @@
     enable = true;
     systemd.enable = false;
     settings = {
+      monitor =
+        [ ]
+        ++ (pkgs.lib.optionals (osConfig.networking.hostName == "lwh-hotapril") [
+          "desc:AU Optronics 0x562D,1920x1080@60.03, 0x0, 1"
+          "desc:LG Electronics 38GN950 103NTHMGY473, 3840x1600@59.99, -960x1080, 1"
+        ])
+        ++ (pkgs.lib.optionals (osConfig.networking.hostName == "surface") [
+          "eDP-1, preferred,auto,2"
+        ])
+        ++ (pkgs.lib.optionals (osConfig.networking.hostName == "picard") [
+          "desc:LG Electronics 38GN950 103NTHMGY473,3840x1600@144.00,-0x0,1"
+        ]);
       "$mod" = "SUPER";
 
       bind = [
@@ -53,7 +64,6 @@
         "$mod SHIFT, L, movewindow, r"
         "$mod SHIFT, K, movewindow, u"
         "$mod SHIFT, J, movewindow, d"
-
         # Example special workspace (scratchpad)
         "$mod, S, togglespecialworkspace, magic"
         "$mod SHIFT, S, movetoworkspace, special:magic"
@@ -61,7 +71,6 @@
       # Startup Apps
       exec-once = [
         "hyprpanel"
-        # "${pkgs.hyprpaper}/bin/hyprpaper"
       ];
       input = {
         kb_layout = "gb";
