@@ -27,6 +27,7 @@
     locale
     desktop
     eduvpn
+    himmelblau
   ]);
 
   boot = {
@@ -62,13 +63,7 @@
 
   services = {
     hardware.bolt.enable = true;
-    intune.enable = true;
   };
-
-  # Pre 25.11
-  services.xserver.enable = false;
-  services.xserver.displayManager.gdm.enable = false;
-  services.xserver.desktopManager.gnome.enable = false;
 
   system.stateVersion = "24.11"; # Did you read the comment?
 }

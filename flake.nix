@@ -62,6 +62,9 @@
 
     attic.url = "github:zhaofengli/attic";
     attic.inputs.nixpkgs.follows = "nixpkgs";
+
+    himmelblau.url = "github:himmelblau-idm/himmelblau/main";
+    himmelblau.inputs.nixpkgs.follows = "nixpkgs-25-05";
   };
 
   nixConfig = {
