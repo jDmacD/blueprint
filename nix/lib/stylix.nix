@@ -3,9 +3,8 @@
   enable = true;
   autoEnable = true;
   image = (import inputs.self.lib.wallpapers { inherit pkgs; }).default;
-  targets = {
-    grub.useWallpaper = true;
-  };
+  targets = { };
+
   polarity = "dark";
   fonts = {
     serif = {
