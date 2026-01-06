@@ -36,6 +36,12 @@
     asciinema-agg
   ];
 
+  programs.zsh = {
+    shellAliases = {
+      eduvpn = "env -u GI_TYPELIB_PATH eduvpn-cli interactive";
+    };
+  };
+
   programs.git = {
     settings.user.name = "james.macdonald";
     settings.user.email = "james.macdonald@heanet.ie";
