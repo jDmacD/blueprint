@@ -6,35 +6,39 @@
   ...
 }:
 {
-  home.packages = with pkgs; [
-    docker-compose
-    steampipe
-    glab
-    rancher
-    cilium-cli
-    hubble
-    awscli2
-    azure-cli
-    eksctl
-    vault
-    devbox
-    wireshark
-    stoken
-    filezilla
-    ipcalc
-    freerdp
-    remmina
-    pgcli
-    mycli
-    argo-rollouts
-    uv
-    pre-commit
-    kubeconform
-    microsoft-edge
-    vhs
-    asciinema
-    asciinema-agg
-  ];
+  home.packages =
+    [ ]
+    ++ (with pkgs; [
+      docker-compose
+      steampipe
+      glab
+      rancher
+      cilium-cli
+      hubble
+      awscli2
+      azure-cli
+      eksctl
+      vault
+      devbox
+      wireshark
+      stoken
+      filezilla
+      ipcalc
+      freerdp
+      remmina
+      pgcli
+      argo-rollouts
+      uv
+      pre-commit
+      kubeconform
+      microsoft-edge
+      vhs
+      asciinema
+      asciinema-agg
+    ])
+    ++ (with perSystem.nixpkgs-stable; [
+      mycli
+    ]);
 
   programs.zsh = {
     shellAliases = {
