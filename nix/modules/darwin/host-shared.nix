@@ -8,8 +8,10 @@
 {
 
   imports = [
-    ./github-runner-user.nix
-  ];
+  ]
+  ++ (with inputs.nixosModules; [
+    github-runner-user
+  ]);
 
   nixpkgs.config.allowUnfree = true;
 
