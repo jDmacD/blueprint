@@ -29,6 +29,7 @@
     locale
     github-runner
     # home-assistant
+    eduvpn
 
     steam
     desktop
