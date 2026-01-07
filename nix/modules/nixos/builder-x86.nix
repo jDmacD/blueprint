@@ -1,7 +1,4 @@
 {
-  config,
-  lib,
-  pkgs,
   ...
 }:
 {
@@ -18,7 +15,7 @@
       sshUser = "builder";
       sshKey = "/run/secrets/builder_ed25519";
       protocol = "ssh-ng";
-      maxJobs = 1;
+      maxJobs = 10;
       speedFactor = 2;
       supportedFeatures = [
         "nixos-test"
