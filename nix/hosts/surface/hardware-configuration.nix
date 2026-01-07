@@ -26,7 +26,7 @@
       efi.canTouchEfiVariables = true;
     };
     extraModulePackages = with config.boot.kernelPackages; [
-      rtl8821au # or rtl8812au
+      rtl8812au
     ];
   };
 
