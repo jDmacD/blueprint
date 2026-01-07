@@ -102,6 +102,8 @@ The repository manages several host types with Star Trek-themed names:
 - `ssh.nix` - SSH server configuration
 - `users.nix` - User account management
 - `homebrew.nix` - macOS Homebrew integration
+- `eduvpn.nix` - EduVPN client with NetworkManager OpenVPN support
+- `vpn-split-tunnel.nix` - Automatic VPN split tunneling for local network access
 
 **home-manager Modules** (`nix/modules/home/`):
 - `home-shared.nix` - Base home configuration (devbox, pre-commit, sops, ssh-agent)
@@ -132,6 +134,31 @@ SOPS is configured with age encryption using per-host age keys. Secret files fol
 - `nix/hosts/<hostname>/secrets.yaml` - Per-host secrets
 
 Age keys for hosts: hel-1, picard, surface, lore, worf (defined in `.sops.yaml`).
+
+### VPN Split Tunneling
+
+The `vpn-split-tunnel` module enables automatic split tunneling for VPN connections, allowing simultaneous access to work VPN resources and local network resources (like the k3s cluster at `.lan` domains).
+
+**How it works:**
+- NetworkManager dispatcher script detects when EduVPN connections are established
+- Automatically configures the VPN connection to not become the default route
+- Ignores routes pushed by the VPN server that conflict with local networks
+- Configures split DNS so local DNS (192.168.178.1) is used for `.lan` domains
+- Deletes any conflicting routes for local network ranges (192.168.0.0/16, 10.0.0.0/8)
+- Local network traffic and DNS queries stay on the local interface
+- Only work-specific networks and domains route through the VPN tunnel
+
+**Important:** After first deployment, disconnect and reconnect the VPN for DNS settings to take effect.
+
+**Usage:**
+```nix
+# In host configuration
+networking.vpnSplitTunnel.enable = true;
+```
+
+The module automatically detects VPN connections matching `*eduvpn*` (case-insensitive) and applies split tunneling configuration. No manual intervention needed after deployment.
+
+**Package:** `nix/packages/vpn-split-tunnel/` - Contains the NetworkManager dispatcher script
 
 ### Host Configuration Pattern
 

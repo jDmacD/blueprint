@@ -26,12 +26,16 @@
     locale
     desktop
     eduvpn
+    vpn-split-tunnel
     himmelblau
   ]);
+
+  services.himmelblau.domainPreset = "heanet";
 
   networking = {
     hostName = "lwh-hotapril";
     networkmanager.enable = true;
+    vpnSplitTunnel.enable = true;
     firewall = {
       checkReversePath = false;
       enable = true;
