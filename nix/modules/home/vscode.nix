@@ -56,6 +56,7 @@ in
             ms-azuretools.vscode-docker
             mechatroner.rainbow-csv
             signageos.signageos-vscode-sops
+            anthropic.claude-code
             /*
               Continue extension requires platform-specific builds:
               - Linux: needs autoPatchelfHook to patch ELF binaries
