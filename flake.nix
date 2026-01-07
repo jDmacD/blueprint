@@ -4,6 +4,7 @@
   # Add all your dependencies here
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs?ref=25.11";
     nixpkgs-25-05.url = "github:NixOS/nixpkgs?ref=25.05";
     nixpkgs-24-11.url = "github:NixOS/nixpkgs?ref=24.11";
 
@@ -144,6 +145,10 @@
               name = "worf";
               hostname = "worf.jtec.xyz";
               remoteBuild = true;
+            };
+            surface = mkNode {
+              name = "surface";
+              arch = "x86_64-linux";
             };
             # uconsole = mkNode { name = "uconsole"; };
             pi01 = mkNode { name = "pi01"; };

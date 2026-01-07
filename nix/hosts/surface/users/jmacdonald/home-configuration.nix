@@ -20,8 +20,8 @@
   ];
 
   home.packages = with pkgs; [
-    blender
-    inkscape
+    # blender
+    # inkscape
   ];
 
   home.stateVersion = "24.05";
