@@ -21,21 +21,13 @@
     users
     host-shared
     docker
-    # builder-arm
-    builder-user
-    # sops
+    builder-x86
+    sops
     locale
     desktop
     eduvpn
     himmelblau
   ]);
-
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-  };
 
   networking = {
     hostName = "lwh-hotapril";
