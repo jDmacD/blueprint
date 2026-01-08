@@ -36,8 +36,8 @@
   boot.loader.raspberryPi.bootloader = "kernel"; # default for new installation
   boot.consoleLogLevel = 7;
   boot.extraModulePackages = with config.boot.kernelPackages; [
-      rtl8812au
-    ];
+    rtl8812au
+  ];
 
   console = {
     earlySetup = true;
