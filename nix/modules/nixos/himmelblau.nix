@@ -11,6 +11,7 @@ let
   domainPresets = {
     heanet = {
       domain = "heanet.ie";
+      apply_policy = true;
       pam_allow_groups = [
         "7d6a7292-46c5-4db3-9453-020fac531955" # HEAnet CLG Services Architecture Team
         "789ca450-f8d6-45a8-8549-0f92d102625f" # Heanet Staff
@@ -19,6 +20,7 @@ let
     };
     jtec = {
       domain = "jtec.xyz";
+      apply_policy = false;
       pam_allow_groups = [
         "55f3aff4-8f5f-4aab-bdde-3cebfdb018a8"
         "ae84f46e-7ea6-4394-a9f2-8d82c0dea98a"
@@ -57,9 +59,14 @@ in
 
     services.himmelblau = {
       enable = lib.mkDefault true;
+      pamServices = [
+        "passwd"
+        "login"
+        "systemd-user"
+      ];
       settings = {
         domain = presetConfig.domain;
-        apply_policy = true;
+        apply_policy = presetConfig.apply_policy;
         /*
           cli:
           ---------------------------------

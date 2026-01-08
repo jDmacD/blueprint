@@ -28,6 +28,7 @@
     eduvpn
     vpn-split-tunnel
     himmelblau
+    tpm
   ]);
 
   services.himmelblau.domainPreset = "heanet";
