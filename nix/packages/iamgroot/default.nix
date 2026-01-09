@@ -6,7 +6,7 @@ let
   app = pkgs.writeShellScriptBin "iamgroot" ''
     while true; do
       echo "I Am Groot"
-      sleep 5
+      ${pkgs.coreutils}/bin/sleep 5
     done
   '';
 in
