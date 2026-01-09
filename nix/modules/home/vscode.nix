@@ -42,6 +42,7 @@ in
           gitlab.duoChat.enabled = false;
           gitlab.duoCodeSuggestions.enabled = false;
           chat.agent.enabled = false;
+          chat.disableAIFeatures = true;
           terminal.integrated.initialHint = false;
           chat.showAgentSessionsViewDescription = false;
           sops.defaults.ageKeyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
