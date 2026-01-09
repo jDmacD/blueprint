@@ -10,3 +10,4 @@ e2e.log
 backups/
 tpi0*.img
 nixos-image-rpi4-kernel.img.zst
+nix/secrets/.decrypted*
