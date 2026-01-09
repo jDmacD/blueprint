@@ -31,12 +31,12 @@
     tpm
   ]);
 
-  services.himmelblau.domainPreset = "heanet";
+  services.himmelblau.domainPreset = "jtec";
 
   networking = {
     hostName = "lwh-hotapril";
     networkmanager.enable = true;
-    vpnSplitTunnel.enable = true;
+    vpnSplitTunnel.enable = false;
     firewall = {
       checkReversePath = false;
       enable = true;
