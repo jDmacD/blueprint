@@ -3,14 +3,12 @@
   ...
 }:
 let
-  app = pkgs.writeShellScriptBin "iamgroot" ''
-    while true; do
-      echo "I Am Groot"
-      ${pkgs.coreutils}/bin/sleep 5
-    done
-  '';
+  app = pkgs.writeShellApplication {
+    name = "iamgroot";
+    runtimeInputs = [ pkgs.coreutils ];
+    text = ./iamgroot.sh;
+  };
 in
-
 pkgs.dockerTools.buildImage {
   name = "iamgroot";
   tag = "latest";
