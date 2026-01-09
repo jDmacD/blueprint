@@ -4,7 +4,10 @@
 }:
 let
   app = pkgs.writeShellScriptBin "iamgroot" ''
-    echo "I Am Groot"
+    while true; do
+      echo "I Am Groot"
+      sleep 5
+    done
   '';
 in
 
