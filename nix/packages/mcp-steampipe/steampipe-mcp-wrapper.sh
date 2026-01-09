@@ -1,30 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Source MCP environment variables
+source ${XDG_RUNTIME_DIR}/mcp.env
+
 # Configuration
 KUBE_CONTEXT="rke2-b-monitoring"
 NAMESPACE="steampipe"
 SERVICE="steampipe"
 REMOTE_PORT="3306"
 LOCAL_PORT="9193"
-STEAMPIPE_CONFIG="${HOME}/.config/steampipe/steampipe.yaml"
 
-# Parse credentials from steampipe.yaml if it exists
-if [[ -f "$STEAMPIPE_CONFIG" ]]; then
-  echo "Reading credentials from $STEAMPIPE_CONFIG..." >&2
-  DB_USER=$(yq eval '.database.user // "steampipe"' "$STEAMPIPE_CONFIG")
-  DB_PASS=$(yq eval '.database.password // ""' "$STEAMPIPE_CONFIG")
-  DB_NAME=$(yq eval '.database.database // "steampipe"' "$STEAMPIPE_CONFIG")
-  DB_TYPE=$(yq eval '.database.type // "postgresql"' "$STEAMPIPE_CONFIG")
+# Build connection string from environment variables
+DB_USER="${STEAMPIPE_USERNAME:-steampipe}"
+DB_PASS="${STEAMPIPE_PASSWORD:-}"
+DB_NAME="${STEAMPIPE_DATABASE:-steampipe}"
+DB_TYPE="${STEAMPIPE_TYPE:-postgresql}"
 
-  if [[ -n "$DB_PASS" ]]; then
-    CONNECTION_STRING="${DB_TYPE}://${DB_USER}:${DB_PASS}@localhost:${LOCAL_PORT}/${DB_NAME}"
-  else
-    CONNECTION_STRING="${DB_TYPE}://${DB_USER}@localhost:${LOCAL_PORT}/${DB_NAME}"
-  fi
+if [[ -n "$DB_PASS" ]]; then
+  CONNECTION_STRING="${DB_TYPE}://${DB_USER}:${DB_PASS}@localhost:${LOCAL_PORT}/${DB_NAME}"
 else
-  echo "Warning: $STEAMPIPE_CONFIG not found, using default connection string" >&2
-  CONNECTION_STRING="postgresql://steampipe@localhost:${LOCAL_PORT}/steampipe"
+  CONNECTION_STRING="${DB_TYPE}://${DB_USER}@localhost:${LOCAL_PORT}/${DB_NAME}"
 fi
 
 # Cleanup function

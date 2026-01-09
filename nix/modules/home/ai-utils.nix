@@ -6,9 +6,8 @@
 }:
 {
   sops = {
-    secrets.steampipe_yml = {
-      mode = "0600";
-      path = "${config.home.homeDirectory}/.config/steampipe/steampipe.yaml";
+    secrets.mcp_env = {
+      path = "%r/mcp.env";
     };
   };
   programs.claude-code = {
@@ -16,7 +15,11 @@
     mcpServers = {
       steampipe = {
         type = "stdio";
-        command = "${perSystem.self.steampipe}/bin/steampipe-mcp-wrapper";
+        command = "${perSystem.self.mcp-steampipe}/bin/steampipe-mcp-wrapper";
+      };
+      argocd = {
+        type = "stdio";
+        command = "${perSystem.self.mcp-argocd}/bin/argocd-mcp-wrapper";
       };
     };
   };

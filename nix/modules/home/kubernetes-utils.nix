@@ -11,6 +11,7 @@
     kubectl-cnpg
     cilium-cli
     hubble
+    argocd
   ];
 
   programs.k9s = {

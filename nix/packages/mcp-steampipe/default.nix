@@ -9,7 +9,6 @@ let
     pkgs.kubectl
     pkgs.netcat
     pkgs.nodejs_22
-    pkgs.yq-go
   ];
 in
 pkgs.runCommand "${binName}"
