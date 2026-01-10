@@ -23,6 +23,7 @@
     desktop
     lanzaboote
     tpm
+    himmelblau
 
   ]);
 

@@ -12,19 +12,16 @@ let
     heanet = {
       domain = "heanet.ie";
       apply_policy = true;
+      # Use comma-separated string instead of list - himmelblau expects commas, not spaces
       pam_allow_groups = [
-        "7d6a7292-46c5-4db3-9453-020fac531955" # HEAnet CLG Services Architecture Team
-        "789ca450-f8d6-45a8-8549-0f92d102625f" # Heanet Staff
-        "dcf9ebc8-cc26-44b4-88ca-b99e8ce06c28" # Heanet Staff Users SG
+        "7d6a7292-46c5-4db3-9453-020fac531955,789ca450-f8d6-45a8-8549-0f92d102625f,dcf9ebc8-cc26-44b4-88ca-b99e8ce06c28"
       ];
     };
     jtec = {
       domain = "jtec.xyz";
       apply_policy = false;
-      pam_allow_groups = [
-        "55f3aff4-8f5f-4aab-bdde-3cebfdb018a8"
-        "ae84f46e-7ea6-4394-a9f2-8d82c0dea98a"
-      ];
+      # Use comma-separated string instead of list - himmelblau expects commas, not spaces
+      pam_allow_groups = [ "55f3aff4-8f5f-4aab-bdde-3cebfdb018a8,ae84f46e-7ea6-4394-a9f2-8d82c0dea98a" ];
     };
   };
 
@@ -45,11 +42,11 @@ in
   };
 
   config = {
-    services = {
-      xserver.enable = true;
-      desktopManager.gnome.enable = true;
-      displayManager.gdm.enable = true;
-    };
+    # services = {
+    #   xserver.enable = true;
+    #   desktopManager.gnome.enable = true;
+    #   displayManager.gdm.enable = true;
+    # };
     /*
       cat /etc/himmelblau/himmelblau.conf
       sudo systemctl restart himmelblaud.service && sudo systemctl restart himmelblaud-tasks.service
@@ -57,6 +54,10 @@ in
       aad-tool auth-test --name
     */
 
+    # Failed to set up mount namespacing: /var/cache/nss-himmelblau: No such file or directory
+    systemd.tmpfiles.rules = [
+      "d /var/cache/nss-himmelblau 0755 root root -"
+    ];
     services.himmelblau = {
       enable = lib.mkDefault true;
       pamServices = [
@@ -67,6 +68,13 @@ in
       settings = {
         domain = presetConfig.domain;
         apply_policy = presetConfig.apply_policy;
+        hello_pin_min_length = 4;
+        # NOTE: home_attr defaults to "UUID" and home_alias defaults to "SPN"
+        # This creates separate home directories for Azure AD users like /home/jmacdonald@jtec.xyz
+        # This allows coexistence with local users that may have /home/jmacdonald
+        # If you want Azure AD users to use /home/<username> instead, set:
+        #   home_attr = "CN";
+        #   home_alias = "CN";
         /*
           cli:
           ---------------------------------
