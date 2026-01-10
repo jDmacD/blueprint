@@ -22,6 +22,7 @@
   home.packages = with pkgs; [
     hcloud
     lazyhetzner
+    azure-cli
   ];
 
   sops.secrets.hetzner = {
