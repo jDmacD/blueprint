@@ -24,7 +24,7 @@
           name = "nix";
           auto-format = true;
           formatter = {
-            command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";
+            command = "${pkgs.nixfmt}/bin/nixfmt";
           };
         }
       ];
