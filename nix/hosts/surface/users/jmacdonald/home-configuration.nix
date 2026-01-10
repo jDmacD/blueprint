@@ -18,6 +18,7 @@
     rpi-utils
     desktop
   ];
+  programs.claude-code.preset = "home";
 
   home.packages = with pkgs; [
     # blender

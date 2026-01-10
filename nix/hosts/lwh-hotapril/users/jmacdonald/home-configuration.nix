@@ -21,5 +21,7 @@
     desktop
   ];
 
+  programs.claude-code.preset = "work";
+
   home.stateVersion = "25.11";
 }

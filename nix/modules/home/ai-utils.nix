@@ -1,34 +1,60 @@
 {
   pkgs,
+  lib,
   config,
   perSystem,
   ...
 }:
-{
-  sops = {
-    secrets.mcp_env = {
-      path = "%r/mcp.env";
+let
+  cfg = config.programs.claude-code;
+  presets = {
+    home = {
+      mcpServers = { };
+    };
+    work = {
+      mcpServers = {
+        steampipe = {
+          type = "stdio";
+          command = "${perSystem.self.mcp-steampipe}/bin/steampipe-mcp-wrapper";
+        };
+        argocd = {
+          type = "stdio";
+          command = "${perSystem.self.mcp-argocd}/bin/argocd-mcp-wrapper";
+        };
+        grafana = {
+          type = "stdio";
+          command = "${perSystem.self.mcp-grafana}/bin/grafana-mcp-wrapper";
+        };
+        gitlab = {
+          type = "stdio";
+          command = "${perSystem.self.mcp-gitlab}/bin/gitlab-mcp-wrapper";
+        };
+      };
     };
   };
-  programs.claude-code = {
-    enable = true;
-    mcpServers = {
-      steampipe = {
-        type = "stdio";
-        command = "${perSystem.self.mcp-steampipe}/bin/steampipe-mcp-wrapper";
+  presetConfig = presets.${cfg.preset};
+in
+{
+  options.programs.claude-code = {
+    preset = lib.mkOption {
+      type = lib.types.enum [
+        "work"
+        "home"
+      ];
+      default = "home";
+      description = "Which domain preset to use for himmelblau configuration";
+    };
+  };
+
+  config = {
+    sops = {
+      secrets.mcp_env = {
+        path = "%r/mcp.env";
       };
-      argocd = {
-        type = "stdio";
-        command = "${perSystem.self.mcp-argocd}/bin/argocd-mcp-wrapper";
-      };
-      grafana = {
-        type = "stdio";
-        command = "${perSystem.self.mcp-grafana}/bin/grafana-mcp-wrapper";
-      };
-      gitlab = {
-        type = "stdio";
-        command = "${perSystem.self.mcp-gitlab}/bin/gitlab-mcp-wrapper";
-      };
+    };
+    programs.claude-code = {
+      enable = true;
+      mcpServers = presetConfig.mcpServers;
     };
   };
 }
