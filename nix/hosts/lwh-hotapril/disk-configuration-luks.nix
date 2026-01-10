@@ -1,12 +1,8 @@
 # Disko configuration with LUKS encryption and TPM2 auto-unlock
 # Based on disko luks-btrfs-subvolumes example
 # Compatible with lanzaboote (Secure Boot) and TPM modules
-# Includes fixes from: https://discourse.nixos.org/t/tpm2-luks-unlock-not-working/52342
-{
-  lib,
-  config,
-  ...
-}:
+# Note: Modern NixOS has built-in TPM2 support via boot.initrd.systemd.tpm2.enable
+{ lib, ... }:
 {
   disko.devices = {
     disk.main = {
@@ -89,17 +85,8 @@
 
       systemd = {
         enable = true;
-        # Enable TPM2 support in initrd
-        enableTpm2 = true;
-
-        # Critical: Add missing systemd units for TPM2
-        # Without these, TPM2 device may not be initialized properly during boot
-        # See: https://discourse.nixos.org/t/tpm2-luks-unlock-not-working/52342
-        additionalUpstreamUnits = [ "systemd-tpm2-setup-early.service" ];
-        storePaths = [
-          "${config.boot.initrd.systemd.package}/lib/systemd/systemd-tpm2-setup"
-          "${config.boot.initrd.systemd.package}/lib/systemd/system-generators/systemd-tpm2-generator"
-        ];
+        # Enable TPM2 support in initrd (modern option name)
+        tpm2.enable = true;
       };
 
       # Configure LUKS device for TPM2 auto-unlock
