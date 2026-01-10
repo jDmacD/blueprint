@@ -21,6 +21,8 @@
     sops
     locale
     desktop
+    lanzaboote
+    tpm
 
   ]);
 

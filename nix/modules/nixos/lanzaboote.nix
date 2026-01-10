@@ -1,6 +1,12 @@
-{ pkgs, inputs, ... }:
 {
-  modules = [ inputs.lanzaboote.nixosModules.lanzaboote ];
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
+{
+  # https://nix-community.github.io/lanzaboote/introduction.html#prerequisites
+  imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];
   environment.systemPackages = [
     # For debugging and troubleshooting Secure Boot.
     pkgs.sbctl
@@ -13,6 +19,12 @@
   boot.loader.systemd-boot.enable = lib.mkForce false;
 
   boot.lanzaboote = {
+    # https://nix-community.github.io/lanzaboote/how-to-guides/automatically-generate-keys.html
+    autoGenerateKeys.enable = true;
+    # https://nix-community.github.io/lanzaboote/how-to-guides/automatically-enroll-keys.html
+    autoEnrollKeys = {
+      enable = true;
+    };
     enable = true;
     pkiBundle = "/var/lib/sbctl";
   };
