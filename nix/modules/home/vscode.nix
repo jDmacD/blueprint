@@ -85,6 +85,25 @@ in
                 buildInputs = [ ];
               }
             )
+            (mkExtension
+              {
+                mktplcRef = {
+                  name = "claude-code";
+                  publisher = "anthropic";
+                  version = "2.1.1";
+                  sha256 = "sha256-CZ/D1wtxigJ++TYc7qhbO/yaWz6Oojea4zLLlutPGyM=";
+                  arch = "linux-x64";
+                };
+                nativeBuildInputs = [ ];
+                buildInputs = [ ];
+              }
+              {
+                # Darwin overrides: different arch, no ELF patching
+                mktplcRef.arch = "aarch64-darwin";
+                nativeBuildInputs = [ ];
+                buildInputs = [ ];
+              }
+            )
           ];
       };
     };
