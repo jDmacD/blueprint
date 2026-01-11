@@ -9,7 +9,7 @@
 }:
 {
   imports = [
-
+(modulesPath + "/installer/scan/not-detected.nix")
   ]
   ++ (with inputs.self.nixosModules; [
     himmelblau
@@ -40,6 +40,12 @@
       enable = false;
     };
   };
+
+  fileSystems."/" = {
+    device = "/dev/sdz1";
+    fsType = "ext4";
+  };
+  boot.loader.grub.devices = [ "/dev/sdz2" ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   system.stateVersion = "25.11"; # Did you read the comment?
