@@ -9,7 +9,7 @@
 }:
 {
   imports = [
-(modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/installer/scan/not-detected.nix")
   ]
   ++ (with inputs.self.nixosModules; [
     himmelblau
