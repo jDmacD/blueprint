@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  osConfig,
   perSystem,
   ...
 }:
@@ -55,6 +56,16 @@ in
     programs.claude-code = {
       enable = true;
       mcpServers = presetConfig.mcpServers;
+      memory.text = ''
+        - This is a Linux NixOS Machine
+        - Its hostname is ${osConfig.networking.hostName}
+        - The local network domain name is .lan
+        - The local subnet is 192.168.178.0/24
+        - The nix-shell can be used use to access tools for instance
+            - `nix-shell --packages ethtool dnsutils --quiet --run "dig +short picard.lan"`
+            - `ssh lwh-hotapril.lan 'nix-shell --packages facter --quiet --run "facter -j"'`
+        - search for tools and applications with `nh search <application name>`
+      '';
     };
   };
 }
