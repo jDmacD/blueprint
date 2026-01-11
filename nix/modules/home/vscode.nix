@@ -91,7 +91,7 @@ in
                   name = "claude-code";
                   publisher = "anthropic";
                   version = "2.1.1";
-                  sha256 = "sha256-CZ/D1wtxigJ++TYc7qhbO/yaWz6Oojea4zLLlutPGyM=";
+                  sha256 = "sha256-SSVmSVthYpW8lSCSdHHFJiXagx4QzhhNsJYo7F5XGbA=";
                   arch = "linux-x64";
                 };
                 nativeBuildInputs = [ ];
