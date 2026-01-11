@@ -12,6 +12,7 @@
     ai-utils
     dev-utils
     nix-utils
+    network-utils
     cloud-utils
     sops
     editors

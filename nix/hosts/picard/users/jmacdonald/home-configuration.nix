@@ -16,6 +16,7 @@
     dev-utils
     nix-utils
     cloud-utils
+    network-utils
     sops
     editors
     rpi-utils

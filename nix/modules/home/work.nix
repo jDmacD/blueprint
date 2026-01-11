@@ -23,7 +23,6 @@
       wireshark
       stoken
       filezilla
-      ipcalc
       freerdp
       remmina
       pgcli
