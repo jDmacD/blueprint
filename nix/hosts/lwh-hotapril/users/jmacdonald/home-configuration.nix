@@ -12,6 +12,7 @@
     terminals
     shells
     terminal-utils
+    network-utils
     ai-utils
     dev-utils
     nix-utils

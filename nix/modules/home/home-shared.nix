@@ -7,6 +7,12 @@
 
   imports = [ ];
 
+  programs = {
+    home-manager = {
+      enable = true;
+    };
+  };
+
   # only available on linux, disabled on macos
   services.ssh-agent.enable = pkgs.stdenv.isLinux;
 

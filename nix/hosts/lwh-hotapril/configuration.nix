@@ -29,6 +29,7 @@
     vpn-split-tunnel
     himmelblau
     tpm
+    iperf
   ]);
 
   services.himmelblau.domainPreset = "jtec";
