@@ -13,7 +13,7 @@ pkgs.runCommand "${binName}"
     nativeBuildInputs = [ pkgs.makeWrapper ];
     meta = {
       mainProgram = "${binName}";
-      description = "Script for running iperf tests on remote hosts;
+      description = "Script for running iperf tests on remote hosts";
     };
   }
   ''
