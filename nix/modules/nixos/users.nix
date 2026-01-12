@@ -26,6 +26,7 @@ in
       "video"
       "docker"
       "libvirtd"
+      "acme"
     ];
     packages = [ ];
   };
