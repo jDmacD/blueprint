@@ -33,6 +33,12 @@
     enable = true;
     package = pkgs.zellij;
     enableZshIntegration = false;
+    settings = {
+      web_server_ip = "0.0.0.0";
+      web_server_port = 8082;
+      web_server_cert = "/var/lib/acme/${osConfig.networking.hostName}.jtec.xyz/cert.pem";
+      web_server_key = "/var/lib/acme/${osConfig.networking.hostName}.jtec.xyz/key.pem";
+    };
   };
 
 }
