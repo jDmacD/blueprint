@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  osConfig,
   lib,
   ...
 }:
@@ -39,12 +40,16 @@ in
           git.autofetch = true;
           git.confirmSync = false;
           sqltools.useNodeRuntime = false;
+          gitlab.keybindingHints.enabled = false;
           gitlab.duoChat.enabled = false;
           gitlab.duoCodeSuggestions.enabled = false;
+          gitlab.duoAgentPlatform.enabled = false;
+          gitlab.duo.enabledWithoutGitlabProject = false;
+          gitlab.duoCodeSuggestions.openTabsContext = false;
           chat.agent.enabled = false;
           chat.disableAIFeatures = true;
-          terminal.integrated.initialHint = false;
           chat.showAgentSessionsViewDescription = false;
+          terminal.integrated.initialHint = false;
           sops.defaults.ageKeyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
         };
         extensions =
@@ -104,7 +109,10 @@ in
                 buildInputs = [ ];
               }
             )
-          ];
+          ]
+          ++ (pkgs.lib.optionals (osConfig.networking.hostName == "lwh-hotapril") [
+            gitlab.gitlab-workflow
+          ]);
       };
     };
     mutableExtensionsDir = false;
