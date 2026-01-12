@@ -32,7 +32,7 @@
     # iperf
   ]);
 
-  services.himmelblau.domainPreset = "jtec";
+  # services.himmelblau.domainPreset = "jtec";
 
   networking = {
     hostName = "lwh-hotapril";
