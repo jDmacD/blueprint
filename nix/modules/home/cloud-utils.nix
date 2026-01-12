@@ -23,10 +23,15 @@
     hcloud
     lazyhetzner
     azure-cli
+    cloudflare-cli
   ];
 
   sops.secrets.hetzner = {
     path = "${config.home.homeDirectory}/.config/hcloud/cli.toml";
+  };
+
+  sops.secrets.cfcli_yml = {
+    path = "${config.home.homeDirectory}/.cfcli.yml";
   };
 
 }
