@@ -27,9 +27,9 @@
     desktop
     eduvpn
     vpn-split-tunnel
-    himmelblau
+    # himmelblau
     tpm
-    iperf
+    # iperf
   ]);
 
   services.himmelblau.domainPreset = "jtec";
