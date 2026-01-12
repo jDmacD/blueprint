@@ -112,6 +112,7 @@ in
           ]
           ++ (pkgs.lib.optionals (osConfig.networking.hostName == "lwh-hotapril") [
             gitlab.gitlab-workflow
+            hashicorp.terraform
           ]);
       };
     };
