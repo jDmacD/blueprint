@@ -19,7 +19,8 @@ pkgs.runCommand "${binName}"
   }
   ''
     mkdir -p $out/bin
-    install -m +x ${src} $out/bin/${binName}
+    install -m 755 ${src} $out/bin/${binName}
+    patchShebangs $out/bin/${binName}
     wrapProgram $out/bin/${binName} \
       --prefix PATH : ${pkgs.lib.makeBinPath deps}
   ''
