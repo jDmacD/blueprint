@@ -13,6 +13,7 @@
     ssh
     users
     sops
+    acme
   ];
 
   boot = {
