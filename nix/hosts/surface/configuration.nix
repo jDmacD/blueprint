@@ -1,10 +1,6 @@
 {
   inputs,
-  outputs,
-  config,
-  lib,
   pkgs,
-  modulesPath,
   ...
 }:
 {
@@ -24,7 +20,7 @@
     lanzaboote
     tpm
     himmelblau
-
+    acme
   ]);
 
   environment = {
