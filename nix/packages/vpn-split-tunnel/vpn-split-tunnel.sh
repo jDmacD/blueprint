@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # NetworkManager dispatcher script for VPN split tunneling
 # This script runs when network connections change state
 

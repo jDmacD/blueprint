@@ -19,6 +19,7 @@ pkgs.runCommand "${binName}"
     };
   }
   ''
+    patchShebangs ${src}
     mkdir -p $out/bin
     install -m +x ${src} $out/bin/${binName}
     wrapProgram $out/bin/${binName} \
