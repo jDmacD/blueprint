@@ -16,6 +16,7 @@
 let
   # Create a perSystem equivalent for accessing packages from different nixpkgs versions
   perSystemOutputs = {
+    self = inputs.self.packages.${system} or { };
     nixpkgs-25-05 = {
       pkgs = import inputs.nixpkgs-25-05 {
         inherit system;
