@@ -81,12 +81,12 @@ if [ "$DNS_IP" = "$IP" ]; then
 fi
 
 # DNS doesn't match or doesn't exist, check Cloudflare authoritatively
-EXISTING=$(cfcli find "$FQDN" -f json 2>/dev/null || echo "[]")
+EXISTING=$(cfcli --domain "$DOMAIN" find "$FQDN" -f json 2>/dev/null || echo "[]")
 CURRENT_IP=$(echo "$EXISTING" | jq -r '.[0].content // empty')
 
 if [ -z "$CURRENT_IP" ]; then
     echo "No existing record found. Creating new record: $FQDN → $IP"
-    if cfcli -t A add "$FQDN" "$IP"; then
+    if cfcli --domain "$DOMAIN" -t A add "$FQDN" "$IP"; then
     echo "✓ Successfully created $FQDN"
     else
     echo "✗ Failed to create $FQDN"
@@ -99,8 +99,8 @@ else
     echo "Record exists with different IP: $CURRENT_IP"
     echo "Updating record: $FQDN → $IP"
 
-    if cfcli rm "$FQDN" 2>/dev/null && \
-        cfcli -t A add "$FQDN" "$IP"; then
+    if cfcli --domain "$DOMAIN" rm "$FQDN" 2>/dev/null && \
+        cfcli --domain "$DOMAIN" -t A add "$FQDN" "$IP"; then
     echo "✓ Successfully updated $FQDN"
     else
     echo "✗ Failed to update $FQDN"
