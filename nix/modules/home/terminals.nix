@@ -7,6 +7,9 @@ in
     enable = true;
     package = ghosttyPackage;
     enableZshIntegration = true;
+    settings = {
+      shell-integration-features = "ssh-terminfo,ssh-env";
+    };
   };
   programs.alacritty = {
     enable = false;
