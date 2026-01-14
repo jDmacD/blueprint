@@ -30,6 +30,7 @@
     # himmelblau
     tpm
     # iperf
+    acme
   ]);
 
   # services.himmelblau.domainPreset = "jtec";
