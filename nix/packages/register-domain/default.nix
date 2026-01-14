@@ -16,7 +16,7 @@ let
 in
 pkgs.runCommand "${binName}"
   {
-    nativeBuildInputs = [ pkgs.makeWrapper];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
     meta = {
       mainProgram = "${binName}";
       description = "Register the local IP with Cloudflare domain";

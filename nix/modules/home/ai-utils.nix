@@ -67,5 +67,25 @@ in
         - search for tools and applications with `nh search <application name>`
       '';
     };
+    programs.aichat = {
+      enable = true;
+      settings = {
+        # https://github.com/sigoden/aichat/blob/main/config.example.yaml
+        clients = [
+          {
+            type = "openai-compatible";
+            name = "ollama";
+            api_base = "https://ollama.local.jtec.xyz:443/v1";
+            models = [
+              {
+                # https://ollama.com/library/gemma3:4b
+                name = "gemma3:4b";
+                max_input_tokens = 128000;
+              }
+            ];
+          }
+        ];
+      };
+    };
   };
 }
