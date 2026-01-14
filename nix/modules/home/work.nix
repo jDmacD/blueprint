@@ -29,6 +29,7 @@
       argo-rollouts
       uv
       pre-commit
+      commitizen
       kubeconform
       microsoft-edge
       vhs
@@ -142,7 +143,7 @@
 
     k8s-bastion = {
       host = "k8s-bastion";
-      hostname = "193.1.244.11";
+      hostname = "193.1.244.18";
       port = 22;
       user = "jmacdonald";
       identityFile = config.sops.secrets.id_ed25519.path;
@@ -276,7 +277,7 @@
       Version=1.0
       Name=Rancher
       Comment=HEAnet Rancher
-      Exec=xdg-open "https://rancher.k3s.heanet.ie"
+      Exec=xdg-open "https://rancher.hnt.ie"
       Icon=utilities-terminal
       Terminal=false
       Type=Application
@@ -287,7 +288,7 @@
       Version=1.0
       Name=ArgoCD
       Comment=HEAnet ArgoCD
-      Exec=xdg-open "https://argocd.k3s.heanet.ie"
+      Exec=xdg-open "https://argocd.hnt.ie"
       Icon=utilities-terminal
       Terminal=false
       Type=Application

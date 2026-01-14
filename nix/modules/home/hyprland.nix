@@ -24,6 +24,10 @@
         ]);
       "$mod" = "SUPER";
 
+      windowrule = [
+        # "workspace special:quake, match:title ^quake.*"
+      ];
+
       bind = [
         "$mod, C, exec, code"
         "$mod, F, fullscreen"
@@ -64,6 +68,7 @@
         "$mod SHIFT, L, movewindow, r"
         "$mod SHIFT, K, movewindow, u"
         "$mod SHIFT, J, movewindow, d"
+        "$mod, SPACE, togglespecialworkspace, quake"
         # Example special workspace (scratchpad)
         "$mod, S, togglespecialworkspace, magic"
         "$mod SHIFT, S, movetoworkspace, special:magic"
@@ -71,6 +76,7 @@
       # Startup Apps
       exec-once = [
         "hyprpanel"
+        "[workspace special:quake silent] ghostty -e zellij attach -c quake"
       ];
       input = {
         kb_layout = "gb";
