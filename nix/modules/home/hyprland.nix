@@ -1,6 +1,5 @@
 {
   pkgs,
-  inputs,
   osConfig,
   ...
 }:
@@ -77,6 +76,7 @@
       exec-once = [
         "hyprpanel"
         "[workspace special:quake silent] ghostty -e zellij attach -c quake"
+        "systemctl --user enable --now hyprpaper.service"
       ];
       input = {
         kb_layout = "gb";
