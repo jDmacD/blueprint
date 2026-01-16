@@ -8,6 +8,7 @@
 
   imports = with inputs.self.homeModules; [
     hyprland
+    hypridle
     noctalia
     vscode
     firefox
@@ -15,7 +16,7 @@
 
   programs = {
     rofi = {
-      enable = true;
+      enable = false;
       theme = lib.mkForce "${pkgs.rofi}/share/rofi/themes/material.rasi";
     };
     hyprpanel = {
