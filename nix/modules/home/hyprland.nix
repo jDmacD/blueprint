@@ -1,8 +1,16 @@
 {
   pkgs,
+  config,
   osConfig,
   ...
 }:
+let
+  screenshot = pkgs.writeShellScriptBin "click" ''
+    IMG_DIR=${config.home.homeDirectory}/Documents/Pictures/Screenshots
+    mkdir -p $IMG_DIR
+    ${pkgs.grimblast}/bin/grimblast --notify --freeze copysave area $IMG_DIR/$(date +%Y%m%d%H%M%S).png
+  '';
+in
 {
 
   wayland.windowManager.hyprland = {
@@ -31,9 +39,10 @@
         "$mod, C, exec, code"
         "$mod, F, fullscreen"
         "$mod, K, exec, ghostty"
-        # "$mod, R, exec, rofi -show combi -modes combi -combi-modes \"window,drun,ssh\""
-        "$mod, R, exec, noctalia-shell ipc call launcher toggle"
+        "$mod, L, exec, qs -c noctalia-shell ipc call lockScreen lock"
         "$mod, X, killactive"
+        "$mod, SPACE, exec, noctalia-shell ipc call launcher toggle"
+        "$mod, ESCAPE, togglespecialworkspace, quake"
 
         # Switch workspaces with mainMod + [0-9]
         "$mod, 1, workspace, 1"
@@ -58,6 +67,7 @@
         "$mod SHIFT, 8, movetoworkspace, 8"
         "$mod SHIFT, 9, movetoworkspace, 9"
         "$mod SHIFT, 0, movetoworkspace, 10"
+        "$mod SHIFT, S, movetoworkspace, special:magic"
 
         "$mod SHIFT, right, resizeactive, 30 0"
         "$mod SHIFT, left, resizeactive, -30 0"
@@ -68,14 +78,17 @@
         "$mod SHIFT, L, movewindow, r"
         "$mod SHIFT, K, movewindow, u"
         "$mod SHIFT, J, movewindow, d"
-        "$mod, SPACE, togglespecialworkspace, quake"
-        # Example special workspace (scratchpad)
+
         "$mod, S, togglespecialworkspace, magic"
-        "$mod SHIFT, S, movetoworkspace, special:magic"
+
+        ", Print, exec, ${screenshot}/bin/click"
+        ", XF86AudioRaiseVolume, exec, noctalia-shell ipc call volume increase"
+        ", XF86AudioLowerVolume, exec, noctalia-shell ipc call volume decrease"
+        ", XF86MonBrightnessUp, exec, noctalia-shell ipc call brightness increase"
+        ", XF86MonBrightnessDown, exec, noctalia-shell ipc call brightness decrease"
       ];
       # Startup Apps
       exec-once = [
-        # "${pkgs.quickshell}/bin/qs -c noctalia-shell"
         "noctalia-shell"
         "[workspace special:quake silent] ghostty -e zellij attach -c quake"
         # "systemctl --user enable --now hyprpaper.service"
