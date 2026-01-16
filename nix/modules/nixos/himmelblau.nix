@@ -98,7 +98,7 @@ in
       };
     };
 
-    environment.systemPackages = with inputs.himmelblau.packages.${pkgs.system}; [
+    environment.systemPackages = with inputs.himmelblau.packages.${pkgs.stdenv.hostPlatform.system}; [
       himmelblau
       himmelblau-desktop
     ];
