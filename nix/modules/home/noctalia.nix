@@ -19,6 +19,15 @@
       location = {
         name = "Kilkenny";
       };
+      general = {
+        radiusRatio = 0;
+        iRadiusRatio = 0;
+        boxRadiusRatio = 0;
+        screenRadiusRatio = 0;
+      };
+      ui = {
+        panelsAttachedToBar = false;
+      };
     };
   };
 }
