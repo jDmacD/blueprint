@@ -74,9 +74,10 @@
       ];
       # Startup Apps
       exec-once = [
-        "hyprpanel"
+        # "${pkgs.quickshell}/bin/qs -c noctalia-shell"
+        "noctalia-shell"
         "[workspace special:quake silent] ghostty -e zellij attach -c quake"
-        "systemctl --user enable --now hyprpaper.service"
+        # "systemctl --user enable --now hyprpaper.service"
       ];
       input = {
         kb_layout = "gb";

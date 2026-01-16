@@ -8,6 +8,7 @@
 
   imports = with inputs.self.homeModules; [
     hyprland
+    noctalia
     vscode
     firefox
   ];
@@ -18,13 +19,13 @@
       theme = lib.mkForce "${pkgs.rofi}/share/rofi/themes/material.rasi";
     };
     hyprpanel = {
-      enable = true;
+      enable = false;
     };
   };
 
   services = {
     hyprpaper = {
-      enable = true;
+      enable = lib.mkDefault false;
       settings = {
         /*
           # These are set by stylix
