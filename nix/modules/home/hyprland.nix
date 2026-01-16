@@ -35,6 +35,12 @@ in
         # "workspace special:quake, match:title ^quake.*"
       ];
 
+      workspace = [
+      ]
+      ++ (pkgs.lib.optionals (osConfig.networking.hostName == "lwh-hotapril") [
+        "10, monitor:eDP-1"
+      ]);
+
       bind = [
         "$mod, C, exec, code"
         "$mod, F, fullscreen"
@@ -45,6 +51,7 @@ in
         "$mod, ESCAPE, togglespecialworkspace, quake"
 
         # Switch workspaces with mainMod + [0-9]
+        "$mod, 0, workspace, 10"
         "$mod, 1, workspace, 1"
         "$mod, 2, workspace, 2"
         "$mod, 3, workspace, 3"
@@ -54,9 +61,9 @@ in
         "$mod, 7, workspace, 7"
         "$mod, 8, workspace, 8"
         "$mod, 9, workspace, 9"
-        "$mod, 0, workspace, 10"
 
         # Move active window to a workspace with mainMod + SHIFT + [0-9]
+        "$mod SHIFT, 0, movetoworkspace, 10"
         "$mod SHIFT, 1, movetoworkspace, 1"
         "$mod SHIFT, 2, movetoworkspace, 2"
         "$mod SHIFT, 3, movetoworkspace, 3"
@@ -66,7 +73,6 @@ in
         "$mod SHIFT, 7, movetoworkspace, 7"
         "$mod SHIFT, 8, movetoworkspace, 8"
         "$mod SHIFT, 9, movetoworkspace, 9"
-        "$mod SHIFT, 0, movetoworkspace, 10"
         "$mod SHIFT, S, movetoworkspace, special:magic"
 
         "$mod SHIFT, right, resizeactive, 30 0"
