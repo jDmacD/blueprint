@@ -30,4 +30,10 @@
   opacity = {
     terminal = 0.7;
   };
+
+  cursor = {
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Classic";
+    size = 24;
+  };
 }
