@@ -31,7 +31,8 @@
         "$mod, C, exec, code"
         "$mod, F, fullscreen"
         "$mod, K, exec, ghostty"
-        "$mod, R, exec, rofi -show combi -modes combi -combi-modes \"window,drun,ssh\""
+        # "$mod, R, exec, rofi -show combi -modes combi -combi-modes \"window,drun,ssh\""
+        "$mod, R exec, noctalia-shell ipc call launcher toggle"
         "$mod, X, killactive"
 
         # Switch workspaces with mainMod + [0-9]
