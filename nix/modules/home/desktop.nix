@@ -48,5 +48,6 @@
     libgtop
     wl-clipboard
     gvfs
+    vlc
   ];
 }
