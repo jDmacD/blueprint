@@ -44,11 +44,15 @@ in
       bind = [
         "$mod, C, exec, code"
         "$mod, F, fullscreen"
-        "$mod, K, exec, ghostty"
-        "$mod, L, exec, qs -c noctalia-shell ipc call lockScreen lock"
+        "$mod, K, exec, foot"
+        "$mod, L, exec, noctalia-shell ipc call lockScreen lock"
         "$mod, X, killactive"
         "$mod, SPACE, exec, noctalia-shell ipc call launcher toggle"
+        "$mod, TAB, exec, noctalia-shell ipc call launcher toggle"
         "$mod, ESCAPE, togglespecialworkspace, quake"
+
+        "$mod, right, workspace, m+1"
+        "$mod, left, workspace, m-1"
 
         # Switch workspaces with mainMod + [0-9]
         "$mod, 0, workspace, 10"
@@ -96,8 +100,8 @@ in
       # Startup Apps
       exec-once = [
         "noctalia-shell"
-        "[workspace special:quake silent] ghostty -e zellij attach -c quake"
-        # "systemctl --user enable --now hyprpaper.service"
+        "hypridle"
+        "[workspace special:quake silent] foot zellij attach -c quake"
       ];
       input = {
         kb_layout = "gb";
