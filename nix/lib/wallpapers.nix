@@ -10,6 +10,12 @@
   lookToWindward = pkgs.fetchurl {
     url = "https://raw.githubusercontent.com/jDmacD/wallpapers/refs/heads/main/3840x1600/mark_salwowski/look_to_windward.png";
     name = "look_to_windward.png";
-    sha256 = "sha256-fieTqLhftyXiOfWE39K81xqQUcW47yUOeci2INlCOWU=";
+    sha256 = "sha256-psDCpbnhR6Z/7Ql2GVT6zHH4rZWlSR19u+W0UXJorfo=";
+  };
+
+  moonRise = pkgs.fetchurl {
+    url = "https://raw.githubusercontent.com/jDmacD/wallpapers/refs/heads/main/3840x1600/moon_rise.jpg";
+    name = "moon_rise.jpg";
+    sha256 = "sha256-0xTBpjInGsSkhjnKNQ6ZYygCGLTsehZb+o1k9mD4sgU=";
   };
 }
