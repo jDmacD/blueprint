@@ -15,7 +15,7 @@ in
     enable = false;
   };
   programs.foot = {
-    enable = false;
+    enable = true;
     package = pkgs.foot;
     settings = {
       main = {
