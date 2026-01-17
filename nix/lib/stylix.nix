@@ -1,11 +1,14 @@
 { pkgs, inputs }:
+let
+  theme = "material-vivid";
+in
 {
   enable = true;
   autoEnable = true;
   image = (import inputs.self.lib.wallpapers { inherit pkgs; }).moonRise;
   targets = { };
 
-  base16Scheme = "${pkgs.base16-schemes}/share/themes/darcula.yaml";
+  base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
   polarity = "dark";
   fonts = {
     serif = {
