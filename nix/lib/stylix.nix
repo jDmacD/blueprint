@@ -2,7 +2,7 @@
 {
   enable = true;
   autoEnable = true;
-  image = (import inputs.self.lib.wallpapers { inherit pkgs; }).default;
+  image = (import inputs.self.lib.wallpapers { inherit pkgs; }).lookToWindward;
   targets = { };
 
   polarity = "dark";
