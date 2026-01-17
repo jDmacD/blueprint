@@ -1,4 +1,5 @@
 {
+  pkgs,
   inputs,
   ...
 }:
@@ -21,6 +22,10 @@
     editors
     rpi-utils
     desktop
+  ];
+  home.packages = with pkgs; [
+    pinta
+    upscayl
   ];
 
   home.stateVersion = "25.11";
