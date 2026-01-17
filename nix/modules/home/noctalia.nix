@@ -1,6 +1,5 @@
 {
   inputs,
-  pkgs,
   lib,
   ...
 }:
@@ -27,6 +26,9 @@
       };
       ui = {
         panelsAttachedToBar = false;
+      };
+      appLauncher = {
+        terminalCommand = "foot";
       };
     };
   };
