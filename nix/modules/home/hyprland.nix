@@ -101,7 +101,7 @@ in
       # Startup Apps
       exec-once = [
         "noctalia-shell"
-        "hypridle"
+        "systemctl --user enable --now hypridle.service"
         "[workspace special:quake silent] foot zellij attach -c quake"
       ];
       input = {
