@@ -6,7 +6,7 @@
 }:
 let
   screenshot = pkgs.writeShellScriptBin "click" ''
-    IMG_DIR=${config.home.homeDirectory}/Documents/Pictures/Screenshots
+    IMG_DIR=${config.home.homeDirectory}/Pictures/Screenshots
     mkdir -p $IMG_DIR
     ${pkgs.grimblast}/bin/grimblast --notify --freeze copysave area $IMG_DIR/$(date +%Y%m%d%H%M%S).png
   '';
@@ -91,6 +91,7 @@ in
 
         "$mod, S, togglespecialworkspace, magic"
 
+        "$mod, Print, exec, flameshot gui"
         ", Print, exec, ${screenshot}/bin/click"
         ", XF86AudioRaiseVolume, exec, noctalia-shell ipc call volume increase"
         ", XF86AudioLowerVolume, exec, noctalia-shell ipc call volume decrease"
