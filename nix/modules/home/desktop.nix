@@ -39,7 +39,6 @@
         */
       };
     };
-
   };
 
   # https://hyprpanel.com/getting_started/installation.html
@@ -49,5 +48,6 @@
     wl-clipboard
     gvfs
     vlc
+    pinta
   ];
 }
