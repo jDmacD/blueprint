@@ -1,8 +1,12 @@
 {
   inputs,
   lib,
+  config,
   ...
 }:
+let
+  wallPaperDirectory = "${config.home.homeDirectory}/Pictures/Wallpapers";
+in
 {
   imports = [
     inputs.noctalia.homeModules.default
@@ -12,7 +16,7 @@
     settings = {
       # https://docs.noctalia.dev/getting-started/nixos/#config-ref
       bar = {
-        backgroundOpacity = lib.mkDefault 0.0;
+        backgroundOpacity = lib.mkForce 0.0;
         useSeparateOpacity = true;
       };
       location = {
@@ -29,6 +33,23 @@
       };
       appLauncher = {
         terminalCommand = "foot";
+      };
+      wallpaper = {
+        enabled = true;
+        directory = "${wallPaperDirectory}";
+        enableMultiMonitorDirectories = true;
+        monitorDirectories = [
+          {
+            directory = "${wallPaperDirectory}/3000x2000";
+            name = "eDP-1";
+            wallpaper = "${wallPaperDirectory}/3000x2000/wallhaven-n6kwqx_3000x2000.png";
+          }
+        ];
+        recursiveSearch = true;
+        randomEnabled = true;
+      };
+      dock = {
+        enabled = false;
       };
     };
   };
