@@ -40,5 +40,7 @@
       web_server_key = "/var/lib/acme/${osConfig.networking.hostName}.jtec.xyz/key.pem";
     };
   };
-
+  home.packages = with pkgs; [
+    libsixel
+  ];
 }
