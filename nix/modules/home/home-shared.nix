@@ -12,9 +12,16 @@
       enable = true;
     };
   };
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+  };
 
   # only available on linux, disabled on macos
-  services.ssh-agent.enable = pkgs.stdenv.isLinux;
+  services.ssh-agent = {
+    enable = pkgs.stdenv.isLinux;
+    enableZshIntegration = true;
+  };
 
   home.packages =
     with pkgs;
@@ -24,7 +31,22 @@
       pkgs.lib.optionals (osConfig.programs.vim.enable && pkgs.stdenv.isDarwin) [ skhd ]
     );
 
+  xdg.desktopEntries.chat = {
+    type = "Link";
+    name = "Open Web UI";
+    settings.URL = "https://chat.jtec.xyz";
+    genericName = "aiChat";
+    terminal = null;
+  };
   home.file = {
+    ".local/share/applications/chat.desktop".text = ''
+      [Desktop Entry]
+      GenericName=aiChat
+      Name=Open Web UI
+      Type=Link
+      URL=https://chat.jtec.xyz
+      Version=1.5
+    '';
     ".local/share/applications/shutdown.desktop".text = ''
       [Desktop Entry]
       Version=1.0
