@@ -1,8 +1,6 @@
 {
   pkgs,
   inputs,
-  lib,
-  config,
   ...
 }:
 {
@@ -11,6 +9,9 @@
     inputs.self.darwinModules.host-shared
   ];
 
+  environment.systemPackages = with pkgs; [
+    waypipe
+  ];
   /*
     This is for checking and updating firmware
     fwupdmgr refresh
