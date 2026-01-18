@@ -1,4 +1,9 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  config,
+  inputs,
+  ...
+}:
 {
 
   imports =
@@ -25,6 +30,14 @@
     ];
 
   programs.claude-code.preset = "home";
+
+  programs.noctalia-shell.wallpaper.monitorDirectories = [
+    {
+      name = "eDP-1";
+      dimensions = "3000x2000";
+      wallpaper = "wallhaven-n6kwqx_3000x2000.png";
+    }
+  ];
 
   home.packages = with pkgs; [
     # blender

@@ -23,6 +23,15 @@
     rpi-utils
     desktop
   ];
+
+  programs.noctalia-shell.wallpaper.monitorDirectories = [
+    {
+      name = "DP-1";
+      dimensions = "3840x1600";
+      wallpaper = "wallhaven-gwweme_3840x1600.png";
+    }
+  ];
+
   home.packages = with pkgs; [
     pinta
     upscayl
