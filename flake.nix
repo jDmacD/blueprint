@@ -61,7 +61,7 @@
     attic.inputs.nixpkgs.follows = "nixpkgs";
 
     himmelblau.url = "github:himmelblau-idm/himmelblau/main";
-    himmelblau.inputs.nixpkgs.follows = "nixpkgs-25-05";
+    himmelblau.inputs.nixpkgs.follows = "nixpkgs";
 
     lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
