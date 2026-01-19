@@ -27,13 +27,13 @@
     desktop
     eduvpn
     vpn-split-tunnel
-    # himmelblau
+    himmelblau
     tpm
     # iperf
     acme
   ]);
 
-  # services.himmelblau.domainPreset = "jtec";
+  services.himmelblau.domainPreset = "heanet";
 
   networking = {
     hostName = "lwh-hotapril";
