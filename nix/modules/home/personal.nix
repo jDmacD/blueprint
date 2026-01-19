@@ -55,6 +55,16 @@
   };
 
   programs.ssh.matchBlocks = {
+
+    surface = {
+      host = "surface.lan";
+      user = "jmacdonald";
+      port = 22;
+      identityFile = config.sops.secrets.id_ed25519.path;
+      forwardX11 = true;
+      forwardX11Trusted = true;
+    };
+
     ha = {
       host = "ha";
       hostname = "homeassistant.lan";
@@ -95,6 +105,8 @@
       host = "picard";
       hostname = "picard.lan";
       user = "jmacdonald";
+      forwardX11 = true;
+      forwardX11Trusted = true;
       identityFile = config.sops.secrets.id_ed25519.path;
     };
 

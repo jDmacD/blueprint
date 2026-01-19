@@ -105,7 +105,6 @@
     };
   };
 
-  programs.ssh.enable = true;
   programs.ssh.matchBlocks = {
     heanet = {
       host = "*.heanet.ie";
