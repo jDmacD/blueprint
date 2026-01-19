@@ -26,7 +26,7 @@
 
   programs.noctalia-shell.wallpaper.monitorDirectories = [
     {
-      name = "DP-1";
+      name = "DP-4";
       dimensions = "3840x1600";
       wallpaper = "wallhaven-gwweme_3840x1600.png";
     }
