@@ -28,12 +28,6 @@ let
     );
 in
 {
-
-  home.packages = with pkgs; [
-    mermaid-cli
-    mermaid-filter
-  ];
-
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
@@ -56,14 +50,15 @@ in
           chat.showAgentSessionsViewDescription = false;
           terminal.integrated.initialHint = false;
           sops.defaults.ageKeyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-
+          cSpell.language = "en-GB";
+        }
+        // lib.optionalAttrs (osConfig.networking.hostName == "lwh-hotapril") {
           markdown-preview-enhanced.pandocPath = "${pkgs.pandoc}/bin/pandoc";
           markdown-preview-enhanced.latexEngine = "${pkgs.texliveFull}/bin/xelatex";
           markdown-preview-enhanced.imageMagickPath = "${pkgs.imagemagick}/bin/magick";
           markdown-preview-enhanced.chromePath = "${pkgs.ungoogled-chromium}/bin/chromium";
           markdown-preview-enhanced.usePandocParser = true;
           markdown-preview-enhanced.krokiServer = "https://kroki.heanet.io";
-          cSpell.language = "en-GB";
         };
         extensions =
           with pkgs.vscode-extensions;
