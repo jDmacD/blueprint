@@ -155,10 +155,14 @@
               hostname = "worf.jtec.xyz";
               remoteBuild = true;
             };
-            # surface = mkNode {
-            #   name = "surface";
-            #   arch = "x86_64-linux";
-            # };
+            picard = mkNode {
+              name = "lwh-hotapril";
+              arch = "x86_64-linux";
+            };
+            surface = mkNode {
+              name = "surface";
+              arch = "x86_64-linux";
+            };
             # uconsole = mkNode { name = "uconsole"; };
             pi01 = mkNode { name = "pi01"; };
             pi02 = mkNode { name = "pi02"; };
