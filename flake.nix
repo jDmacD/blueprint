@@ -155,7 +155,7 @@
               hostname = "worf.jtec.xyz";
               remoteBuild = true;
             };
-            picard = mkNode {
+            lwh-hotapril = mkNode {
               name = "lwh-hotapril";
               arch = "x86_64-linux";
             };
