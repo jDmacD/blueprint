@@ -35,6 +35,7 @@
       vhs
       asciinema
       asciinema-agg
+      mermaid-cli
     ])
     ++ (with perSystem.nixpkgs-stable; [
       mycli
