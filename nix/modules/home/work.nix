@@ -36,6 +36,7 @@
       asciinema
       asciinema-agg
       libreoffice
+      mermaid-cli
     ])
     ++ (with perSystem.nixpkgs-stable; [
       mycli
