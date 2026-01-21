@@ -10,7 +10,7 @@ let
 
   domainPresets = {
     heanet = {
-      domain = ["heanet.ie"];
+      domain = [ "heanet.ie" ];
       apply_policy = false;
       # Use comma-separated string instead of list - himmelblau expects commas, not spaces
       pam_allow_groups = [
@@ -20,10 +20,13 @@ let
       ];
     };
     jtec = {
-      domain = ["jtec.xyz"];
+      domain = [ "jtec.xyz" ];
       apply_policy = false;
       # Use comma-separated string instead of list - himmelblau expects commas, not spaces
-      pam_allow_groups = [ "55f3aff4-8f5f-4aab-bdde-3cebfdb018a8" "ae84f46e-7ea6-4394-a9f2-8d82c0dea98a" ];
+      pam_allow_groups = [
+        "55f3aff4-8f5f-4aab-bdde-3cebfdb018a8"
+        "ae84f46e-7ea6-4394-a9f2-8d82c0dea98a"
+      ];
     };
   };
 
