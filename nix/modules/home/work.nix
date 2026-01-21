@@ -35,6 +35,7 @@
       vhs
       asciinema
       asciinema-agg
+      libreoffice
     ])
     ++ (with perSystem.nixpkgs-stable; [
       mycli
