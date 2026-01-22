@@ -7,13 +7,13 @@
 }:
 {
 
-  imports = with inputs.self.nixosModules; [
-    host-shared
-    locale
-    ssh
-    users
-    sops
-    acme
+  imports = [
+    ./host-shared.nix
+    ./locale.nix
+    ./ssh.nix
+    ./users.nix
+    ./sops.nix
+    ./acme.nix
   ];
 
   boot = {
