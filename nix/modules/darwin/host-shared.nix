@@ -7,11 +7,9 @@
 }:
 {
 
-  imports = [
-  ]
-  ++ (with inputs.self.nixosModules; [
-    github-runner-user
-  ]);
+  imports = lib.optionals (inputs.self ? nixosModules.github-runner-user) [
+    inputs.self.nixosModules.github-runner-user
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
