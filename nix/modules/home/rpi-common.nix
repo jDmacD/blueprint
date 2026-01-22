@@ -1,9 +1,9 @@
 { pkgs, inputs, ... }:
 {
 
-  imports = with inputs.self.homeModules; [
-    shells
-    home-shared
+  imports = [
+    ./shells.nix
+    ./home-shared.nix
   ];
 
 }

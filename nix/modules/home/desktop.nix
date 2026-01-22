@@ -6,12 +6,12 @@
 }:
 {
 
-  imports = with inputs.self.homeModules; [
-    hyprland
-    hypridle
-    noctalia
-    vscode
-    firefox
+  imports = [
+    ./hyprland.nix
+    ./hypridle.nix
+    ./noctalia.nix
+    ./vscode.nix
+    ./firefox.nix
   ];
 
   programs = {
