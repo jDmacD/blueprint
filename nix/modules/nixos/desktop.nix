@@ -1,12 +1,14 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, lib, ... }:
 {
 
-  imports = with inputs.self.nixosModules; [
-    stylix
-    hyprland
-    peripherals
-    fonts
-  ];
+  imports = lib.optionals (inputs.self ? nixosModules) (
+    with inputs.self.nixosModules; [
+      stylix
+      hyprland
+      peripherals
+      fonts
+    ]
+  );
 
   hardware = {
     bluetooth = {
