@@ -20,8 +20,6 @@
     home-manager-25-05.url = "github:nix-community/home-manager/release-25.05";
     home-manager-25-05.inputs.nixpkgs.follows = "nixpkgs-25-05";
 
-    hyprland.url = "github:hyprwm/Hyprland";
-
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
     sops-nix.url = "github:Mic92/sops-nix";
@@ -81,12 +79,10 @@
     extra-substituters = [
       "https://jdmacd.cachix.org"
       "https://nixos-raspberrypi.cachix.org"
-      "https://hyprland.cachix.org"
     ];
     extra-trusted-public-keys = [
       "jdmacd.cachix.org-1:0DcSfXShBIng2EbPW44fxoXjXowKhZZWrbYqcozFhfM="
       "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
-      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     ];
   };
 
