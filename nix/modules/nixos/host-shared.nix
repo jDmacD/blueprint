@@ -49,4 +49,10 @@
     udisks2.enable = true;
     fwupd.enable = true;
   };
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 30;
+  };
 }
