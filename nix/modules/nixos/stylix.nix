@@ -1,6 +1,11 @@
 { pkgs, inputs, ... }:
 let
   theme = "material-vivid";
+  moonRise = pkgs.fetchurl {
+    url = "https://raw.githubusercontent.com/jDmacD/wallpapers/refs/heads/main/3840x1600/moon_rise.jpg";
+    name = "moon_rise.jpg";
+    sha256 = "sha256-0xTBpjInGsSkhjnKNQ6ZYygCGLTsehZb+o1k9mD4sgU=";
+  };
 in
 {
 
@@ -11,7 +16,7 @@ in
   stylix = {
     enable = true;
     autoEnable = true;
-    image = (import inputs.self.lib.wallpapers { inherit pkgs; }).moonRise;
+    image = moonRise;
     targets = { };
 
     base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
