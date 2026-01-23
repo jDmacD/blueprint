@@ -22,7 +22,6 @@
     locale
     desktop
     eduvpn
-    vpn-split-tunnel
     himmelblau
     tpm
     # iperf
