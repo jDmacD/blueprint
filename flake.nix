@@ -42,7 +42,7 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
-    solaar.url = "https://flakehub.com/f/Svenum/Solaar-Flake/*.tar.gz";
+    solaar.url = "github:Svenum/Solaar-Flake/0.1.7";
     solaar.inputs.nixpkgs.follows = "nixpkgs";
 
     # this is purely for the uconsole
@@ -52,7 +52,7 @@
     oom-hardware.inputs.nixpkgs.follows = "nixpkgs";
     oom-hardware.inputs.nixos-raspberrypi.follows = "nixos-raspberrypi";
 
-    nixvirt.url = "github:AshleyYakeley/NixVirt?ref=v0.6.0";
+    nixvirt.url = "github:AshleyYakeley/NixVirt/v0.6.0";
     nixvirt.inputs.nixpkgs.follows = "nixpkgs";
 
     attic.url = "github:zhaofengli/attic";
