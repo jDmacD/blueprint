@@ -58,7 +58,7 @@
     attic.url = "github:zhaofengli/attic";
     attic.inputs.nixpkgs.follows = "nixpkgs";
 
-    himmelblau.url = "github:himmelblau-idm/himmelblau/2.3.1";
+    himmelblau.url = "github:himmelblau-idm/himmelblau/2.3.2";
     himmelblau.inputs.nixpkgs.follows = "nixpkgs";
 
     lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
