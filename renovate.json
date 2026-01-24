@@ -12,7 +12,7 @@
       "description": "Update nix flake inputs",
       "datasourceTemplate": "github-tags",
       "managerFilePatterns": [
-        "/(^|/)flake\.nix$/"
+        "/(^|/)flake\\.nix$/"
       ],
       "matchStrings": [
         "\"github:(?<packageName>.*\\\/.*?)\\\/(?<currentValue>.*?)\";\\n"
