@@ -6,6 +6,9 @@
   perSystem,
   ...
 }:
+let
+  nvidia-container-toolkit = perSystem.nixpkgs-stable.nvidia-container-toolkit;
+in
 {
   networking.firewall.enable = lib.mkForce false;
   networking.firewall.checkReversePath = false;
@@ -29,7 +32,7 @@
 
   # Create symlinks so nvidia-container-runtime can find required binaries and libraries
   systemd.tmpfiles.rules = [
-    "L+ /usr/bin/nvidia-ctk - - - - ${lib.getExe' pkgs.nvidia-container-toolkit "nvidia-ctk"}"
+    "L+ /usr/bin/nvidia-ctk - - - - ${lib.getExe' nvidia-container-toolkit "nvidia-ctk"}"
     # "d /usr/lib 0755 root root - -"
     # "L+ /usr/lib/libcuda.so - - - - ${pkgs.linuxPackages.nvidia_x11}/lib/libcuda.so"
     # "L+ /usr/lib/libcuda.so.1 - - - - ${pkgs.linuxPackages.nvidia_x11}/lib/libcuda.so.1"
@@ -86,7 +89,7 @@
         runtime_type = "io.containerd.runc.v2"
 
       [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
-        BinaryName = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime"
+        BinaryName = "${nvidia-container-toolkit.tools}/bin/nvidia-container-runtime"
 
     '';
   };
