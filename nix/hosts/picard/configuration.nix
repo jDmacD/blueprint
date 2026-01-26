@@ -26,6 +26,7 @@
     builder-user
     sops
     nvidia
+    sunshine
     locale
     github-runner
     # home-assistant
