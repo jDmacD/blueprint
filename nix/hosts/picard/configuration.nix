@@ -35,7 +35,7 @@
 
     steam
     desktop
-    iamgroot
+    greetd
   ]);
 
   virtualisation.libvirtd = {

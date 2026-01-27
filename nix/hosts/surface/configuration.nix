@@ -21,6 +21,7 @@
     tpm
     himmelblau
     acme
+    greetd
   ]);
 
   environment = {

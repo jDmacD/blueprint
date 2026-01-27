@@ -15,7 +15,7 @@ in
     applications = {
       apps = [
         {
-          name = "1920x1080 Steam";
+          name = "Steam";
           prep-cmd = [
             {
               do = "${hyprctl} output create headless SUNSHINE-1";
