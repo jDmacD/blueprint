@@ -22,21 +22,13 @@ in
             #   undo = "${hyprctl} output remove SUNSHINE-1";
             # }
             {
-              do = ''
-                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(${pkgs.coreutils}/bin/ls -t /run/user/$(${pkgs.coreutils}/bin/id -u)/hypr 2>/dev/null | ${pkgs.coreutils}/bin/head -1) && ${hyprctl} keyword monitor SUNSHINE-1,''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}@''${SUNSHINE_CLIENT_FPS},auto,1"
-              '';
-              undo = ''
-                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(${pkgs.coreutils}/bin/ls -t /run/user/$(${pkgs.coreutils}/bin/id -u)/hypr 2>/dev/null | ${pkgs.coreutils}/bin/head -1) && ${hyprctl} keyword monitor SUNSHINE-1,disable"
-              '';
+              do = ''${pkgs.bash}/bin/bash -c "${hyprctl} keyword monitor SUNSHINE-1,''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}@''${SUNSHINE_CLIENT_FPS},auto,1"'';
+              undo = "${hyprctl} keyword monitor SUNSHINE-1,disable";
             }
-            {
-              do = ''
-                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(${pkgs.coreutils}/bin/ls -t /run/user/$(${pkgs.coreutils}/bin/id -u)/hypr 2>/dev/null | ${pkgs.coreutils}/bin/head -1) && ${hyprctl} keyword monitor DP-1,disable"
-              '';
-              undo = ''
-                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(${pkgs.coreutils}/bin/ls -t /run/user/$(${pkgs.coreutils}/bin/id -u)/hypr 2>/dev/null | ${pkgs.coreutils}/bin/head -1) && ${hyprctl} reload"
-              '';
-            }
+            # {
+            #   do = "${hyprctl} keyword monitor DP-1,disable";
+            #   undo = "${hyprctl} reload";
+            # }
           ];
           exclude-global-prep-cmd = "false";
           auto-detach = "true";
