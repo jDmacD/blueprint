@@ -23,18 +23,18 @@ in
             # }
             {
               do = ''
-                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t $XDG_RUNTIME_DIR/hypr | head -1) && ${hyprctl} keyword monitor SUNSHINE-1,''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}@''${SUNSHINE_CLIENT_FPS},auto,1"
+                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(${pkgs.coreutils}/bin/ls -t /run/user/$(${pkgs.coreutils}/bin/id -u)/hypr 2>/dev/null | ${pkgs.coreutils}/bin/head -1) && ${hyprctl} keyword monitor SUNSHINE-1,''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}@''${SUNSHINE_CLIENT_FPS},auto,1"
               '';
               undo = ''
-                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t $XDG_RUNTIME_DIR/hypr | head -1) && ${hyprctl} keyword monitor SUNSHINE-1,disable"
+                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(${pkgs.coreutils}/bin/ls -t /run/user/$(${pkgs.coreutils}/bin/id -u)/hypr 2>/dev/null | ${pkgs.coreutils}/bin/head -1) && ${hyprctl} keyword monitor SUNSHINE-1,disable"
               '';
             }
             {
               do = ''
-                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t $XDG_RUNTIME_DIR/hypr | head -1) && ${hyprctl} keyword monitor DP-1,disable"
+                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(${pkgs.coreutils}/bin/ls -t /run/user/$(${pkgs.coreutils}/bin/id -u)/hypr 2>/dev/null | ${pkgs.coreutils}/bin/head -1) && ${hyprctl} keyword monitor DP-1,disable"
               '';
               undo = ''
-                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t $XDG_RUNTIME_DIR/hypr | head -1) && ${hyprctl} reload"
+                ${pkgs.bash}/bin/bash -c "export HYPRLAND_INSTANCE_SIGNATURE=$(${pkgs.coreutils}/bin/ls -t /run/user/$(${pkgs.coreutils}/bin/id -u)/hypr 2>/dev/null | ${pkgs.coreutils}/bin/head -1) && ${hyprctl} reload"
               '';
             }
           ];
