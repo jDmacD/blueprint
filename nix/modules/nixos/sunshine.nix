@@ -17,10 +17,10 @@ in
         {
           name = "Steam";
           prep-cmd = [
-            {
-              do = "${hyprctl} output create headless SUNSHINE-1";
-              undo = "${hyprctl} output remove SUNSHINE-1";
-            }
+            # {
+            #   do = "${hyprctl} output create headless SUNSHINE-1";
+            #   undo = "${hyprctl} output remove SUNSHINE-1";
+            # }
             {
               do = ''
                 sh -c "${hyprctl} keyword monitor SUNSHINE-1,''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}@''${SUNSHINE_CLIENT_FPS},auto,1"
