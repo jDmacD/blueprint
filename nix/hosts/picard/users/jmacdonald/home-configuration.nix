@@ -1,28 +1,31 @@
 {
   pkgs,
   inputs,
+  perSystem,
   ...
 }:
 {
 
-  imports = with inputs.self.homeModules; [
-    home-shared
-    personal
-    kubernetes-utils
-    git-utils
-    terminals
-    shells
-    terminal-utils
-    ai-utils
-    dev-utils
-    nix-utils
-    cloud-utils
-    network-utils
-    sops
-    editors
-    rpi-utils
-    desktop
-  ];
+  imports =
+    [ ]
+    ++ (with inputs.self.homeModules; [
+      home-shared
+      personal
+      kubernetes-utils
+      git-utils
+      terminals
+      shells
+      terminal-utils
+      ai-utils
+      dev-utils
+      nix-utils
+      cloud-utils
+      network-utils
+      sops
+      editors
+      rpi-utils
+      desktop
+    ]);
 
   programs.noctalia-shell.wallpaper.monitorDirectories = [
     {
@@ -32,10 +35,12 @@
     }
   ];
 
-  home.packages = with pkgs; [
-    pinta
-    upscayl
-  ];
-
+  home.packages =
+    with pkgs;
+    [
+      pinta
+      upscayl
+    ]
+    ++ (with perSystem.self; [ hyprstart ]);
   home.stateVersion = "25.11";
 }

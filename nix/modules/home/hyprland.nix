@@ -42,9 +42,9 @@ in
       ]);
 
       bind = [
-        "$mod, C, exec, code"
+        "$mod, C, exec, uwsm app -- code"
         "$mod, F, fullscreen"
-        "$mod, K, exec, foot"
+        "$mod, K, exec, uwsm app -- foot"
         "$mod, L, exec, noctalia-shell ipc call lockScreen lock"
         "$mod, X, killactive"
         "$mod, SPACE, exec, noctalia-shell ipc call launcher toggle"
@@ -100,9 +100,9 @@ in
       ];
       # Startup Apps
       exec-once = [
-        "noctalia-shell"
-        "systemctl --user enable --now hypridle.service"
-        "[workspace special:quake silent] foot zellij attach -c quake"
+        # "noctalia-shell"
+        # "systemctl --user enable --now hypridle.service"
+        "[workspace special:quake silent] uwsm app -- foot zellij attach -c quake"
       ];
       input = {
         kb_layout = "gb";

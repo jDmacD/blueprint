@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, perSystem, ... }:
 
 let
   tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
-  session = "${pkgs.hyprland}/bin/start-hyprland";
+  session = perSystem.self.hyprstart;
   username = "jmacdonald";
 in
 

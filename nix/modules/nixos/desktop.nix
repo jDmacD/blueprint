@@ -11,6 +11,7 @@
     ./hyprland.nix
     ./peripherals.nix
     ./fonts.nix
+    ./noctalia.nix
   ];
 
   hardware = {
