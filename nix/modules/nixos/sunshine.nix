@@ -23,7 +23,7 @@ in
             # }
             {
               do = ''
-                sh -c "${hyprctl} keyword monitor SUNSHINE-1,''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}@''${SUNSHINE_CLIENT_FPS},auto,1"
+                ${pkgs.bash}/bin/bash -c "${hyprctl} keyword monitor SUNSHINE-1,''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}@''${SUNSHINE_CLIENT_FPS},auto,1"
               '';
               undo = "${hyprctl} keyword monitor SUNSHINE-1,disable";
             }
