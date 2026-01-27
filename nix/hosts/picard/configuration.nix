@@ -35,7 +35,6 @@
 
     steam
     desktop
-    greetd
   ]);
 
   virtualisation.libvirtd = {

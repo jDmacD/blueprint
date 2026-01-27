@@ -35,12 +35,10 @@
     }
   ];
 
-  home.packages =
-    with pkgs;
-    [
-      pinta
-      upscayl
-    ]
-    ++ (with perSystem.self; [ hyprstart ]);
+  home.packages = with pkgs; [
+    pinta
+    upscayl
+  ];
+
   home.stateVersion = "25.11";
 }
