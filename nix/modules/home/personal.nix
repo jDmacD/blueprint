@@ -135,9 +135,9 @@
       user = "james.macdonald";
       identityFile = config.sops.secrets.id_ed25519.path;
     };
-    coderberg = {
-      host = "coderberg";
-      hostname = "coderberg.org";
+    codeberg = {
+      host = "codeberg";
+      hostname = "codeberg.org";
       user = "jDmacD";
       identityFile = config.sops.secrets.coderberg_ed25519.path;
     };
