@@ -52,6 +52,11 @@
       path = "${config.home.homeDirectory}/.ssh/opnsense_ed25519";
     };
 
+    secrets.coderberg_ed25519 = {
+      mode = "0600";
+      path = "${config.home.homeDirectory}/.ssh/coderberg_ed25519";
+    };
+
   };
 
   programs.ssh.matchBlocks = {
@@ -129,6 +134,12 @@
       hostname = "git.heanet.ie";
       user = "james.macdonald";
       identityFile = config.sops.secrets.id_ed25519.path;
+    };
+    coderberg = {
+      host = "coderberg";
+      hostname = "coderberg.org";
+      user = "jDmacD";
+      identityFile = config.sops.secrets.coderberg_ed25519.path;
     };
   };
 }
