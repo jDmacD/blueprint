@@ -1,5 +1,5 @@
 # nix/modules/nixos/greetd.nix
-{ flake, inputs , ...}:
+{ flake, inputs, ... }:
 { pkgs, ... }:
 let
   tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
@@ -15,8 +15,7 @@ in
         user = username;
       };
       default_session = {
-        command =
-          "${tuigreet} --greeting 'Welcome to NixOS!' \
+        command = "${tuigreet} --greeting 'Welcome to NixOS!' \
            --asterisks --remember --remember-user-session --time \
            -c ${session}";
         user = "greeter";

@@ -1,4 +1,4 @@
-{ flake, inputs , ...}:
+{ flake, inputs, ... }:
 {
   pkgs,
   osConfig,
