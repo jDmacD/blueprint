@@ -13,7 +13,6 @@
     ./noctalia.nix
     ./vscode.nix
     ./firefox.nix
-    ./greetd.nix
   ];
 
   programs = {
