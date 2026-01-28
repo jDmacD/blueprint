@@ -109,7 +109,6 @@
         darwinModules
         homeModules
         packages
-        modules
         devShells
         checks
         ;

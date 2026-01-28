@@ -1,9 +1,12 @@
 # nix/modules/nixos/greetd.nix
-{ pkgs, flake, ... }:
+{ flake, ... }:
+{ pkgs, ... }:
 let
+  system = pkgs.stdenv.hostPlatform.system;
+  hyprstart = flake.packages.${system}.hyprstart or (throw "hyprstart not available for ${system}");
+
+  session = "${hyprstart}/bin/hyprstart";
   tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
-  session = "${flake.packages.${pkgs.stdenv.hostPlatform.system}.hyprstart}/bin/hyprstart";
-  username = "jmacdonald";
 in
 {
   services.greetd = {
@@ -11,7 +14,7 @@ in
     settings = {
       initial_session = {
         command = session;
-        user = username;
+        user = "jmacdonald";
       };
       default_session = {
         command = "${tuigreet} --greeting 'Welcome to NixOS!' \
