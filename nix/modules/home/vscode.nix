@@ -51,6 +51,9 @@ in
           terminal.integrated.initialHint = false;
           sops.defaults.ageKeyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
           cSpell.language = "en-GB";
+          cSpell.enabledFileTypes = {
+            "*" = false;
+          };
         }
         // lib.optionalAttrs (osConfig.networking.hostName == "lwh-hotapril") {
           markdown-preview-enhanced.pandocPath = "${pkgs.pandoc}/bin/pandoc";
