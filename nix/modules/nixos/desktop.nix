@@ -12,7 +12,7 @@
     ./peripherals.nix
     ./fonts.nix
     ./noctalia.nix
-    ./greetd.nix
+    inputs.self.lib.greetd
   ];
 
   hardware = {
