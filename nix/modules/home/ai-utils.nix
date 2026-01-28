@@ -1,9 +1,9 @@
+{ flake, inputs, ... }:
 {
   pkgs,
   lib,
   config,
   osConfig,
-  perSystem,
   ...
 }:
 let
@@ -16,19 +16,23 @@ let
       mcpServers = {
         steampipe = {
           type = "stdio";
-          command = "${perSystem.self.mcp-steampipe}/bin/steampipe-mcp-wrapper";
+          command = "${
+            flake.packages.${pkgs.stdenv.hostPlatform.system}.mcp-steampipe
+          }/bin/steampipe-mcp-wrapper";
         };
         argocd = {
           type = "stdio";
-          command = "${perSystem.self.mcp-argocd}/bin/argocd-mcp-wrapper";
+          command = "${flake.packages.${pkgs.stdenv.hostPlatform.system}.mcp-argocd}/bin/argocd-mcp-wrapper";
         };
         grafana = {
           type = "stdio";
-          command = "${perSystem.self.mcp-grafana}/bin/grafana-mcp-wrapper";
+          command = "${
+            flake.packages.${pkgs.stdenv.hostPlatform.system}.mcp-grafana
+          }/bin/grafana-mcp-wrapper";
         };
         gitlab = {
           type = "stdio";
-          command = "${perSystem.self.mcp-gitlab}/bin/gitlab-mcp-wrapper";
+          command = "${flake.packages.${pkgs.stdenv.hostPlatform.system}.mcp-gitlab}/bin/gitlab-mcp-wrapper";
         };
       };
     };
