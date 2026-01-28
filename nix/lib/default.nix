@@ -16,4 +16,6 @@
   stylix = ./stylix.nix;
 
   wallpapers = ./wallpapers.nix; # { inherit pkgs; }
+
+  greetd = ./greetd.nix;
 }

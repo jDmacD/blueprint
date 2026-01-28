@@ -1,3 +1,4 @@
+# nix/hosts/picard/configuration.nix
 {
   inputs,
   config,
