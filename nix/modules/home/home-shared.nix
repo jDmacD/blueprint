@@ -31,7 +31,7 @@
       # you can access the host configuration using osConfig.
       pkgs.lib.optionals (osConfig.programs.vim.enable && pkgs.stdenv.isDarwin) [ skhd ]
     )
-    ++ (flake.packages.${pkgs.stdenv.hostPlatform.system}; [ hyprstart ]);
+    ++ (with flake.packages.${pkgs.stdenv.hostPlatform.system}; [ hyprstart ]);
 
   xdg.desktopEntries.chat = {
     type = "Link";
