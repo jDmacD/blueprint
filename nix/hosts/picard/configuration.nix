@@ -1,3 +1,4 @@
+# nix/hosts/picard/configuration.nix
 {
   inputs,
   config,
@@ -35,7 +36,6 @@
 
     steam
     desktop
-    greetd
   ]);
 
   virtualisation.libvirtd = {
