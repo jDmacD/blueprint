@@ -1,3 +1,4 @@
+{ flake, inputs, ... }:
 { config, pkgs, ... }:
 {
   programs.awscli = {

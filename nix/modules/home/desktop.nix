@@ -1,3 +1,4 @@
+{ flake, inputs, ... }:
 {
   pkgs,
   inputs,
@@ -12,6 +13,7 @@
     ./noctalia.nix
     ./vscode.nix
     ./firefox.nix
+    ./greetd.nix
   ];
 
   programs = {
