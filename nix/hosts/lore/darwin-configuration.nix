@@ -8,15 +8,15 @@
   imports =
     with inputs.self.darwinModules;
     [
-      sops
-      stylix
-      host-shared
+      # sops
+      # stylix
+      # host-shared
     ]
     ++ (with inputs.self.nixosModules; [
-      homebrew
-      fonts
-      builder-arm
-      builder-x86
+      # homebrew
+      # fonts
+      # builder-arm
+      # builder-x86
     ]);
 
   users.users.jmacdonald.home = "/Users/jmacdonald";

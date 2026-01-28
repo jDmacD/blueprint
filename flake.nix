@@ -109,6 +109,7 @@
         darwinModules
         homeModules
         packages
+        public
         devShells
         checks
         ;
