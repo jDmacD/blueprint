@@ -1,4 +1,3 @@
-{ flake, inputs, ... }:
 {
   pkgs,
   inputs,

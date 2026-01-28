@@ -1,4 +1,4 @@
-{ flake, inputs, ... }:
+{ flake, ... }:
 {
   pkgs,
   lib,

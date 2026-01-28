@@ -7,7 +7,7 @@
   programs.firefox = {
     enable = true;
     profiles = {
-      jmacdonald = {
+      default = {
         extensions = {
           force = true;
           packages = with perSystem.nur.repos.rycee.firefox-addons; [
