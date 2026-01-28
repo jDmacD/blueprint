@@ -1,6 +1,6 @@
-{ flake, inputs, ...}:
+{ flake, inputs, ... }:
 {
   imports = [
-    ../modules/nixos/greetd.nix {flake, inputs}
-  ]; 
+    ../modules/nixos/greetd.nix
+  ];
 }
