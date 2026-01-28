@@ -103,7 +103,6 @@
     {
       inherit (bp)
         lib
-        packages
         nixosConfigurations
         darwinConfigurations
         nixosModules
