@@ -1,6 +1,5 @@
 # nix/modules/nixos/greetd.nix
-{ flake, inputs, ... }:
-{ pkgs, ... }:
+{ pkgs, flake, ... }:
 let
   tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
   session = "${flake.packages.${pkgs.stdenv.hostPlatform.system}.hyprstart}/bin/hyprstart";

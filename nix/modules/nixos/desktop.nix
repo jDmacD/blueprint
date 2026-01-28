@@ -1,5 +1,4 @@
 # nix/modules/nixos/desktop.nix
-{ flake, inputs, ... }:
 { config, pkgs, lib, ... }:
 {
   imports = [
@@ -8,7 +7,7 @@
     ./peripherals.nix
     ./fonts.nix
     ./noctalia.nix
-    flake.nixosModules.greetd
+    ./greetd.nix
   ];
 
   hardware.bluetooth = {
