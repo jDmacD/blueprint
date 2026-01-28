@@ -3,6 +3,6 @@
 { config, pkgs, lib, ... }:
 {
   imports = [
-    ../modules/nixos/hyprland.nix
+    ../nixos/hyprland.nix
   ];
 }
