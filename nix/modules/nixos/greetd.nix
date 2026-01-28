@@ -1,9 +1,9 @@
 # nix/modules/nixos/greetd.nix
 { flake, inputs , ...}:
-{ pkgs, perSystem, ... }:
+{ pkgs, ... }:
 let
   tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
-  session = "${perSystem.self.hyprstart}/bin/hyprstart";
+  session = "${flake.packages.${pkgs.system}.hyprstart}/bin/hyprstart";
   username = "jmacdonald";
 in
 {
