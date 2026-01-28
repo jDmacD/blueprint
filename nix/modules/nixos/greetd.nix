@@ -3,7 +3,7 @@
 { pkgs, ... }:
 let
   tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
-  session = "${flake.packages.${pkgs.system}.hyprstart}/bin/hyprstart";
+  session = "${flake.packages.${pkgs.stdenv.hostPlatform.system}.hyprstart}/bin/hyprstart";
   username = "jmacdonald";
 in
 {
