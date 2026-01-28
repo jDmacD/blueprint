@@ -1,5 +1,5 @@
 # nix/modules/nixos/greetd.nix
-{ flake, inputs }:
+{ flake, inputs , ...}:
 { pkgs, perSystem, ... }:
 let
   tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
