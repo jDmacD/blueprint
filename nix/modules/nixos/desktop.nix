@@ -1,9 +1,9 @@
 # nix/modules/nixos/desktop.nix
+{ flake, ... }:
 {
   config,
   pkgs,
   lib,
-  flake,
   ...
 }:
 {
