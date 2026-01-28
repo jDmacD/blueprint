@@ -1,3 +1,4 @@
+# nix/packages/hyprstart/default.nix
 {
   pkgs,
   ...
