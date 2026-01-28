@@ -1,7 +1,8 @@
+# nix/modules/public/hyprland-desktop.nix
 { flake, inputs, ... }:
 { config, pkgs, lib, ... }:
 {
   imports = [
-    ../modules/desktop/hyprland.nix
+    ../modules/nixos/hyprland.nix
   ];
 }
