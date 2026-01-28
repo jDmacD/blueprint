@@ -3,7 +3,7 @@
 { pkgs, perSystem, ... }:
 let
   tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
-  session  = perSystem.self.hyprstart;
+  session  = "${perSystem.self.hyprstart}/bin/hyprstart";
   username = "jmacdonald";
 in
 {
