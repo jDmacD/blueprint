@@ -12,7 +12,7 @@
     ./peripherals.nix
     ./fonts.nix
     ./noctalia.nix
-    ./greetd.nix
+    # ./greetd.nix
   ];
 
   hardware = {
