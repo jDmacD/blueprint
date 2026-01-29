@@ -18,7 +18,10 @@ in
     systemd.enable = false;
     settings = {
       monitor =
-        [ ]
+        [
+          # Fallback for unknown monitors (important for headless/Sunshine)
+          ",preferred,auto,1"
+        ]
         ++ (pkgs.lib.optionals (osConfig.networking.hostName == "lwh-hotapril") [
           "desc:AU Optronics 0x562D,1920x1080@60.03, 0x0, 1"
           "desc:LG Electronics 38GN950 103NTHMGY473, 3840x1600@59.99, -960x1080, 1"

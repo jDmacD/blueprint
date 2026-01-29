@@ -33,7 +33,8 @@
     # home-assistant
     acme
     steam
-    desktop
+    desktop-headless
+    hyprland-headless
   ]);
 
   virtualisation.libvirtd = {
@@ -96,6 +97,12 @@
   environment.systemPackages = with pkgs; [
     git
   ];
+
+  # Headless Hyprland session for Sunshine streaming
+  services.hyprland-headless = {
+    enable = true;
+    user = "jmacdonald";
+  };
 
   virtualisation.docker.daemon.settings = {
     "hosts" = [
