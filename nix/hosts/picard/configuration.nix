@@ -31,9 +31,7 @@
     locale
     github-runner
     # home-assistant
-    eduvpn
     acme
-
     steam
     desktop
   ]);

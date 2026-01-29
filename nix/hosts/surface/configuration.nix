@@ -20,9 +20,8 @@
     desktop
     lanzaboote
     tpm
-    himmelblau
-    acme
-    greetd
+    # himmelblau
+    # acme
   ]);
 
   environment = {

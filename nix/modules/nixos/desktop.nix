@@ -8,12 +8,13 @@
 }:
 {
   imports = [
-    flake.nixosModules.greetd
+    # flake.nixosModules.greetd
     ./stylix.nix
     ./hyprland.nix
     ./peripherals.nix
     ./fonts.nix
     ./noctalia.nix
+    ./gdm.nix
   ];
 
   hardware.bluetooth = {
