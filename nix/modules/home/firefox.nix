@@ -76,5 +76,5 @@
       };
     };
   };
-  stylix.targets.firefox.profileNames = [ "jmacdonald" ];
+  stylix.targets.firefox.profileNames = [ "default" ];
 }
