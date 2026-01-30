@@ -5,6 +5,12 @@
   services.displayManager.gdm = {
     enable = true;
     wayland = true;
+    settings = {
+      daemon = {
+        AutomaticLoginEnable = true;
+        AutomaticLogin = "jmacdonald";
+      };
+    };
   };
 
   # FIXME: https://github.com/NixOS/nixpkgs/issues/484328

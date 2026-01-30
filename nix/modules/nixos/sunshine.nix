@@ -30,6 +30,7 @@ in
             #   undo = "${hyprctl} reload";
             # }
           ];
+          detached = [ "setsid steam steam://open/bigpicture" ];
           exclude-global-prep-cmd = "false";
           auto-detach = "true";
         }
