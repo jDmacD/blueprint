@@ -20,8 +20,7 @@
     desktop
     lanzaboote
     tpm
-    # himmelblau
-    # acme
+    # openclaw
   ]);
 
   environment = {

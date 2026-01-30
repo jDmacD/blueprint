@@ -73,8 +73,8 @@
     niri.url = "github:sodiboo/niri-flake";
     niri.inputs.nixpkgs.follows = "nixpkgs";
 
-    moltbot.url = "github:moltbot/nix-moltbot";
-    moltbot.inputs.nixpkgs.follows = "nixpkgs";
+    openclaw.url = "github:openclaw/nix-openclaw";
+    openclaw.inputs.nixpkgs.follows = "nixpkgs";
 
   };
 

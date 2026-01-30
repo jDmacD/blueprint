@@ -1,16 +1,13 @@
 { inputs, osConfig, ... }:
 {
-  imports = [ inputs.moltbot.homeManagerModules.moltbot ];
+  imports = [ inputs.openclaw.homeManagerModules.openclaw ];
 
-  # Signal to the system that moltbot overlay should be applied
-  # This will be picked up by the NixOS configuration
-  _module.args.needsMoltbotOverlay = true;
 
   sops.secrets = {
     "moltbot/telegram" = { };
     "moltbot/anthropic" = { };
   };
-  programs.moltbot = {
+  programs.openclaw = {
     instances.default = {
       enable = true;
       providers.telegram = {
