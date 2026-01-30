@@ -104,6 +104,9 @@ in
         # "systemctl --user enable --now hypridle.service"
         "[workspace special:quake silent] uwsm app -- foot zellij attach -c quake"
       ];
+      env = [
+        "XDG_CURRENT_DESKTOP,Hyprland"
+      ];
       input = {
         kb_layout = "gb";
       };
