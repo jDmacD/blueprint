@@ -15,6 +15,7 @@
     ./fonts.nix
     ./noctalia.nix
     ./gdm.nix
+    ./printing.nix
   ];
 
   hardware.bluetooth = {
