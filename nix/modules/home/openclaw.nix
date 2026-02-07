@@ -1,31 +1,38 @@
-{ inputs, osConfig, ... }:
+{ inputs, config, ... }:
 {
   imports = [ inputs.openclaw.homeManagerModules.openclaw ];
 
-
   sops.secrets = {
-    "moltbot/telegram" = { };
-    "moltbot/anthropic" = { };
+    "openclaw/telegram" = { };
+    "openclaw/env" = {
+      path = "${config.home.homeDirectory}/.openclaw/.env";
+    };
   };
   programs.openclaw = {
     instances.default = {
       enable = true;
-      providers.telegram = {
+      systemd = {
         enable = true;
-        botTokenFile = "/run/secrets/moltbot/telegram";
-        allowFrom = [ 8380379284 ]; # your Telegram user ID
       };
-      providers.anthropic = {
-        apiKeyFile = "/run/secrets/moltbot/anthropic";
+      config = {
+        gateway = {
+          mode = "local";
+        };
+        plugins = {
+          entries = {
+            telegram = {
+              enabled = true;
+            };
+          };
+        };
+        channels.telegram = {
+          dmPolicy = "pairing";
+          tokenFile = config.sops.secrets."openclaw/telegram".path;
+          allowFrom = [ 8380379284 ];
+          groupPolicy = "allowlist";
+          streamMode = "partial";
+        };
       };
-
-      # Explicitly set empty plugins list to override defaults
-      plugins = [ ];
-
-      # Built-ins (tools + skills) shipped via nix-steipete-tools.
-      # plugins = [
-      #   { source = "github:moltbot/nix-steipete-tools?dir=tools/summarize"; }
-      # ];
     };
   };
 }
