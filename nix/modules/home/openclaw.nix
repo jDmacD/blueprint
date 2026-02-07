@@ -15,6 +15,19 @@
         enable = true;
       };
       config = {
+        agents = {
+          defaults = {
+            model = {
+              primary = "anthropic/claude-sonnet-4-20250514";
+              fallbacks = [
+                "anthropic/claude-opus-4-0-20250514"
+              ];
+            };
+            subagents = {
+              model = "anthropic/claude-sonnet-4-20250514";
+            };
+          };
+        };
         gateway = {
           mode = "local";
         };
