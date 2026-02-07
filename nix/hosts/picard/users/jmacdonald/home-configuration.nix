@@ -24,6 +24,7 @@
       editors
       rpi-utils
       desktop
+      openclaw
     ]);
 
   programs.noctalia-shell.wallpaper.monitorDirectories = [
