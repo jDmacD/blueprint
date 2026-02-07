@@ -10,6 +10,7 @@
       update-darwin = "sudo nix run nix-darwin -- switch --flake ~/blueprint/";
       ls = "eza";
       cd = "z";
+      blueprint-inspect = "${pkgs.nix-inspect}/bin/nix-inspect --expr 'builtins.getFlake \"${config.home.homeDirectory}/blueprint\"'";
     };
     history.size = 10000;
     initContent = ''
