@@ -20,7 +20,6 @@
     desktop
     lanzaboote
     tpm
-    # openclaw
   ]);
 
   environment = {

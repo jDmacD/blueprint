@@ -25,7 +25,6 @@
       editors
       rpi-utils
       desktop
-      # openclaw
     ]
     ++ [
     ];
