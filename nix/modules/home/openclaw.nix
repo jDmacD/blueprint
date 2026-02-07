@@ -48,4 +48,8 @@
       };
     };
   };
+
+  home.packages = with pkgs; [
+    gcalcli
+  ];
 }
