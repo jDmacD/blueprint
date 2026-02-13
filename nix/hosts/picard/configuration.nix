@@ -34,7 +34,7 @@
     acme
     steam
     desktop
-    openclaw
+    # openclaw
   ]);
 
   virtualisation.libvirtd = {
