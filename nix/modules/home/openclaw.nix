@@ -1,4 +1,9 @@
-{ inputs, config, ... }:
+{
+  inputs,
+  pkgs,
+  config,
+  ...
+}:
 {
   imports = [ inputs.openclaw.homeManagerModules.openclaw ];
 
