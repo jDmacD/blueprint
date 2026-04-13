@@ -22,7 +22,6 @@
   # only available on linux, disabled on macos
   services.ssh-agent = {
     enable = pkgs.stdenv.isLinux;
-    enableZshIntegration = true;
   };
 
   home.packages =
