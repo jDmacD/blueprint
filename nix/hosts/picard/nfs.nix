@@ -15,8 +15,12 @@
     };
   };
 
+  systemd.tmpfiles.rules = [
+    "d /var/lib/calibre-library 0755 root root - -"
+  ];
+
   fileSystems."/export/calibre-library" = {
-    device = "/mnt/calibre-library";
+    device = "/var/lib/calibre-library";
     fsType = "none";
     options = [ "bind" ];
   };
