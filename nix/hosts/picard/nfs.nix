@@ -17,11 +17,13 @@
 
   fileSystems."/export/calibre-library" = {
     device = "/mnt/calibre-library";
+    fsType = "none";
     options = [ "bind" ];
   };
 
   fileSystems."/export/spinner" = {
     device = "/spinner";
+    fsType = "none";
     options = [ "bind" ];
   };
 }
