@@ -29,7 +29,7 @@
     nvidia
     sunshine
     locale
-    github-runner
+    # github-runner
     # home-assistant
     acme
     steam
