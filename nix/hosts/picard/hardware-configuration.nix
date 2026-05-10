@@ -21,7 +21,7 @@
   # boot.kernelPackages = pkgs.linuxPackages_6_12;
   # For gamescope https://wiki.archlinux.org/title/Gamescope
   boot.kernelParams = [ "nvidia-drm.modeset=1" ];
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Disabled because we're using a bridge (vmbr0) for libvirt/virt-manager
   # DHCP is explicitly configured per-interface in configuration.nix
