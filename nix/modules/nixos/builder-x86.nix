@@ -21,7 +21,7 @@
         "nixos-test"
         "benchmark"
         "big-parallel"
-        "kvm"
+        # "kvm"
       ];
       mandatoryFeatures = [ ];
     }
