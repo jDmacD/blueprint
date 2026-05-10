@@ -1,1 +1,1 @@
-{ pkgs }: pkgs.k3s_1_32
+{ pkgs }: pkgs.k3s_1_33
