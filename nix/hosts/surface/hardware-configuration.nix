@@ -25,9 +25,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    extraModulePackages = with config.boot.kernelPackages; [
-      rtl8812au
-    ];
+    extraModulePackages = with config.boot.kernelPackages; [];
   };
 
   fileSystems."/" = {
