@@ -53,6 +53,7 @@
           wRangeFour = "10.10.0.0/24";
           wRangeSix = "fd10::/64";
           defaultGateway = true;
+          dnsServerList = [ "9.9.9.9" "2620:fe::fe" ];
         }
       ];
     };
