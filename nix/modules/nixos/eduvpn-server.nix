@@ -21,19 +21,17 @@
     };
     nftables = {
       enable = true;
-      # Masquerade VPN client ranges through the server's uplink.
-      # Update these if you change the wRangeFour / wRangeSix profile options.
       ruleset = ''
         table ip nat {
           chain postrouting {
             type nat hook postrouting priority srcnat;
-            ip saddr 10.43.43.0/24 masquerade;
+            ip saddr 10.10.0.0/24 masquerade;
           }
         }
         table ip6 nat {
           chain postrouting {
             type nat hook postrouting priority srcnat;
-            ip6 saddr fd43::/64 masquerade;
+            ip6 saddr fd10::/64 masquerade;
           }
         }
       '';
@@ -54,6 +52,7 @@
           hostName = "worf.jtec.xyz";
           wRangeFour = "10.10.0.0/24";
           wRangeSix = "fd10::/64";
+          defaultGateway = true;
         }
       ];
     };
