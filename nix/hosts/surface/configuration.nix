@@ -32,6 +32,12 @@
     };
   };
 
+  programs = {
+    nix-ld = {
+      enable = true;
+    };
+  };
+
   networking = {
     hostName = "surface";
     networkmanager.enable = true;
