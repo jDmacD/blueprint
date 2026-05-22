@@ -76,6 +76,9 @@
     openclaw.url = "github:openclaw/nix-openclaw";
     openclaw.inputs.nixpkgs.follows = "nixpkgs";
 
+    eduvpn.url = "git+https://codeberg.org/jDmacD/nix-eduvpn.git";
+    eduvpn.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   nixConfig = {

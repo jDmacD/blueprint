@@ -238,6 +238,26 @@
         "type": "github"
       }
     },
+    "eduvpn": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1779410194,
+        "narHash": "sha256-EyRJkSkcId+/oDRTM9u8fae+D4UBUnwY14DXLopjapI=",
+        "ref": "refs/heads/main",
+        "rev": "aca85e3c481d72d4f1e9abf97bcdfa6bce6333db",
+        "revCount": 11,
+        "type": "git",
+        "url": "https://codeberg.org/jDmacD/nix-eduvpn.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/jDmacD/nix-eduvpn.git"
+      }
+    },
     "firefox-gnome-theme": {
       "flake": false,
       "locked": {
@@ -1210,6 +1230,7 @@
         "deploy-rs": "deploy-rs",
         "devshell": "devshell",
         "disko": "disko",
+        "eduvpn": "eduvpn",
         "himmelblau": "himmelblau",
         "home-manager": "home-manager",
         "home-manager-25-05": "home-manager-25-05",
