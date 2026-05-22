@@ -24,6 +24,8 @@
     sops
     builder-user
     locale
+    eduvpn-server
+
   ]);
 
   boot = {
