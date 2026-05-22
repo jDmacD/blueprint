@@ -44,6 +44,7 @@
     portal = {
       enable = true;
       hostName = "worf.jtec.xyz";
+      adminUsers = [ "admin" ];
       tls.useACME = true;
       tls.acmeEmail = "badgerblitz@tuta.com"; # replace with your contact email
       profiles = [
