@@ -6,6 +6,8 @@
 {
   imports = [ inputs.eduvpn.nixosModules.default ];
 
+  security.acme.acceptTerms = true;
+
   services.eduVPN = {
     portal = {
       enable = true;
