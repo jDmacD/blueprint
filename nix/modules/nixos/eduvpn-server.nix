@@ -56,6 +56,7 @@
           dnsServerList = [ "9.9.9.9" "2620:fe::fe" ];
         }
       ];
+      prometheus.enable = true;
     };
     node.enable = true;
   };
