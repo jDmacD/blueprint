@@ -79,4 +79,9 @@
       openvpn.enable = true;
     };
   };
+
+services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "eduvpn" ];
+  };
 }
