@@ -87,7 +87,7 @@
       owner = "postgres";
     };
     "eduvpn/portal_secrets.json" = {
-      owner = "httpd";
+      owner = "wwwrun";
     };
   };
 
