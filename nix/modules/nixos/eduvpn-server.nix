@@ -64,6 +64,11 @@
         }
       ];
       prometheus.enable = true;
+      settings = {
+        OpenVpn = {
+          singleProcess = true;
+        };
+      };
     };
     node = {
       enable = true;
