@@ -1,5 +1,6 @@
 {
   inputs,
+  pkgs,
   ...
 }:
 
@@ -80,8 +81,13 @@
     };
   };
 
+  sops.secrets."eduvpn/postgres_initial.sql" = {
+    owner = "postgres";
+  };
+
 services.postgresql = {
     enable = true;
     ensureDatabases = [ "eduvpn" ];
+    initialScript = /run/secrets/eduvpn/postgres_initial.sql
   };
 }
