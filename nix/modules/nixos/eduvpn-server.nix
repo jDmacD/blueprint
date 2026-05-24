@@ -26,12 +26,14 @@
           chain postrouting {
             type nat hook postrouting priority srcnat;
             ip saddr 10.10.0.0/24 masquerade;
+            ip saddr 10.10.1.0/24 masquerade;
           }
         }
         table ip6 nat {
           chain postrouting {
             type nat hook postrouting priority srcnat;
             ip6 saddr fd10::/64 masquerade;
+            ip6 saddr fd11::/64 masquerade;
           }
         }
       '';
@@ -52,12 +54,21 @@
           hostName = "worf.jtec.xyz";
           wRangeFour = "10.10.0.0/24";
           wRangeSix = "fd10::/64";
+          oRangeFour = "10.10.1.0/24";
+          oRangeSix = "fd11::/64";
           defaultGateway = true;
-          dnsServerList = [ "9.9.9.9" "2620:fe::fe" ];
+          dnsServerList = [
+            "9.9.9.9"
+            "2620:fe::fe"
+          ];
         }
       ];
       prometheus.enable = true;
     };
-    node.enable = true;
+    node = {
+      enable = true;
+      proxyguard.enable = true;
+      openvpn.enable = true;
+    };
   };
 }
