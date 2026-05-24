@@ -48,6 +48,7 @@
       adminUsers = [ "admin" ];
       tls.useACME = true;
       tls.acmeEmail = "badgerblitz@tuta.com"; # replace with your contact email
+      secretsJsonFile = "/run/secrets/eduvpn/portal_secrets.json";
       profiles = [
         {
           profileId = "default";
@@ -81,8 +82,13 @@
     };
   };
 
-  sops.secrets."eduvpn/postgres_initial.sql" = {
-    owner = "postgres";
+  sops.secrets = {
+    "eduvpn/postgres_initial.sql" = {
+      owner = "postgres";
+    };
+    "eduvpn/portal_secrets.json" = {
+      owner = "httpd"
+    };
   };
 
 services.postgresql = {
