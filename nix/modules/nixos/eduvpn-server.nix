@@ -88,6 +88,6 @@
 services.postgresql = {
     enable = true;
     ensureDatabases = [ "eduvpn" ];
-    initialScript = /run/secrets/eduvpn/postgres_initial.sql
+    initialScript = /run/secrets/eduvpn/postgres_initial.sql;
   };
 }
