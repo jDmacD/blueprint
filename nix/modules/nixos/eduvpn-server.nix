@@ -87,11 +87,11 @@
       owner = "postgres";
     };
     "eduvpn/portal_secrets.json" = {
-      owner = "httpd"
+      owner = "httpd";
     };
   };
 
-services.postgresql = {
+  services.postgresql = {
     enable = true;
     ensureDatabases = [ "eduvpn" ];
     initialScript = "/run/secrets/eduvpn/postgres_initial.sql";
