@@ -64,11 +64,13 @@
         }
       ];
       prometheus.enable = true;
-      settings = {
-        OpenVpn = {
-          singleProcess = true;
-        };
-      };
+      # singleProcess = true generates "local :: 1194 udp" syntax that requires
+      # openvpn 2.7+; nixpkgs ships 2.6.x. Re-enable when nixpkgs catches up.
+      # settings = {
+      #   OpenVpn = {
+      #     singleProcess = true;
+      #   };
+      # };
     };
     node = {
       enable = true;
