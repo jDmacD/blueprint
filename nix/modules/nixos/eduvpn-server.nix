@@ -73,8 +73,10 @@ in
         }
       ];
       # https://codeberg.org/eduVPN/vpn-user-portal/src/branch/v3/config/config.php.example
-      # this should be config to match the upstream
-      settings = { };
+      # this should be "config" to match the upstream
+      settings = {
+        preferredProto = "wireguard";
+      };
       prometheus.enable = true;
       /*
         singleProcess = true generates "local :: 1194 udp" syntax that requires
