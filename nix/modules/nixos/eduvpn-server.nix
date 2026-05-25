@@ -18,14 +18,9 @@ in
     firewall = {
       enable = true;
       # "loose" allows WireGuard reverse-path filtering without disabling it entirely.
+      # TCP 80/443 and WireGuard UDP 51820 are opened automatically by the eduVPN modules.
+      # OpenVPN ports are opened automatically when openvpn.enable = true.
       checkReversePath = "loose";
-      allowedTCPPorts = [
-        80 # Required for certbot
-        443 # Required for portal
-      ];
-      # the ports for openvpn are automatically opened when it is enabled
-      # should wiregaurd be the same?
-      allowedUDPPorts = [ 51820 ];
     };
     nftables = {
       enable = true;
@@ -54,7 +49,7 @@ in
       hostName = "worf.jtec.xyz";
       adminUsers = [ "admin" ];
       tls.useACME = true;
-      tls.acmeEmail = "badgerblitz@tuta.com"; # replace with your contact email
+      tls.acmeEmail = "badgerblitz@tuta.com";
       secretsJsonFile = "/run/secrets/eduvpn/portal_secrets.json";
       profiles = [
         {
@@ -66,17 +61,13 @@ in
           oRangeFour = oRangeFour;
           oRangeSix = oRangeSix;
           defaultGateway = true;
+          preferredProto = "wireguard";
           dnsServerList = [
             "9.9.9.9"
             "2620:fe::fe"
           ];
-          preferredProto = "wireguard";
         }
       ];
-      # https://codeberg.org/eduVPN/vpn-user-portal/src/branch/v3/config/config.php.example
-      # this should be "config" to match the upstream
-      settings = {
-      };
       prometheus.enable = true;
       /*
         singleProcess = true generates "local :: 1194 udp" syntax that requires
@@ -90,14 +81,9 @@ in
     };
     node = {
       enable = true;
-      # this should disable wireguard completly overriding all other configuration options
       wireguard.enable = true;
-      # this should disable openvpn completly overriding all other configuration options
       openvpn.enable = true;
       proxyguard.enable = false;
-      # Node configuration options need to be exposed
-      # https://codeberg.org/eduVPN/vpn-server-node/src/branch/v3/config/config.php.example
-      # config = {};
     };
   };
 
