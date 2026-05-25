@@ -70,12 +70,12 @@ in
             "9.9.9.9"
             "2620:fe::fe"
           ];
+          preferredProto = "wireguard";
         }
       ];
       # https://codeberg.org/eduVPN/vpn-user-portal/src/branch/v3/config/config.php.example
       # this should be "config" to match the upstream
       settings = {
-        preferredProto = "wireguard";
       };
       prometheus.enable = true;
       /*
