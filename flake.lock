@@ -245,11 +245,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779417210,
-        "narHash": "sha256-hV/wBZ2xuR1rYsJ4Rt2ZJE4aTY6ViN2qk9M3xdX9o7s=",
+        "lastModified": 1779751787,
+        "narHash": "sha256-ZvXILMApDW4y5Itvhv0y4VeBD7E0/qwA/p2f40A54l8=",
         "ref": "refs/heads/main",
-        "rev": "36ea5a4fdbb99fb8a2c71773b12239af12ae2386",
-        "revCount": 18,
+        "rev": "b71e8c5dae21a226e432fb1889d1248909637d57",
+        "revCount": 67,
         "type": "git",
         "url": "https://codeberg.org/jDmacD/nix-eduvpn.git"
       },
