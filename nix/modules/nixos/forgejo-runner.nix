@@ -25,7 +25,14 @@
         "nixos-latest:docker://nixos/nix"
         "native:host"
       ];
-      hostPackages = with pkgs; [ bash coreutils forgejo-cli git nodejs ];
+      hostPackages = with pkgs; [
+        bash
+        coreutils
+        forgejo-cli
+        git
+        nix
+        nodejs
+      ];
       settings = { };
     };
   };
