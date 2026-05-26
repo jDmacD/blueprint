@@ -3,6 +3,7 @@
 
   sops.secrets = {
     "forgejo/runner/token" = {
+      owner = "gitea-runner";
     };
   };
   # https://forgejo.org/docs/latest/admin/actions/installation/packaging/
