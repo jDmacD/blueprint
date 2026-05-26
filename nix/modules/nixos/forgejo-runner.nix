@@ -19,7 +19,7 @@
         "nixos-latest:docker://nixos/nix"
         "native:host"
       ];
-      hostPackages = with pkgs; [nodejs ];
+      hostPackages = with pkgs; [ bash coreutils git nodejs ];
       settings = { };
     };
   };
