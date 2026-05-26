@@ -31,6 +31,7 @@
     locale
     # github-runner
     # home-assistant
+    forgejo-runner
     acme
     steam
     desktop

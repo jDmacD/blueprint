@@ -41,6 +41,7 @@
   networking = {
     hostName = "surface";
     networkmanager.enable = true;
+    networkmanager.plugins = with pkgs; [ networkmanager-openvpn ];
     firewall = {
       checkReversePath = false;
       enable = true;
