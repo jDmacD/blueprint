@@ -17,7 +17,9 @@
       labels = [
         "node-22:docker://node:22-bookworm"
         "nixos-latest:docker://nixos/nix"
+        "native:host"
       ];
+      hostPackages = with pkgs; [nodejs ];
       settings = { };
     };
   };
