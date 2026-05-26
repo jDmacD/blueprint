@@ -1,6 +1,12 @@
 { pkgs, ... }:
 {
 
+  users.users.gitea-runner = {
+    isSystemUser = true;
+    group = "gitea-runner";
+  };
+  users.groups.gitea-runner = { };
+
   sops.secrets = {
     "forgejo/runner/token" = {
       owner = "gitea-runner";
