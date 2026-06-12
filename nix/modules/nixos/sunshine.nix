@@ -27,24 +27,17 @@ in
     applications = {
       apps = [
         {
-          name = "Steam";
+          name = "Steam Big Picture";
           prep-cmd = [
-            # {
-            #   do = "${hyprctl} output create headless SUNSHINE-1";
-            #   undo = "${hyprctl} output remove SUNSHINE-1";
-            # }
             {
-              do = ''${pkgs.bash}/bin/bash -c "${hyprctl} keyword monitor SUNSHINE-1,''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}@''${SUNSHINE_CLIENT_FPS},auto,1"'';
-              undo = "${hyprctl} keyword monitor SUNSHINE-1,disable";
+              do = ''${sunshine-do}/bin/do "''${SUNSHINE_CLIENT_WIDTH}" "''${SUNSHINE_CLIENT_HEIGHT}" "''${SUNSHINE_CLIENT_FPS}"'';
+              undo = "${sunshine-undo}/bin/undo";
             }
-            # {
-            #   do = "${hyprctl} keyword monitor DP-1,disable";
-            #   undo = "${hyprctl} reload";
-            # }
           ];
           detached = [ "setsid steam steam://open/bigpicture" ];
-          exclude-global-prep-cmd = "false";
           auto-detach = "true";
+          wait-all = "true";
+          exit-timeout = "5";
         }
         {
           name = "Virtual Display";
@@ -67,6 +60,7 @@ in
           auto-detach = "true";
           wait-all = "true";
           exit-timeout = "5";
+          image-path = "~/.local/share/icons/hicolor/256x256/apps/steam_icon_1689500.png";
         }
       ];
 
