@@ -6,6 +6,8 @@
 {
   programs.firefox = {
     enable = true;
+    # Keep the legacy profile path (new default is XDG from stateVersion 26.05).
+    configPath = ".mozilla/firefox";
     profiles = {
       default = {
         extensions = {

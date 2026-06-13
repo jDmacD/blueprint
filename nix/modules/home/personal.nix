@@ -59,87 +59,79 @@
 
   };
 
-  programs.ssh.matchBlocks = {
+  # `programs.ssh.settings` replaces the deprecated `matchBlocks`. The attribute
+  # name is the `Host` pattern, and values use upstream OpenSSH directive names.
+  programs.ssh.settings = {
 
-    surface = {
-      host = "surface.lan";
-      user = "jmacdonald";
-      port = 22;
-      identityFile = config.sops.secrets.id_ed25519.path;
-      forwardX11 = true;
-      forwardX11Trusted = true;
+    "surface.lan" = {
+      User = "jmacdonald";
+      Port = 22;
+      IdentityFile = config.sops.secrets.id_ed25519.path;
+      ForwardX11 = true;
+      ForwardX11Trusted = true;
     };
 
-    ha = {
-      host = "ha";
-      hostname = "homeassistant.lan";
-      user = "jmacd";
-      port = 22;
-      identityFile = config.sops.secrets.id_ed25519.path;
+    "ha" = {
+      HostName = "homeassistant.lan";
+      User = "jmacd";
+      Port = 22;
+      IdentityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    turingpi = {
-      host = "turingpi.lan";
-      user = "root";
-      port = 22;
-      identityFile = config.sops.secrets.id_ed25519.path;
+    "turingpi.lan" = {
+      User = "root";
+      Port = 22;
+      IdentityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    pis = {
-      host = "tpi01.lan tpi02.lan tpi03.lan tpi04.lan pi01.lan pi02.lan pi03.lan pi05.lan";
-      user = "jmacdonald";
-      port = 22;
-      identityFile = config.sops.secrets.id_ed25519.path;
+    "tpi01.lan tpi02.lan tpi03.lan tpi04.lan pi01.lan pi02.lan pi03.lan pi05.lan" = {
+      User = "jmacdonald";
+      Port = 22;
+      IdentityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    opnsense = {
-      host = "opn";
-      hostname = "opnsense.lan";
-      user = "jmacd";
-      identityFile = config.sops.secrets.id_ed25519.path;
+    "opn" = {
+      HostName = "opnsense.lan";
+      User = "jmacd";
+      IdentityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    lwh-hotapril = {
-      host = "lwh-hotapril";
-      hostname = "lwh-hotapril.lan";
-      user = "jmacdonald";
-      identityFile = config.sops.secrets.id_ed25519.path;
+    "lwh-hotapril" = {
+      HostName = "lwh-hotapril.lan";
+      User = "jmacdonald";
+      IdentityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    picard = {
-      host = "picard";
-      hostname = "picard.lan";
-      user = "jmacdonald";
-      forwardX11 = true;
-      forwardX11Trusted = true;
-      identityFile = config.sops.secrets.id_ed25519.path;
+    "picard" = {
+      HostName = "picard.lan";
+      User = "jmacdonald";
+      ForwardX11 = true;
+      ForwardX11Trusted = true;
+      IdentityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    riker = {
-      host = "riker";
-      hostname = "riker.lan";
-      user = "root";
-      identityFile = config.sops.secrets.id_ed25519.path;
+    "riker" = {
+      HostName = "riker.lan";
+      User = "root";
+      IdentityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    worf = {
-      host = "worf";
-      hostname = "worf.jtec.xyz";
-      user = "jmacdonald";
-      identityFile = config.sops.secrets.id_ed25519.path;
+    "worf" = {
+      HostName = "worf.jtec.xyz";
+      User = "jmacdonald";
+      IdentityFile = config.sops.secrets.id_ed25519.path;
     };
 
-    gitlab = {
-      host = "git";
-      hostname = "git.heanet.ie";
-      user = "james.macdonald";
-      identityFile = config.sops.secrets.id_ed25519.path;
+    "git" = {
+      HostName = "git.heanet.ie";
+      User = "james.macdonald";
+      IdentityFile = config.sops.secrets.id_ed25519.path;
     };
-    codeberg = {
-      host = "codeberg.org";
-      hostname = "codeberg.org";
-      user = "jDmacD";
-      identityFile = config.sops.secrets.coderberg_ed25519.path;
+
+    "codeberg.org" = {
+      HostName = "codeberg.org";
+      User = "jDmacD";
+      IdentityFile = config.sops.secrets.coderberg_ed25519.path;
     };
   };
 }

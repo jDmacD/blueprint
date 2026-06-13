@@ -16,6 +16,8 @@ in
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = false;
+    # Keep the hyprlang config format (new default is "lua" from stateVersion 26.05).
+    configType = "hyprlang";
     settings = {
       monitor =
         [ ]
@@ -100,7 +102,7 @@ in
       ];
       # Startup Apps
       exec-once = [
-        # "noctalia-shell"
+        "noctalia-shell"
         # "systemctl --user enable --now hypridle.service"
         "[workspace special:quake silent] uwsm app -- foot zellij attach -c quake"
       ];

@@ -11,3 +11,4 @@ backups/
 tpi0*.img
 nixos-image-rpi4-kernel.img.zst
 nix/secrets/.decrypted*
+nix/hosts/.decrypted~secrets.yaml

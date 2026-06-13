@@ -60,7 +60,7 @@ in
     programs.claude-code = {
       enable = true;
       mcpServers = presetConfig.mcpServers;
-      memory.text = ''
+      context = ''
         - This is a Linux NixOS Machine
         - Its hostname is ${osConfig.networking.hostName}
         - The local network domain name is .lan
