@@ -7,7 +7,7 @@
   ...
 }:
 let
-  nvidia-container-toolkit = perSystem.nixpkgs-stable.nvidia-container-toolkit;
+  nvidia-container-toolkit = perSystem.nixpkgs-25-11.nvidia-container-toolkit;
 in
 {
   networking.firewall.enable = lib.mkForce false;

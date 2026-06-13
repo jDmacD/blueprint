@@ -38,7 +38,7 @@
       libreoffice
       mermaid-cli
     ])
-    ++ (with perSystem.nixpkgs-stable; [
+    ++ (with perSystem.nixpkgs-25-11; [
       mycli
     ]);
 
