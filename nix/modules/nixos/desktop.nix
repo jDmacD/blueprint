@@ -34,6 +34,5 @@
       alsa.support32Bit = true;
       pulse.enable = true;
     };
-    kmscon.enable = false;
   };
 }

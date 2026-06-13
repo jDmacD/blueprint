@@ -4,7 +4,7 @@
 
   services.displayManager.gdm = {
     enable = true;
-    wayland = true;
+    # wayland = true;
   };
 
   # FIXME: https://github.com/NixOS/nixpkgs/issues/484328
