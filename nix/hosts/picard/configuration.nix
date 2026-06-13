@@ -54,7 +54,10 @@
 
   networking.interfaces = {
     vmbr0.useDHCP = true; # Bridge gets IP via DHCP
-    enp3s0.useDHCP = false; # Physical interface has no IP (part of bridge)
+    enp3s0 = {
+      useDHCP = false; # Physical interface has no IP (part of bridge)
+      wakeOnLan.enable = true;
+    };
   };
   boot = {
     loader = {
@@ -87,6 +90,7 @@
         5432
       ];
       allowedUDPPorts = [
+        9
         111
         2049
         1110
