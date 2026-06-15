@@ -40,6 +40,11 @@ in
       mode = "e";  # Force enable even with nothing connected
     };
   };
+  # NVENC: the sunshine user service doesn't search /run/opengl-driver/lib by
+  # default, so ffmpeg fails with "Cannot load libnvidia-encode.so.1" and falls
+  # back to software (libx264). Put the NVIDIA driver libs on the loader path.
+  systemd.user.services.sunshine.environment.LD_LIBRARY_PATH = "/run/opengl-driver/lib";
+
   services.sunshine = {
     enable = true;
     autoStart = true;
