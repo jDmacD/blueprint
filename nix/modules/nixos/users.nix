@@ -40,6 +40,7 @@ in
       "audio"
       "sound"
       "video"
+      "docker"
     ];   
   };
   security.sudo.wheelNeedsPassword = false;
