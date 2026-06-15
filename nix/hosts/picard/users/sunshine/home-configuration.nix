@@ -8,6 +8,7 @@
   imports =
     [ ]
     ++ (with inputs.self.homeModules; [
+      hyprland-sunshine
     ]);
 
   home.packages = with pkgs; [
