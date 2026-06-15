@@ -47,6 +47,9 @@ in
 
   services.sunshine = {
     enable = true;
+    # Default nixpkgs sunshine is built without CUDA, so the nvenc paths can't
+    # initialise. Build with CUDA support for hardware encoding.
+    package = pkgs.sunshine.override { cudaSupport = true; };
     autoStart = true;
     # capSysAdmin = true;
     openFirewall = true;
