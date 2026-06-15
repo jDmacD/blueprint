@@ -51,7 +51,7 @@ in
     # initialise. Build with CUDA support for hardware encoding.
     package = pkgs.sunshine.override { cudaSupport = true; };
     autoStart = true;
-    # capSysAdmin = true;
+    capSysAdmin = true;
     openFirewall = true;
     settings = {
       capture = "wlr";
@@ -70,7 +70,7 @@ in
               undo = "${sunshine-undo}/bin/undo";
             }
           ];
-          detached = [ "setsid steam steam://open/bigpicture" ];
+          detached = [ "sudo -u jmacdonald setsid steam steam://open/bigpicture" ];
           auto-detach = "true";
           wait-all = "true";
           exit-timeout = "5";
