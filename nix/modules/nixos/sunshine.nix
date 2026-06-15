@@ -15,6 +15,31 @@ let
   '';
 in
 {
+  hardware.display = {
+    edid = {
+      enable = true;
+      
+      # Option 1: Use a pre-generated EDID file
+      packages = [
+        (pkgs.runCommand "edid-virtual-display" {} ''
+          mkdir -p "$out/lib/firmware/edid"
+          cp ${./virtual-display.bin} "$out/lib/firmware/edid/virtual-display.bin"
+        '')
+      ];
+      
+      # Option 2: OR generate from modeline (simpler but less control)
+      # modelines = {
+      #   "Virtual4K" = "594.00   3840 4016 4104 4400   2160 2168 2178 2250   +hsync +vsync";
+      #   "Virtual1440p" = "241.50   2560 2608 2640 2720   1440 1443 1448 1481   -hsync +vsync";
+      # };
+    };
+    
+    # Configure the virtual output
+    outputs."DP-2" = {
+      edid = "virtual-display.bin";  # or "Virtual4K.bin" if using modelines
+      mode = "e";  # Force enable even with nothing connected
+    };
+  };
   services.sunshine = {
     enable = true;
     autoStart = true;
