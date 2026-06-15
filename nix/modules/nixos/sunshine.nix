@@ -2,8 +2,8 @@
 let
   hyprctl = "${pkgs.hyprland}/bin/hyprctl --instance 0";
   sunshine-do = pkgs.writeShellScriptBin "do" ''
-    # Configure the virtual display (DP-9) with client resolution
-    ${pkgs.hyprland}/bin/hyprctl keyword monitor DP-9,''${1}x''${2}@''${3},auto,1
+    # Configure the virtual display (DP-2) with client resolution
+    ${pkgs.hyprland}/bin/hyprctl keyword monitor DP-2,''${1}x''${2}@''${3},auto,1
     # Optionally disable your physical monitor during streaming
     ${pkgs.hyprland}/bin/hyprctl keyword monitor DP-1,disable
   '';
@@ -35,7 +35,7 @@ in
     };
     
     # Configure the virtual output
-    outputs."DP-9" = {
+    outputs."DP-2" = {
       edid = "virtual-display.bin";  # or "Virtual4K.bin" if using modelines
       mode = "e";  # Force enable even with nothing connected
     };
