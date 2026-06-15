@@ -2,13 +2,13 @@
 let
   hyprctl = "${pkgs.hyprland}/bin/hyprctl --instance 0";
   sunshine-do = pkgs.writeShellScriptBin "do" ''
-    ${pkgs.hyprland}/bin/hyprctl output create headless SUNSHINE-1
-    ${pkgs.hyprland}/bin/hyprctl keyword monitor SUNSHINE-1,''${1}x''${2}@''${3},auto,1
+    # Configure the virtual display (DP-9) with client resolution
+    ${pkgs.hyprland}/bin/hyprctl keyword monitor DP-9,''${1}x''${2}@''${3},auto,1
+    # Optionally disable your physical monitor during streaming
     ${pkgs.hyprland}/bin/hyprctl keyword monitor DP-1,disable
   '';
   sunshine-undo = pkgs.writeShellScriptBin "undo" ''
     ${pkgs.hyprland}/bin/hyprctl reload
-    ${pkgs.hyprland}/bin/hyprctl output remove SUNSHINE-1
   '';
   sunshine-dune = pkgs.writeShellScriptBin "dune" ''
     setsid steam steam://rungameid/1689500
