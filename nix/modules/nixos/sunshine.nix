@@ -35,7 +35,7 @@ in
     };
     
     # Configure the virtual output
-    outputs."DP-2" = {
+    outputs."DP-9" = {
       edid = "virtual-display.bin";  # or "Virtual4K.bin" if using modelines
       mode = "e";  # Force enable even with nothing connected
     };
