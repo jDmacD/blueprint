@@ -47,6 +47,9 @@ in
     openFirewall = true;
     settings = {
       capture = "wlr";
+      adapter_name = "/dev/dri/renderD128";
+      encoder = "nvenc";
+      output_name = "DP-2";
     };
     # https://gist.github.com/Dregu/4c0dbb2582835e5d95e06c4bf7624e3b`
     applications = {
