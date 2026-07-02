@@ -43,7 +43,7 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
-    solaar.url = "github:Svenum/Solaar-Flake/0.1.7";
+    solaar.url = "github:Svenum/Solaar-Flake/0.1.8";
     solaar.inputs.nixpkgs.follows = "nixpkgs";
 
     # this is purely for the uconsole
