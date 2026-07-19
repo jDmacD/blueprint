@@ -68,7 +68,7 @@ in
 
   services.k3s = {
     enable = true;
-    package = pkgs.k3s_1_34;
+    package = pkgs.k3s_1_35;
     role = "agent";
     tokenFile = "/run/secrets/k3s/token";
     serverAddr = "https://tpi01.lan:6443";
