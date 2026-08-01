@@ -16,22 +16,6 @@
         "type": "github"
       }
     },
-    "argononed_2": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1729566243,
-        "narHash": "sha256-DPNI0Dpk5aym3Baf5UbEe5GENDrSmmXVdriRSWE+rgk=",
-        "owner": "nvmd",
-        "repo": "argononed",
-        "rev": "16dbee54d49b66d5654d228d1061246b440ef7cf",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvmd",
-        "repo": "argononed",
-        "type": "github"
-      }
-    },
     "attic": {
       "inputs": {
         "crane": "crane",
@@ -323,21 +307,6 @@
       }
     },
     "flake-compat_4": {
-      "locked": {
-        "lastModified": 1767039857,
-        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "type": "github"
-      }
-    },
-    "flake-compat_5": {
       "locked": {
         "lastModified": 1767039857,
         "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
@@ -777,32 +746,6 @@
         "type": "github"
       }
     },
-    "nixos-images_2": {
-      "inputs": {
-        "nixos-stable": [
-          "oom-hardware-nixos-raspberrypi",
-          "nixpkgs"
-        ],
-        "nixos-unstable": [
-          "oom-hardware-nixos-raspberrypi",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1747747741,
-        "narHash": "sha256-LUOH27unNWbGTvZFitHonraNx0JF/55h30r9WxqrznM=",
-        "owner": "nvmd",
-        "repo": "nixos-images",
-        "rev": "cbbd6db325775096680b65e2a32fb6187c09bbb4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvmd",
-        "ref": "sdimage-installer",
-        "repo": "nixos-images",
-        "type": "github"
-      }
-    },
     "nixos-raspberrypi": {
       "inputs": {
         "argononed": "argononed",
@@ -1119,54 +1062,6 @@
         "type": "github"
       }
     },
-    "oom-hardware": {
-      "inputs": {
-        "nixos-raspberrypi": [
-          "nixos-raspberrypi"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1778402771,
-        "narHash": "sha256-WS8hQ8Yk4M1rfkp2aUCaUkGVBU0ppCYAhklBk5kBdFU=",
-        "owner": "robertjakub",
-        "repo": "oom-hardware",
-        "rev": "9f338e9250b7c01ac97750851867fc8158e8f54c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "robertjakub",
-        "ref": "devel",
-        "repo": "oom-hardware",
-        "type": "github"
-      }
-    },
-    "oom-hardware-nixos-raspberrypi": {
-      "inputs": {
-        "argononed": "argononed_2",
-        "flake-compat": "flake-compat_5",
-        "nixos-images": "nixos-images_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1778094042,
-        "narHash": "sha256-fQmnEEfsoq5ek471hCzmS/19w0AYwL/9P5HBDpkvW4s=",
-        "owner": "robertjakub",
-        "repo": "nixos-raspberrypi",
-        "rev": "8092648247da085d42aee356b8e2146f6f0abaa5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "robertjakub",
-        "ref": "develop",
-        "repo": "nixos-raspberrypi",
-        "type": "github"
-      }
-    },
     "openclaw": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -1264,8 +1159,6 @@
         "nixvirt": "nixvirt",
         "noctalia": "noctalia",
         "nur": "nur",
-        "oom-hardware": "oom-hardware",
-        "oom-hardware-nixos-raspberrypi": "oom-hardware-nixos-raspberrypi",
         "openclaw": "openclaw",
         "solaar": "solaar",
         "sops-nix": "sops-nix",
