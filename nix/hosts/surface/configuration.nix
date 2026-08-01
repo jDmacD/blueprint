@@ -26,6 +26,7 @@
     systemPackages = with pkgs; [
       docker-client
       cifs-utils
+      rpi-imager
     ];
     variables = {
       DOCKER_HOST = "tcp://picard.lan:2375";
