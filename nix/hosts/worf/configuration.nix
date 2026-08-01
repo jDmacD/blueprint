@@ -24,7 +24,7 @@
     sops
     builder-user
     locale
-    eduvpn-server
+    # eduvpn-server
 
   ]);
 
