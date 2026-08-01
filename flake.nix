@@ -46,13 +46,6 @@
     solaar.url = "github:Svenum/Solaar-Flake/0.1.7";
     solaar.inputs.nixpkgs.follows = "nixpkgs";
 
-    # this is purely for the uconsole
-    oom-hardware-nixos-raspberrypi.url = "github:robertjakub/nixos-raspberrypi/develop"; # stick with my branch
-    oom-hardware-nixos-raspberrypi.inputs.nixpkgs.follows = "nixpkgs";
-    oom-hardware.url = "github:robertjakub/oom-hardware/devel";
-    oom-hardware.inputs.nixpkgs.follows = "nixpkgs";
-    oom-hardware.inputs.nixos-raspberrypi.follows = "nixos-raspberrypi";
-
     nixvirt.url = "github:AshleyYakeley/NixVirt/v0.6.0";
     nixvirt.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -85,11 +78,9 @@
   nixConfig = {
     extra-substituters = [
       "https://jdmacd.cachix.org"
-      "https://nixos-raspberrypi.cachix.org"
     ];
     extra-trusted-public-keys = [
       "jdmacd.cachix.org-1:0DcSfXShBIng2EbPW44fxoXjXowKhZZWrbYqcozFhfM="
-      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
     ];
   };
 
