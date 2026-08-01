@@ -4,6 +4,7 @@
   lib,
   config,
   osConfig,
+  perSystem,
   ...
 }:
 let
@@ -91,5 +92,8 @@ in
         ];
       };
     };
+    home.packages = [
+      perSystem.self.kagent
+    ];
   };
 }
