@@ -73,6 +73,8 @@
     eduvpn.url = "git+https://codeberg.org/jDmacD/nix-eduvpn.git";
     eduvpn.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+    nix-flatpak.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   nixConfig = {
