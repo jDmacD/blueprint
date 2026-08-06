@@ -20,6 +20,7 @@
     desktop
     lanzaboote
     tpm
+    opendeck
   ]);
 
   environment = {
@@ -37,6 +38,9 @@
     nix-ld = {
       enable = true;
     };
+    # streamcontroller = {
+    #   enable = true;
+    # };
   };
 
   networking = {
