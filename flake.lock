@@ -169,15 +169,16 @@
         "nixpkgs": [
           "nixpkgs"
         ],
+        "noctalia": "noctalia",
         "treefmt-nix": "treefmt-nix",
         "wrapper-modules": "wrapper-modules"
       },
       "locked": {
-        "lastModified": 1786211457,
-        "narHash": "sha256-UE9bOYVS/ivmGSYEFoJY6k0rR27+WtmNFM4uzJgs0Pc=",
+        "lastModified": 1786230110,
+        "narHash": "sha256-InWlXPfFLoEVDEzjHTzUs/6bsW0MGbA6poVu6xKCwcI=",
         "owner": "jDmacD",
         "repo": "crann",
-        "rev": "4095a841474458b6b8724a5d3b32e8edbcbd4d81",
+        "rev": "6fb3a6db6167b994491edc8404eb28620f9681cf",
         "type": "github"
       },
       "original": {
@@ -1116,21 +1117,20 @@
     "noctalia": {
       "inputs": {
         "nixpkgs": [
+          "crann",
           "nixpkgs"
-        ],
-        "noctalia-qs": "noctalia-qs"
+        ]
       },
       "locked": {
-        "lastModified": 1783017890,
-        "narHash": "sha256-bAzrtN0GDMH0dOZkgeI3zSxfFs2rdD3pMuzOxvTF0bs=",
+        "lastModified": 1786199678,
+        "narHash": "sha256-26TIdjwjih5rtwzaW2BgRqsoWde34k/C3zy2k+9VfDY=",
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "a48885b9fec485c903c955749a7da6e30147cd38",
+        "rev": "b7cbb0d0349eff7c10813bccd310d6786b402255",
         "type": "github"
       },
       "original": {
         "owner": "noctalia-dev",
-        "ref": "legacy-v4",
         "repo": "noctalia",
         "type": "github"
       }
@@ -1155,6 +1155,28 @@
       "original": {
         "owner": "noctalia-dev",
         "repo": "noctalia-qs",
+        "type": "github"
+      }
+    },
+    "noctalia_2": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "noctalia-qs": "noctalia-qs"
+      },
+      "locked": {
+        "lastModified": 1783017890,
+        "narHash": "sha256-bAzrtN0GDMH0dOZkgeI3zSxfFs2rdD3pMuzOxvTF0bs=",
+        "owner": "noctalia-dev",
+        "repo": "noctalia",
+        "rev": "a48885b9fec485c903c955749a7da6e30147cd38",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "ref": "legacy-v4",
+        "repo": "noctalia",
         "type": "github"
       }
     },
@@ -1300,7 +1322,7 @@
         "nixpkgs-26-05": "nixpkgs-26-05",
         "nixvim": "nixvim",
         "nixvirt": "nixvirt",
-        "noctalia": "noctalia",
+        "noctalia": "noctalia_2",
         "nur": "nur",
         "openclaw": "openclaw",
         "solaar": "solaar",

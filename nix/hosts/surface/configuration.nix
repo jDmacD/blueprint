@@ -32,6 +32,10 @@
     variables = {
       DOCKER_HOST = "tcp://picard.lan:2375";
     };
+    pathsToLink = [
+      "/share/applications"
+      "/share/xdg-desktop-portal"
+    ];
   };
 
   programs = {

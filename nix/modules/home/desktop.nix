@@ -9,7 +9,7 @@
   imports = [
     ./hyprland.nix
     ./hypridle.nix
-    ./noctalia.nix
+    # ./noctalia.nix
     ./vscode.nix
     ./firefox.nix
   ];
