@@ -15,8 +15,8 @@
   # DP-2's mode is re-set per client by the Sunshine `do` prep-cmd to match the
   # client's resolution/refresh; the mode below is just the idle default.
 
-  # The sunshine Hyprland session needs to restart to pick up the new config 
-  # — either reboot picard, or log out/in the sunshine session 
+  # The sunshine Hyprland session needs to restart to pick up the new config
+  # — either reboot picard, or log out/in the sunshine session
   # (loginctl terminate-user sunshine, autologin brings it back).
 
   wayland.windowManager.hyprland = {

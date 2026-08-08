@@ -27,6 +27,7 @@
       desktop
     ]
     ++ [
+      inputs.crann.modules.homeManager.niri
     ];
 
   programs.claude-code.preset = "home";

@@ -64,9 +64,6 @@
     noctalia.url = "github:noctalia-dev/noctalia/legacy-v4";
     noctalia.inputs.nixpkgs.follows = "nixpkgs";
 
-    niri.url = "github:sodiboo/niri-flake";
-    niri.inputs.nixpkgs.follows = "nixpkgs";
-
     openclaw.url = "github:openclaw/nix-openclaw";
     openclaw.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -75,6 +72,11 @@
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     nix-flatpak.inputs.nixpkgs.follows = "nixpkgs";
+
+    crann = {
+      url = "github:jDmacD/crann";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
