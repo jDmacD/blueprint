@@ -20,22 +20,31 @@
     desktop
     lanzaboote
     tpm
+    opendeck
   ]);
 
   environment = {
     systemPackages = with pkgs; [
       docker-client
       cifs-utils
+      rpi-imager
     ];
     variables = {
       DOCKER_HOST = "tcp://picard.lan:2375";
     };
+    pathsToLink = [
+      "/share/applications"
+      "/share/xdg-desktop-portal"
+    ];
   };
 
   programs = {
     nix-ld = {
       enable = true;
     };
+    # streamcontroller = {
+    #   enable = true;
+    # };
   };
 
   networking = {

@@ -31,6 +31,7 @@ in
     packages = [ ];
   };
   users.users.sunshine = {
+    enable = false;
     isNormalUser = true;
     description = "Sunshine";
     openssh.authorizedKeys.keys = authorizedKeys;
@@ -41,7 +42,7 @@ in
       "sound"
       "video"
       "docker"
-    ];   
+    ];
   };
   security.sudo.wheelNeedsPassword = false;
   nix.settings.trusted-users = [ "jmacdonald" ];

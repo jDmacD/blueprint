@@ -27,17 +27,21 @@
       desktop
     ]
     ++ [
+      # niri's home config is provided by the crann NixOS module
+      # (inputs.crann.modules.nixos.niri) via home-manager.sharedModules;
+      # importing the standalone home module here too would double-declare
+      # programs.niri.*. Only the standalone (non-NixOS) case imports it.
     ];
 
   programs.claude-code.preset = "home";
 
-  programs.noctalia-shell.wallpaper.monitorDirectories = [
-    {
-      name = "eDP-1";
-      dimensions = "3000x2000";
-      wallpaper = "wallhaven-n6kwqx_3000x2000.png";
-    }
-  ];
+  # programs.noctalia-shell.wallpaper.monitorDirectories = [
+  #   {
+  #     name = "eDP-1";
+  #     dimensions = "3000x2000";
+  #     wallpaper = "wallhaven-n6kwqx_3000x2000.png";
+  #   }
+  # ];
 
   home.packages = with pkgs; [
     # blender

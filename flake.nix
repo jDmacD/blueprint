@@ -46,13 +46,6 @@
     solaar.url = "github:Svenum/Solaar-Flake/0.1.7";
     solaar.inputs.nixpkgs.follows = "nixpkgs";
 
-    # this is purely for the uconsole
-    oom-hardware-nixos-raspberrypi.url = "github:robertjakub/nixos-raspberrypi/develop"; # stick with my branch
-    oom-hardware-nixos-raspberrypi.inputs.nixpkgs.follows = "nixpkgs";
-    oom-hardware.url = "github:robertjakub/oom-hardware/devel";
-    oom-hardware.inputs.nixpkgs.follows = "nixpkgs";
-    oom-hardware.inputs.nixos-raspberrypi.follows = "nixos-raspberrypi";
-
     nixvirt.url = "github:AshleyYakeley/NixVirt/v0.6.0";
     nixvirt.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -71,25 +64,29 @@
     noctalia.url = "github:noctalia-dev/noctalia/legacy-v4";
     noctalia.inputs.nixpkgs.follows = "nixpkgs";
 
-    niri.url = "github:sodiboo/niri-flake";
-    niri.inputs.nixpkgs.follows = "nixpkgs";
-
     openclaw.url = "github:openclaw/nix-openclaw";
     openclaw.inputs.nixpkgs.follows = "nixpkgs";
 
     eduvpn.url = "git+https://codeberg.org/jDmacD/nix-eduvpn.git";
     eduvpn.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+    nix-flatpak.inputs.nixpkgs.follows = "nixpkgs";
+
+    crann = {
+      url = "github:jDmacD/crann";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
     extra-substituters = [
       "https://jdmacd.cachix.org"
-      "https://nixos-raspberrypi.cachix.org"
+      "https://noctalia.cachix.org"
     ];
     extra-trusted-public-keys = [
       "jdmacd.cachix.org-1:0DcSfXShBIng2EbPW44fxoXjXowKhZZWrbYqcozFhfM="
-      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
     ];
   };
 
