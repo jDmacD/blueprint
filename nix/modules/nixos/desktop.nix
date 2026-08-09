@@ -9,13 +9,15 @@
 {
   imports = [
     # flake.nixosModules.greetd
-    ./hyprland.nix
-    ./stylix.nix
+    # ./hyprland.nix
+    # ./stylix.nix
     # niri system layer (portal, greeter session, polkit, keyring) — replaces
     # the Hyprland NixOS module that used to provide these.
     inputs.crann.modules.nixos.niri
     # noctalia binary cache substituter (noctalia itself is a home program).
     inputs.crann.modules.nixos.noctalia
+
+    inputs.crann.modules.nixos.stylix
     ./peripherals.nix
     ./fonts.nix
     # ./noctalia.nix
@@ -27,6 +29,15 @@
     spawn-at-startup = [
       { command = [ "noctalia" ]; }
     ];
+  };
+
+  crann.stylix = {
+    enable = true;
+    extraSettings = {
+      targets = {
+        regreet.enable = false;
+      };
+    };
   };
 
   hardware.bluetooth = {

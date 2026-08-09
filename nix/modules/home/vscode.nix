@@ -103,25 +103,6 @@ in
                 buildInputs = [ ];
               }
             )
-            (mkExtension
-              {
-                mktplcRef = {
-                  name = "claude-code";
-                  publisher = "anthropic";
-                  version = "2.1.1";
-                  sha256 = "sha256-SSVmSVthYpW8lSCSdHHFJiXagx4QzhhNsJYo7F5XGbA=";
-                  arch = "linux-x64";
-                };
-                nativeBuildInputs = [ ];
-                buildInputs = [ ];
-              }
-              {
-                # Darwin overrides: different arch, no ELF patching
-                mktplcRef.arch = "aarch64-darwin";
-                nativeBuildInputs = [ ];
-                buildInputs = [ ];
-              }
-            )
           ]
           ++ (pkgs.lib.optionals (osConfig.networking.hostName == "lwh-hotapril") [
             gitlab.gitlab-workflow
