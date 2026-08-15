@@ -33,10 +33,14 @@
     # home-assistant
     forgejo-runner
     acme
-    steam
     desktop
     # openclaw
-  ]);
+  ])
+  ++ [
+    inputs.crann.modules.nixos.steam
+  ];
+
+  crann.steam.enable = true;
 
   virtualisation.libvirtd = {
     enable = true;

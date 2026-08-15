@@ -7,18 +7,20 @@
 {
 
   imports = [
-    # ./hyprland.nix
-    # ./hypridle.nix
-    # ./noctalia.nix
-    # ./vscode.nix
     inputs.crann.modules.homeManager.noctalia
     inputs.crann.modules.homeManager.vscode
     ./firefox.nix
   ];
 
-  crann.vscode = {
-    enable = true;
+  crann = {
+    noctalia = {
+      enable = true;
+    };
+    vscode = {
+      enable = true;
+    };
   };
+
 
   programs = {
     rofi = {

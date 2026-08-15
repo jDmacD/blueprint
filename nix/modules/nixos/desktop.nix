@@ -8,9 +8,6 @@
 }:
 {
   imports = [
-    # flake.nixosModules.greetd
-    # ./hyprland.nix
-    # ./stylix.nix
     # niri system layer (portal, greeter session, polkit, keyring) — replaces
     # the Hyprland NixOS module that used to provide these.
     inputs.crann.modules.nixos.niri
@@ -20,15 +17,17 @@
     inputs.crann.modules.nixos.stylix
     ./peripherals.nix
     ./fonts.nix
-    # ./noctalia.nix
     ./gdm.nix
     ./printing.nix
   ];
 
-  crann.niri.extraSettings = {
-    spawn-at-startup = [
-      { command = [ "noctalia" ]; }
-    ];
+  crann.niri = {
+    enable = true;
+    extraSettings = {
+      spawn-at-startup = [
+        { command = [ "noctalia" ]; }
+      ];
+    };
   };
 
   crann.stylix = {

@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  osConfig,
   inputs,
   ...
 }:
@@ -11,11 +12,6 @@
     [
       home-shared
       personal
-      kubernetes-utils
-      git-utils
-      terminals
-      shells
-      terminal-utils
       ai-utils
       dev-utils
       nix-utils
@@ -31,7 +27,32 @@
       # (inputs.crann.modules.nixos.niri) via home-manager.sharedModules;
       # importing the standalone home module here too would double-declare
       # programs.niri.*. Only the standalone (non-NixOS) case imports it.
+      inputs.crann.modules.homeManager.git
+      inputs.crann.modules.homeManager.kubernetes
+      inputs.crann.modules.homeManager.shells
+      inputs.crann.modules.homeManager.terminal
     ];
+
+  crann = {
+    git.enable = true;
+    kubernetes = {
+      enable = true;
+      extraPackages = [ pkgs.k3d ];
+    };
+    shells = {
+      enable = true;
+      flakeInspectPath = "${config.home.homeDirectory}/blueprint";
+    };
+    terminal = {
+      enable = true;
+      zellij.extraSettings = {
+        web_server_ip = "0.0.0.0";
+        web_server_port = 8082;
+        web_server_cert = "/var/lib/acme/${osConfig.networking.hostName}.jtec.xyz/cert.pem";
+        web_server_key = "/var/lib/acme/${osConfig.networking.hostName}.jtec.xyz/key.pem";
+      };
+    };
+  };
 
   programs.claude-code.preset = "home";
 
