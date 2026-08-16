@@ -3,6 +3,7 @@
   config,
   osConfig,
   inputs,
+  perSystem,
   ...
 }:
 {
@@ -12,13 +13,13 @@
     inputs.crann.modules.homeManager.kubernetes
     inputs.crann.modules.homeManager.shells
     inputs.crann.modules.homeManager.terminal
+    inputs.crann.modules.homeManager.nix-utils
+    inputs.crann.modules.homeManager.ai-utils
   ]
   ++ (with inputs.self.homeModules; [
     home-shared
     personal
-    ai-utils
     dev-utils
-    nix-utils
     cloud-utils
     network-utils
     sops
@@ -45,6 +46,29 @@
         web_server_port = 8082;
         web_server_cert = "/var/lib/acme/${osConfig.networking.hostName}.jtec.xyz/cert.pem";
         web_server_key = "/var/lib/acme/${osConfig.networking.hostName}.jtec.xyz/key.pem";
+      };
+    };
+    nix-utils = {
+      enable = true;
+      nh = {
+        flakePath = "${config.home.homeDirectory}/blueprint";
+      };
+      extraPackages = [ perSystem.self.cachix-update ];
+    };
+    ai-utils = {
+      enable = true;
+      claude-code = {
+        enable = true;
+        context = ''
+          - This is a Linux NixOS Machine
+          - Its hostname is picard
+          - The local network domain name is .lan
+          - The local subnet is 192.168.178.0/24
+          - The nix-shell can be used use to access tools for instance
+              - `nix-shell --packages ethtool dnsutils --quiet --run "dig +short picard.lan"`
+              - `ssh lwh-hotapril.lan 'nix-shell --packages facter --quiet --run "facter -j"'`
+          - search for tools and applications with `nh search <application name>`
+        '';
       };
     };
   };
