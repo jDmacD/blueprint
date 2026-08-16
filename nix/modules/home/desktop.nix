@@ -9,6 +9,8 @@
   imports = [
     inputs.crann.modules.homeManager.noctalia
     inputs.crann.modules.homeManager.vscode
+    # wl-clipboard
+    inputs.crann.modules.homeManager.desktop
     ./firefox.nix
   ];
 
@@ -17,6 +19,9 @@
       enable = true;
     };
     vscode = {
+      enable = true;
+    };
+    desktop = {
       enable = true;
     };
   };
@@ -52,7 +57,6 @@
   home.packages = with pkgs; [
     wireplumber
     libgtop
-    wl-clipboard
     gvfs
     vlc
     pinta

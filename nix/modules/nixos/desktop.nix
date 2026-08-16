@@ -15,6 +15,8 @@
     inputs.crann.modules.nixos.noctalia
 
     inputs.crann.modules.nixos.stylix
+    # audio (pipewire) / bluetooth / power (upower) / gvfs
+    inputs.crann.modules.nixos.desktop
     ./peripherals.nix
     ./fonts.nix
     ./gdm.nix
@@ -39,21 +41,5 @@
     };
   };
 
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    package = pkgs.bluez;
-    settings.General.Experimental = true;
-  };
-
-  services = {
-    upower.enable = true;
-    blueman.enable = true;
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
-  };
+  crann.desktop.enable = true;
 }
