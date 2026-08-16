@@ -42,6 +42,16 @@
 
   crann.steam.enable = true;
 
+  # Signs everything picard builds locally, so it can serve as a substituter
+  # for other hosts (ssh-ng://picard.lan) without "not signed by any of the
+  # keys in trusted-public-keys" warnings. Matching public key goes into the
+  # consuming host's trusted-public-keys (e.g. surface's user nix.conf).
+  sops.secrets."nix_store_signing_key" = {
+    owner = "root";
+    mode = "0600";
+  };
+  nix.settings.secret-key-files = [ config.sops.secrets."nix_store_signing_key".path ];
+
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
@@ -113,5 +123,18 @@
       "tcp://0.0.0.0:2375"
     ];
   };
+
+  # systemd-udevd has leaked to ~26GB RSS here twice (2026-08-09, 2026-08-16),
+  # driven by heavy ephemeral veth/lxc churn from docker/k3s/cilium. It runs
+  # with OOMScoreAdjust=-1000 (immune to the global OOM killer), so an
+  # unbounded leak makes the kernel kill real k3s workloads instead of the
+  # actual offender. A cgroup MemoryMax forces a memcg-scoped OOM kill (which
+  # bypasses OOMScoreAdjust) well before that point; Restart=always (upstream
+  # default) then brings it straight back up.
+  systemd.services.systemd-udevd.serviceConfig = {
+    MemoryHigh = "1500M";
+    MemoryMax = "2G";
+  };
+
   system.stateVersion = "25.11"; # Did you read the comment?
 }
