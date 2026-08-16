@@ -1,33 +1,20 @@
-This is an attempt to refactor my configuration into something sane using [blueprint](https://github.com/numtide/blueprint).
+This is jDmacD's personal NixOS/nix-darwin configuration, refactored into something
+sane using [blueprint](https://github.com/numtide/blueprint). It currently manages
+`worf`, `picard`, and `surface` (the actively deployed hosts), plus `lore` (macOS)
+and `dev` (a disposable test VM).
 
-I'm hoping to simplify the management of my pi fleet through the use of [nixos-raspberrypi](https://github.com/nvmd/nixos-raspberrypi/) now that [raspberry-pi-nix](https://discourse.nixos.org/t/what-happened-to-raspberry-pi-nix/62417) is dead.
+The Raspberry Pi k3s fleet this repo originally managed directly via
+[nixos-raspberrypi](https://github.com/nvmd/nixos-raspberrypi/) (after
+[raspberry-pi-nix](https://discourse.nixos.org/t/what-happened-to-raspberry-pi-nix/62417)
+went dead) has since been split out into its own flake,
+[`nix-pi`](https://github.com/jDmacD/nix-pi) — SD-image building and RPi
+deployment now happen there, not in this repo.
+
+See `CLAUDE.md` for actual build/deploy/secrets commands and current architecture
+notes; that file is the maintained reference, this one is intentionally brief.
 
 ## Blueprint Examples
 - https://github.com/zimbatm/home
 
-## Raspberry Pi Examples
+## Raspberry Pi Examples (relevant to `nix-pi`, not this repo)
 - https://github.com/nvmd/nixos-raspberrypi-demo
-
-## Building SD Images
-
-Build an SD image for a Raspberry Pi host:
-
-```bash
-# Build SD image for a specific host
-nix build .#nixosConfigurations.<hostname>.config.system.build.sdImage
-
-# Example: Build SD image for pi01
-nix build .#nixosConfigurations.pi01.config.system.build.sdImage
-```
-
-The SD image will be created in `./result/sd-image/` and can be flashed to an SD card:
-
-```bash
-# For uncompressed .img files
-sudo dd if=./result/sd-image/nixos-sd-image-*.img of=/dev/sdX bs=4M status=progress conv=fsync
-
-# For compressed .img.zst files (decompress and flash in one step)
-zstd -d -c ./result/sd-image/nixos-sd-image-*.img.zst | sudo dd of=/dev/sdX bs=4M status=progress conv=fsync
-```
-
-**Note**: SD images are configured with a 512MB boot partition (defined in `sd-image-config.nix`) to provide sufficient space for multiple generations and prevent "No space left on device" errors during deployments.

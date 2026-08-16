@@ -4,7 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a NixOS/nix-darwin configuration repository using [Blueprint](https://github.com/numtide/blueprint) for managing multiple systems including Raspberry Pi fleet, Linux workstations, and macOS machines. The configuration focuses on managing a Kubernetes cluster (k3s) across Raspberry Pi nodes with secrets management via SOPS.
+This is a NixOS/nix-darwin configuration repository using [Blueprint](https://github.com/numtide/blueprint) for managing a small set of personal machines: **worf**, **picard**, and **surface** are the actively deployed/critical hosts, plus **lore** (macOS) and **dev** (disposable test VM). Secrets are managed via SOPS throughout.
+
+The Raspberry Pi fleet (k3s cluster) that this repo originally managed was split out into its own standalone flake, [`nix-pi`](https://github.com/jDmacD/nix-pi) (`~/Code/nix-pi` locally) — it no longer lives here; see "Former Raspberry Pi Fleet" below. **picard** still participates in that cluster as a k3s agent (`k3s-agent-gpu` module), but the cluster's control plane and other nodes are defined in `nix-pi`, not in this repo.
+
+This repo is also mid-migration: reusable modules are being ported out into a companion library flake, [crann](https://github.com/jDmacD/crann), and re-consumed here as a flake input — see "crann Migration" below. Treat this file as a snapshot that can drift from the actual module wiring; when in doubt, grep `nix/hosts/*/configuration.nix` and `nix/hosts/*/users/*/home-configuration.nix` for what a host actually imports rather than trusting this doc's module lists.
 
 ## Common Commands
 
@@ -16,9 +20,6 @@ nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
 
 # Build darwin configuration (macOS)
 nix build .#darwinConfigurations.lore.system
-
-# Build SD image for Raspberry Pi
-nix build .#nixosConfigurations.muse.config.system.build.sdImage
 
 # Switch to new configuration (on target host)
 sudo nixos-rebuild switch --flake .
@@ -56,7 +57,8 @@ sops nix/hosts/<hostname>/secrets.yaml
 # Edit shared secrets
 sops nix/hosts/secrets.yaml
 sops nix/secrets/personal.yaml
-sops nix/secrets/heanet.yaml
+sops nix/secrets/work.yaml
+sops nix/secrets/turing.yaml
 ```
 
 ## Architecture
@@ -68,72 +70,156 @@ This repository uses Blueprint with a `nix/` prefix convention:
 - `nix/hosts/` - Per-host configurations
 - `nix/modules/nixos/` - NixOS system modules (shared configurations)
 - `nix/modules/home/` - home-manager modules (user configurations)
-- `nix/lib/` - Shared helper functions
-  - `rpi-host.nix` - Helper for creating Raspberry Pi host configurations
+- `nix/lib/` - Shared helper functions (sops, stylix, greetd, wallpapers)
 - `nix/devshell.nix` - Development environment
 - `nix/formatter.nix` - Code formatting (deadnix + nixfmt-rfc-style)
 
 **Blueprint's perSystem:**
-Blueprint provides a `perSystem` argument to modules, which allows accessing per-system outputs from flake inputs. For example, `perSystem.nixpkgs-25-05.pkgs` is equivalent to `inputs.nixpkgs-25-05.legacyPackages.<system>`. This is used in modules like `k3s-agent.nix` to access packages from specific nixpkgs versions.
+Blueprint provides a `perSystem` argument to modules, which allows accessing per-system outputs from flake inputs. For example, `perSystem.nixpkgs-25-05.pkgs` is equivalent to `inputs.nixpkgs-25-05.legacyPackages.<system>`. This is used in modules like `k3s-agent-gpu.nix` to access packages from specific nixpkgs versions.
 
 ### Host Types and Naming
 
-The repository manages several host types with Star Trek-themed names:
+The repository manages hosts under `nix/hosts/`, mostly with Star Trek-themed
+names. Current hosts (verify against `ls nix/hosts/` — this list drifts):
 
-**Raspberry Pi Fleet (k3s cluster):**
-- **pi01, pi02, pi03**: Raspberry Pi 4B - k3s agents
-- **pi04, pi05**: Raspberry Pi 5 - k3s agents
-- **tpi01, tpi02, tpi03, tpi04**: Compute Module 4 (CM4) - tpi01 is control plane, others are agents
+- **picard**: x86_64 Linux home server/hypervisor (libvirtd, k3s-agent-gpu, docker,
+  NFS, Sunshine game streaming) with a niri desktop. Critical/actively deployed.
+- **surface**: x86_64 Linux laptop (Surface device: lanzaboote secure boot, TPM,
+  opendeck) with a niri desktop. Critical/actively deployed.
+- **worf**: VPS/cloud host (`worf.jtec.xyz`) with disko for disk management, no
+  desktop. Critical/actively deployed.
+- **lore**: macOS (aarch64-darwin) with nix-darwin and homebrew. Not yet migrated
+  to crann (see "crann Migration" below).
+- **dev**: disposable/scratch x86_64 Linux VM (himmelblau module only) — not a
+  desktop host, minimal configuration, not documented further here.
 
-**Other Hosts:**
-- **riker**: x86_64 Linux workstation with UI (Hyprland)
-- **lore**: macOS (aarch64-darwin) with nix-darwin and homebrew
-- **worf**: VPS/cloud host with disko for disk management
+`riker` (a former Hyprland workstation) no longer exists in this repo.
+
+### Former Raspberry Pi Fleet
+
+This repo used to also manage a Raspberry Pi k3s fleet (`pi01`–`pi05`,
+`tpi01`–`tpi04`) directly, via `nixos-raspberrypi.lib.nixosSystemFull` and a
+`mkRpiHost` helper (`nix/lib/rpi-host.nix`). That fleet has been fully split out
+into a standalone flake, [`nix-pi`](https://github.com/jDmacD/nix-pi) — none of
+those host directories, the `rpi-host.nix` helper, or the RPi SD-image workflow
+exist in this repo anymore. The `nixos-raspberrypi` flake input is still declared
+in `flake.nix` but is otherwise unused here; `flake.nix`'s `deploy.nodes` also
+still lists `pi01`–`pi05`/`tpi01`–`tpi04` as deploy targets even though no
+matching `nixosConfigurations` exist — those entries are dead and would fail if
+invoked. For actual RPi fleet docs, see `nix-pi`'s own `CLAUDE.md`.
 
 ### Module System
 
-**NixOS Modules** (`nix/modules/nixos/`):
+**NixOS Modules** (`nix/modules/nixos/`) — non-exhaustive; see the directory for the
+full, fast-moving fleet/service module set (acme, docker, forgejo-runner, github-runner,
+himmelblau, k3s-agent-gpu, and similar):
 - `host-shared.nix` - Core configuration for all hosts (Nix settings, caching, Stylix)
-- `k3s-server.nix` - Kubernetes control plane configuration
-- `k3s-agent.nix` - Kubernetes worker node configuration
-- `rpi5.nix` - Raspberry Pi 5 specific hardware setup
-- `ui.nix` - Desktop environment (Hyprland)
-- `hyprland.nix` - Hyprland window manager configuration
 - `ssh.nix` - SSH server configuration
 - `users.nix` - User account management
 - `homebrew.nix` - macOS Homebrew integration
 - `eduvpn.nix` - EduVPN client with NetworkManager OpenVPN support
 - `vpn-split-tunnel.nix` - Automatic VPN split tunneling for local network access
+- `desktop.nix` - GUI host aggregator (peripherals, fonts, gdm, printing) that pulls
+  niri/noctalia/stylix in from **crann** — see "crann Migration" below
 
 **home-manager Modules** (`nix/modules/home/`):
 - `home-shared.nix` - Base home configuration (devbox, pre-commit, sops, ssh-agent)
-- `terminal.nix` - Terminal configuration
+- `terminals.nix` / `terminal-utils.nix` - Terminal emulators + CLI utilities (legacy;
+  superseded by crann's `terminal` module on picard/worf/surface — see below)
 - `firefox.nix` - Firefox browser setup
-- `vscode.nix` - VSCode configuration
-- `kubernetes-utils.nix` - k8s CLI tools and utilities
-- `personal.nix` - Personal development tools
-- `work.nix` - Work-specific tools
+- `kubernetes-utils.nix` - k8s CLI tools and utilities (legacy; superseded by crann's
+  `kubernetes` module on picard/surface)
+- `git-utils.nix` - gh/lazygit/pre-commit (legacy; superseded by crann's `git` module
+  on picard/surface)
+- `personal.nix` - Personal development tools + git identity
+- `work.nix` - Work-specific tools (currently unused by any host)
+- `desktop.nix` - Desktop aggregator that pulls noctalia/vscode in from **crann**
+
+**darwin Modules** (`nix/modules/darwin/`) - undocumented elsewhere, so listed in
+full: `host-shared.nix`, `sops.nix`, `stylix.nix` — lore's equivalent of the
+NixOS `host-shared.nix`/`sops.nix` base config, plus a local (non-crann) stylix
+module for the darwin host.
+
+### crann Migration
+
+Reusable modules are being ported out of this repo and into
+[crann](https://github.com/jDmacD/crann) (`~/Code/crann` locally), a separate
+flake-parts/dendritic library flake, then re-imported here via the `crann` flake
+input (`inputs.crann.modules.<class>.<name>`). See crann's own `CLAUDE.md` for its
+conventions.
+
+**Migration state is uneven per host, not a blanket switch** — check each host's
+`configuration.nix`/`home-configuration.nix` for its actual `inputs.crann.modules.*`
+imports rather than trusting a summary. As of 2026-08-16:
+
+- **picard** (NixOS + home): `desktop` module pulls in crann's `niri`/`noctalia`/`stylix`
+  at the NixOS level; `crann.steam` (NixOS, picard-only); home-manager: `git`,
+  `kubernetes`, `shells`, `terminal`. Still on **local** `ai-utils`
+  (`inputs.self.homeModules.ai-utils`), not crann's.
+- **surface** (NixOS + home): same NixOS-level `desktop` module (niri/noctalia/stylix)
+  plus the new `crann.nix` wrapper (`inputs.crann.modules.nixos.optnix`); home-manager:
+  `git`, `kubernetes`, `shells`, `terminal`, `nix-utils`, `optnix`, `obsidian`, and
+  **`ai-utils`** — surface is currently the only host on crann's `ai-utils` module
+  (drives the `claude-code`/`claude-obsidian` context injection).
+- **worf** (NixOS + home, headless — no desktop stack at all): home-manager only,
+  `shells` and `terminal`. No `git`/`kubernetes`/niri/noctalia/stylix/vscode on worf.
+- **lore** (darwin): not migrated — still uses the original local
+  `git-utils.nix`/`kubernetes-utils.nix`/`shells.nix`/`terminals.nix`/`terminal-utils.nix`/
+  `vscode.nix` — don't delete those files until lore is switched over too.
+
+picard's Sunshine/Hyprland game-streaming setup (`sunshine.nix`,
+`hyprland-sunshine.nix`) is staying local — porting it raises a separate
+Hyprland-in-crann design question. `nix/modules/nixos/crann.nix` (a thin wrapper
+enabling `crann.optnix`) is new/uncommitted as of 2026-08-16 and not yet used
+outside surface.
+
+**Gotchas learned the hard way:**
+- `crann.niri.enable = true;` must be set explicitly at the **NixOS** level (in
+  `nixos/desktop.nix`). Setting only `crann.niri.extraSettings` does nothing — the
+  entire module (portal, session, polkit, keyring, `xdg.portal.enable`) is gated
+  behind `lib.mkIf cfg.enable`. A missing `enable` here silently breaks
+  `xdg.portal.enable`, which then fails any Flatpak (`opendeck.nix`) or per-user
+  portal assertion — a confusing failure mode far from the actual cause.
+- Do **not** set `crann.niri.enable` at the **home-manager** level for
+  NixOS-integrated hosts (picard/surface/worf) — that option only exists if you
+  import crann's standalone `homeManager.niri` module, which you shouldn't for these
+  hosts (double-declares `programs.niri.*`). niri's home config is injected
+  automatically via `home-manager.sharedModules` from the NixOS-level module.
+- After crann changes land on its `main` branch, run `nix flake lock --update-input
+  crann` here to pick them up — local edits in `~/Code/crann` don't reach this repo
+  until pushed and the lock is updated.
 
 ### Kubernetes (k3s) Configuration
 
-The k3s cluster is configured with:
-- Flannel and kube-proxy disabled (likely using Cilium)
-- Traefik disabled (custom ingress)
-- ServiceLB disabled
-- Custom TLS SAN for `.lan` domain names
-- Firewall ports: 6443 (API), 10250 (metrics), 4240 (Cilium health), 8472 (Flannel/VXLAN)
+This repo does **not** define the k3s cluster's control plane or server-side flags
+(flannel/traefik/servicelb disabling, TLS SANs, etc.) — that configuration now
+lives in the separate [`nix-pi`](https://github.com/jDmacD/nix-pi) flake, on the
+`tpi01` control-plane node. This repo only defines **picard** as a k3s **agent**
+(`nix/modules/nixos/k3s-agent-gpu.nix`), which:
+- Joins the cluster at `https://tpi01.lan:6443` using a token from
+  `sops.secrets."k3s/token"` (SOPS-managed, resolves to `/run/secrets/k3s/token`).
+- Opens firewall ports 6443 (API), 10250 (metrics), 4240 (Cilium health), 443, 80
+  TCP and 8472 (Flannel/VXLAN) UDP, with the rest of the host firewall disabled.
+- Adds NVIDIA container-toolkit wiring (GPU workloads via the `nvidia`
+  RuntimeClass) — this module is GPU-specific, not a generic k3s-agent module.
 
-K3s agents connect using a token stored in `/var/run/secrets/k3s/token` (managed via SOPS).
+For the cluster's actual server-side behavior, read `nix-pi`'s own `CLAUDE.md`
+directly rather than inferring it from this repo.
 
 ### Secrets Management
 
 SOPS is configured with age encryption using per-host age keys. Secret files follow patterns:
 - `nix/secrets/personal.yaml` - Personal secrets (encrypted with personal key)
-- `nix/secrets/heanet.yaml` - Heanet-specific secrets
+- `nix/secrets/work.yaml` - Work secrets (encrypted with work key; includes heanet
+  identity/SSH secrets such as `heanet_id_rsa`, consumed by `nix/modules/home/work.nix`)
+- `nix/secrets/turing.yaml` - Turing Pi / RPi-fleet-adjacent secrets (personal key)
 - `nix/hosts/secrets.yaml` - Shared host secrets (all host keys)
 - `nix/hosts/<hostname>/secrets.yaml` - Per-host secrets
 
-Age keys for hosts: hel-1, picard, surface, lore, worf (defined in `.sops.yaml`).
+Age keys are defined in `.sops.yaml`. It still lists keys for the former RPi fleet
+hosts (`pi01`–`pi05`, `tpi01`–`tpi04`, `uconsole`) alongside the currently-relevant
+`hel-1`, `picard`, `surface`, `lore`, `worf` — those RPi entries are stale leftovers
+from before the `nix-pi` split, not evidence those hosts are still managed here.
 
 ### VPN Split Tunneling
 
@@ -165,85 +251,53 @@ The module automatically detects VPN connections matching `*eduvpn*` (case-insen
 Each host follows this structure:
 ```
 nix/hosts/<hostname>/
-├── default.nix              # Optional: Blueprint class definition (required for Raspberry Pi hosts)
-├── configuration.nix        # Main system configuration
+├── configuration.nix        # Main system config (or darwin-configuration.nix for lore)
 ├── hardware-configuration.nix  # Hardware-specific settings (optional)
 └── users/
     └── <username>/
         └── home-configuration.nix  # User home-manager config
 ```
 
-**Standard hosts** (worf, riker, lore) don't need `default.nix` - Blueprint automatically discovers them via `configuration.nix` or `darwin-configuration.nix`.
-
-**Raspberry Pi hosts** require `default.nix` using the `mkRpiHost` helper from `nix/lib/rpi-host.nix`:
-```nix
-{ flake, inputs, ... }:
-let
-  mkRpiHost = import inputs.self.lib.rpi-host {
-    inherit inputs flake;
-  };
-in
-mkRpiHost {
-  board = "4";  # or "5" for RPi 5
-  rpiModules = [ "sd-image" "usb-gadget-ethernet" ];
-  extraModules = [ ./configuration.nix ];
-}
-```
-
-This is necessary because Raspberry Pi hosts use `nixos-raspberrypi.lib.nixosSystemFull` which applies RPi-specific overlays. The helper abstracts the boilerplate while keeping `configuration.nix` consistent with other hosts.
+All current hosts (picard, surface, worf, lore, dev) are standard — none use a
+`default.nix`; Blueprint automatically discovers them via `configuration.nix` or
+`darwin-configuration.nix`. The `mkRpiHost`/`default.nix` pattern this section
+used to describe belonged to the RPi fleet, which no longer lives in this repo
+(see "Former Raspberry Pi Fleet" above).
 
 ### Cachix Integration
 
-The configuration uses multiple binary caches:
-- `nixos-raspberrypi.cachix.org` - Raspberry Pi packages
+The configuration uses these binary caches (`flake.nix` `nixConfig` +
+`host-shared.nix` on NixOS/darwin):
 - `jdmacd.cachix.org` - Personal cache
-- `hyprland.cachix.org` - Hyprland packages
+- `noctalia.cachix.org` - noctalia (niri shell) packages
 - `nix-community.cachix.org` - Community packages
 
-### Raspberry Pi Specifics
-
-All Raspberry Pi hosts use [nixos-raspberrypi](https://github.com/nvmd/nixos-raspberrypi) integration via the `nix/lib/rpi-host.nix` helper.
-
-**Available nixos-raspberrypi modules:**
-- `raspberry-pi-4.base` - Base Raspberry Pi 4B/CM4 support
-- `raspberry-pi-5.base` - Base Raspberry Pi 5 support
-- `raspberry-pi-5.page-size-16k` - 16K page size for RPi 5
-- `raspberry-pi-5.display-vc4` - VideoCore 4 display driver
-- `raspberry-pi-5.display-rp1` - RP1 display driver
-- `sd-image` - SD card image generation
-- `usb-gadget-ethernet` - USB gadget mode for networking
-
-**Why Raspberry Pi hosts need special handling:**
-- Cannot use global nixos-raspberrypi overlays (causes conflicts with non-RPi hosts)
-- Must use `nixos-raspberrypi.lib.nixosSystemFull` to apply RPi overlays in isolated context
-- The `mkRpiHost` helper in `nix/lib/rpi-host.nix` abstracts this complexity
-- Helper also provides `perSystem` for accessing packages from alternate nixpkgs versions (e.g., `nixpkgs-25-05`)
-
-**Building SD images:**
-```bash
-nix build .#nixosConfigurations.<hostname>.config.system.build.sdImage
-```
-
-SD images can be flashed to SD cards for deployment.
+(No `nixos-raspberrypi.cachix.org` or `hyprland.cachix.org` — the RPi fleet
+moved to the separate `nix-pi` flake, and this repo now uses niri, not
+Hyprland, for its desktop hosts.)
 
 ## Key Dependencies
 
 - **blueprint** - Configuration organization framework
+- **crann** - Companion library flake of reusable NixOS/home-manager modules (niri,
+  noctalia, stylix, vscode, steam, git, kubernetes, shells, terminal); see "crann
+  Migration" above
 - **nix-darwin** - macOS system management
 - **home-manager** - User environment management
 - **sops-nix** - Secrets management
 - **disko** - Declarative disk partitioning
-- **hyprland** - Wayland compositor
-- **stylix** - System-wide theming
-- **nixos-raspberrypi** - Raspberry Pi hardware support
+- **stylix** - System-wide theming (niri is the current desktop compositor, via
+  crann — see "crann Migration"; there is no Hyprland flake input in this repo)
 - **nur** - Nix User Repository
+- **nixos-raspberrypi** - declared as a flake input but currently **unused** in
+  `nix/` — a leftover from before the RPi fleet moved to `nix-pi`
 
 ## Important Conventions
 
 - All Nix files should be formatted with `nixfmt-rfc-style` and checked with `deadnix`
 - Secrets must never be committed unencrypted - always use SOPS
 - System state versions are pinned per-host and should not be changed after initial installation
-- k3s cluster token is stored in SOPS and deployed to `/var/run/secrets/k3s/token`
+- k3s agent token (picard only) is stored in SOPS and deployed to `/run/secrets/k3s/token`
 - Host platform is explicitly set in each configuration (`nixpkgs.hostPlatform`)
 - Modules should be imported using `inputs.self.nixosModules.<name>` or `inputs.self.homeModules.<name>` syntax rather than relative paths for consistency
 - `networking.hostName` is set in each host's `configuration.nix`, not in `default.nix` helpers
@@ -255,49 +309,18 @@ nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
 
 ## Remote Deployment
 
-Deploy to remote Raspberry Pi hosts using:
+Deploy to a remote host using:
 ```bash
 nixos-rebuild --use-remote-sudo --target-host <user>@<hostname>.lan --flake .#<hostname> switch
 ```
 
 Example:
 ```bash
-nixos-rebuild --use-remote-sudo --target-host jmacdonald@pi01.lan --flake .#pi01 switch
+nixos-rebuild --use-remote-sudo --target-host jmacdonald@picard.lan --flake .#picard switch
 ```
 
-### Troubleshooting Boot Partition Full
+`worf` is remote-built (`remoteBuild = true` in `flake.nix`'s `deploy.nodes`) and
+deployed at `worf.jtec.xyz`, not a `.lan` address.
 
-Raspberry Pi hosts have a 128MB FAT32 boot partition (`/boot/firmware`) that can fill up with old bootloader files and generations, causing deployment failures with errors like:
-
-```
-cp: error writing '/boot/firmware/start4cd.elf.tmp.XXXX': No space left on device
-Failed to install bootloader
-```
-
-**Quick fix:**
-
-```bash
-# SSH into the affected host
-ssh <user>@<hostname>.lan
-
-# Remove temporary files
-sudo rm -rf /boot/firmware/*.tmp* /boot/firmware/nixos/*.tmp.*
-
-# Delete old system generations (keeps current + recent)
-sudo nix-collect-garbage --delete-older-than 1d
-
-# Delete specific old generations
-sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 7 8 9
-
-# Remove old boot generation directories
-sudo rm -rf /boot/firmware/nixos/*-default
-
-# Verify space is available (should have 40MB+ free)
-df -h /boot/firmware
-```
-
-**Prevention:**
-
-1. Run `sudo nix-collect-garbage --delete-old` regularly on Raspberry Pi hosts
-2. Consider limiting boot generations in configuration (currently installs default + last 3 generations)
-3. If rebuilding SD images, increase boot partition size to 256MB or 512MB in disk configuration
+RPi-specific deployment troubleshooting (boot-partition-full, SD image
+generations, etc.) now belongs to the `nix-pi` flake, not this repo.
