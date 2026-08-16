@@ -91,6 +91,7 @@
         packages
         devShells
         checks
+        formatter
         ;
       deploy = {
         nodes =
