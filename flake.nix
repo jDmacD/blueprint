@@ -12,30 +12,20 @@
     blueprint.url = "github:numtide/blueprint";
     blueprint.inputs.nixpkgs.follows = "nixpkgs";
 
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager-25-05.url = "github:nix-community/home-manager/release-25.05";
     home-manager-25-05.inputs.nixpkgs.follows = "nixpkgs-25-05";
 
-    treefmt-nix.url = "github:numtide/treefmt-nix";
-
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    stylix.url = "github:nix-community/stylix";
-    stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     nur.url = "github:nix-community/NUR";
     nur.inputs.nixpkgs.follows = "nixpkgs";
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-
-    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
 
     deploy-rs.url = "github:serokell/deploy-rs";
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
@@ -49,20 +39,8 @@
     nixvirt.url = "github:AshleyYakeley/NixVirt/v0.6.0";
     nixvirt.inputs.nixpkgs.follows = "nixpkgs";
 
-    attic.url = "github:zhaofengli/attic";
-    attic.inputs.nixpkgs.follows = "nixpkgs";
-
-    himmelblau.url = "github:himmelblau-idm/himmelblau/main";
-    himmelblau.inputs.nixpkgs.follows = "nixpkgs";
-
     lanzaboote.url = "github:nix-community/lanzaboote/v1.1.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
-
-    devshell.url = "github:numtide/devshell";
-    devshell.inputs.nixpkgs.follows = "nixpkgs";
-
-    noctalia.url = "github:noctalia-dev/noctalia/legacy-v4";
-    noctalia.inputs.nixpkgs.follows = "nixpkgs";
 
     openclaw.url = "github:openclaw/nix-openclaw";
     openclaw.inputs.nixpkgs.follows = "nixpkgs";
@@ -108,9 +86,7 @@
       inherit (bp)
         lib
         nixosConfigurations
-        darwinConfigurations
         nixosModules
-        darwinModules
         homeModules
         packages
         devShells
@@ -128,11 +104,6 @@
                 arch ? "aarch64-linux",
                 remoteBuild ? false,
               }:
-              let
-                isDarwin = builtins.match ".*-darwin" arch != null;
-                activator = if isDarwin then "darwin" else "nixos";
-                configurations = if isDarwin then bp.darwinConfigurations else bp.nixosConfigurations;
-              in
               {
                 inherit
                   hostname
@@ -141,7 +112,7 @@
                   remoteBuild
                   ;
                 profiles.system = {
-                  path = inputs.deploy-rs.lib.${arch}.activate.${activator} configurations.${name};
+                  path = inputs.deploy-rs.lib.${arch}.activate.nixos bp.nixosConfigurations.${name};
                 };
               };
           in
@@ -159,16 +130,6 @@
               name = "surface";
               arch = "x86_64-linux";
             };
-            # uconsole = mkNode { name = "uconsole"; };
-            pi01 = mkNode { name = "pi01"; };
-            pi02 = mkNode { name = "pi02"; };
-            pi03 = mkNode { name = "pi03"; };
-            pi04 = mkNode { name = "pi04"; };
-            pi05 = mkNode { name = "pi05"; };
-            tpi01 = mkNode { name = "tpi01"; };
-            tpi02 = mkNode { name = "tpi02"; };
-            tpi03 = mkNode { name = "tpi03"; };
-            tpi04 = mkNode { name = "tpi04"; };
           };
       };
     };

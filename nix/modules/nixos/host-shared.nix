@@ -1,15 +1,9 @@
 {
   pkgs,
-  inputs,
   lib,
   ...
 }:
 {
-
-  imports = lib.optionals (inputs.self ? darwinModules.host-shared) [
-    inputs.self.darwinModules.host-shared
-  ];
-
   # Shared Nix configuration
   nixpkgs.config.allowUnfree = true;
 
