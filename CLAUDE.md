@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a NixOS/nix-darwin configuration repository using [Blueprint](https://github.com/numtide/blueprint) for managing a small set of personal machines: **worf**, **picard**, and **surface** are the actively deployed/critical hosts, plus **lore** (macOS) and **dev** (disposable test VM). Secrets are managed via SOPS throughout.
+This is a NixOS configuration repository using [Blueprint](https://github.com/numtide/blueprint) for managing a small set of personal machines: **worf**, **picard**, and **surface**, all actively deployed/critical. A macOS host (**lore**) and a disposable test VM (**dev**) both used to live here too; both were fully decommissioned and removed 2026-08-16 as part of the `blueprint-crann-restructuring` project (see "crann Migration" below) — there is no darwin host or darwin support left in this flake at all. Secrets are managed via SOPS throughout.
 
 The Raspberry Pi fleet (k3s cluster) that this repo originally managed was split out into its own standalone flake, [`nix-pi`](https://github.com/jDmacD/nix-pi) (`~/Code/nix-pi` locally) — it no longer lives here; see "Former Raspberry Pi Fleet" below. **picard** still participates in that cluster as a k3s agent (`k3s-agent-gpu` module), but the cluster's control plane and other nodes are defined in `nix-pi`, not in this repo.
 
@@ -18,15 +18,12 @@ This repo is also mid-migration: reusable modules are being ported out into a co
 # Build a specific host configuration
 nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
 
-# Build darwin configuration (macOS)
-nix build .#darwinConfigurations.lore.system
-
 # Switch to new configuration (on target host)
 sudo nixos-rebuild switch --flake .
-
-# Switch darwin configuration (macOS)
-darwin-rebuild switch --flake .
 ```
+
+(No darwin build/switch commands — there is no darwin host in this repo
+anymore; lore was the only one, decommissioned 2026-08-16.)
 
 ### Formatting
 
@@ -37,6 +34,14 @@ nix fmt
 # Format specific files/directories
 nix fmt nix/hosts/
 ```
+
+**Known issue (found 2026-08-16, not yet root-caused):** `nix fmt` currently
+errors with `flake 'git+file:///home/jmacdonald/blueprint' does not provide
+attribute 'formatter.x86_64-linux'`, despite `nix/formatter.nix` existing and
+defining a formatter (deadnix + nixfmt-rfc-style) — likely a blueprint
+auto-discovery wiring gap. Confirmed pre-existing (reproduces on a clean
+checkout, unrelated to any recent change). Until fixed, format manually
+instead: `nix-shell -p deadnix nixfmt --run 'deadnix --no-lambda-pattern-names --edit <files>; nixfmt <files>'`.
 
 ### Development Shell
 
@@ -70,7 +75,10 @@ This repository uses Blueprint with a `nix/` prefix convention:
 - `nix/hosts/` - Per-host configurations
 - `nix/modules/nixos/` - NixOS system modules (shared configurations)
 - `nix/modules/home/` - home-manager modules (user configurations)
-- `nix/lib/` - Shared helper functions (sops, stylix, greetd, wallpapers)
+- `nix/lib/` - Shared helper functions (sops, wallpapers) — `stylix.nix` and
+  `greetd.nix` were removed 2026-08-16 as dead code (never consumed;
+  `greetd.nix` re-exported a nonexistent module, `stylix.nix` was fully
+  orphaned once crann's own stylix module took over)
 - `nix/devshell.nix` - Development environment
 - `nix/formatter.nix` - Code formatting (deadnix + nixfmt-rfc-style)
 
@@ -88,12 +96,16 @@ names. Current hosts (verify against `ls nix/hosts/` — this list drifts):
   opendeck) with a niri desktop. Critical/actively deployed.
 - **worf**: VPS/cloud host (`worf.jtec.xyz`) with disko for disk management, no
   desktop. Critical/actively deployed.
-- **lore**: macOS (aarch64-darwin) with nix-darwin and homebrew. Not yet migrated
-  to crann (see "crann Migration" below).
-- **dev**: disposable/scratch x86_64 Linux VM (himmelblau module only) — not a
-  desktop host, minimal configuration, not documented further here.
 
-`riker` (a former Hyprland workstation) no longer exists in this repo.
+`lore` (macOS, nix-darwin + homebrew) and `dev` (disposable/scratch x86_64 Linux
+VM, himmelblau module only) both no longer exist in this repo — decommissioned
+and fully removed 2026-08-16 as part of the `blueprint-crann-restructuring`
+Phase 1 cleanup (commit `276aeb6`): lore's host directory, all
+`nix/modules/darwin/*`, the `nix-darwin` flake input, and
+`darwinConfigurations`/`darwinModules` wiring are gone entirely, along with
+dev's host directory and its only module, `himmelblau.nix`. There is no darwin
+support left in this flake at all. `riker` (a former Hyprland workstation)
+similarly no longer exists in this repo.
 
 ### Former Raspberry Pi Fleet
 
@@ -102,43 +114,51 @@ This repo used to also manage a Raspberry Pi k3s fleet (`pi01`–`pi05`,
 `mkRpiHost` helper (`nix/lib/rpi-host.nix`). That fleet has been fully split out
 into a standalone flake, [`nix-pi`](https://github.com/jDmacD/nix-pi) — none of
 those host directories, the `rpi-host.nix` helper, or the RPi SD-image workflow
-exist in this repo anymore. The `nixos-raspberrypi` flake input is still declared
-in `flake.nix` but is otherwise unused here; `flake.nix`'s `deploy.nodes` also
-still lists `pi01`–`pi05`/`tpi01`–`tpi04` as deploy targets even though no
-matching `nixosConfigurations` exist — those entries are dead and would fail if
-invoked. For actual RPi fleet docs, see `nix-pi`'s own `CLAUDE.md`.
+exist in this repo anymore. The `nixos-raspberrypi` flake input and the 9 dead RPi `deploy.nodes` entries
+that used to sit alongside it (`pi01`–`pi05`, `tpi01`–`tpi04`) were both removed
+2026-08-16 (commit `276aeb6`) now that the split is fully done. For actual RPi
+fleet docs, see `nix-pi`'s own `CLAUDE.md`.
 
 ### Module System
 
 **NixOS Modules** (`nix/modules/nixos/`) — non-exhaustive; see the directory for the
 full, fast-moving fleet/service module set (acme, docker, forgejo-runner, github-runner,
-himmelblau, k3s-agent-gpu, and similar):
+k3s-agent-gpu, and similar):
 - `host-shared.nix` - Core configuration for all hosts (Nix settings, caching, Stylix)
 - `ssh.nix` - SSH server configuration
 - `users.nix` - User account management
-- `homebrew.nix` - macOS Homebrew integration
-- `eduvpn.nix` - EduVPN client with NetworkManager OpenVPN support
-- `vpn-split-tunnel.nix` - Automatic VPN split tunneling for local network access
 - `desktop.nix` - GUI host aggregator (peripherals, fonts, gdm, printing) that pulls
-  niri/noctalia/stylix in from **crann** — see "crann Migration" below
+  niri/noctalia/stylix/**desktop** (audio, bluetooth, power, gvfs) in from
+  **crann** — see "crann Migration" below
+
+`eduvpn.nix` and `vpn-split-tunnel.nix` (zero-referenced modules left over from
+before the `nix-pi` split) were deleted 2026-08-16 (commit `276aeb6`) — there is
+no VPN split-tunneling NixOS module in this repo anymore (see "VPN Split
+Tunneling" below for what's left of it). `homebrew.nix` (actually a darwin-only
+module — `system.primaryUser`/`homebrew.*`, misfiled under `nixos/`) still
+physically exists but is now fully orphaned: lore, its only possible consumer,
+was removed in the same cleanup and nothing imports it anymore. Not yet deleted
+— flagged here rather than acted on silently, since it fell outside that
+cleanup's original scope.
 
 **home-manager Modules** (`nix/modules/home/`):
 - `home-shared.nix` - Base home configuration (devbox, pre-commit, sops, ssh-agent)
-- `terminals.nix` / `terminal-utils.nix` - Terminal emulators + CLI utilities (legacy;
-  superseded by crann's `terminal` module on picard/worf/surface — see below)
 - `firefox.nix` - Firefox browser setup
-- `kubernetes-utils.nix` - k8s CLI tools and utilities (legacy; superseded by crann's
-  `kubernetes` module on picard/surface)
-- `git-utils.nix` - gh/lazygit/pre-commit (legacy; superseded by crann's `git` module
-  on picard/surface)
 - `personal.nix` - Personal development tools + git identity
-- `work.nix` - Work-specific tools (currently unused by any host)
-- `desktop.nix` - Desktop aggregator that pulls noctalia/vscode in from **crann**
+- `desktop.nix` - Desktop aggregator that pulls noctalia/vscode/wl-clipboard in
+  from **crann**
 
-**darwin Modules** (`nix/modules/darwin/`) - undocumented elsewhere, so listed in
-full: `host-shared.nix`, `sops.nix`, `stylix.nix` — lore's equivalent of the
-NixOS `host-shared.nix`/`sops.nix` base config, plus a local (non-crann) stylix
-module for the darwin host.
+`terminals.nix`/`terminal-utils.nix` (superseded by crann's `terminal`),
+`kubernetes-utils.nix` (superseded by crann's `kubernetes`), `git-utils.nix`
+(superseded by crann's `git`), `work.nix` (unused by any host), and
+`ai-utils.nix`/`nix-utils.nix` (superseded by crann's own modules, picard was
+their last consumer) were all deleted 2026-08-16 across the
+`blueprint-crann-restructuring` project's Phases 1 and 5 (commits `276aeb6`,
+`5b45843`) — every host is now on crann's equivalents.
+
+There are no **darwin Modules** anymore — `nix/modules/darwin/` (`host-shared.nix`,
+`sops.nix`, `stylix.nix`) was deleted in full 2026-08-16 when lore, the only
+darwin host, was decommissioned.
 
 ### crann Migration
 
@@ -148,30 +168,54 @@ flake-parts/dendritic library flake, then re-imported here via the `crann` flake
 input (`inputs.crann.modules.<class>.<name>`). See crann's own `CLAUDE.md` for its
 conventions.
 
-**Migration state is uneven per host, not a blanket switch** — check each host's
-`configuration.nix`/`home-configuration.nix` for its actual `inputs.crann.modules.*`
-imports rather than trusting a summary. As of 2026-08-16:
+**A dedicated `blueprint-crann-restructuring` project (5 phases, commits
+`276aeb6`..`5b45843`, 2026-08-16) finished the bulk of this migration**:
+cleanup of dead/broken code left from the RPi split, full lore/dev
+decommission, standardizing enablement on inline (no per-host wrapper files),
+worf's and picard's remaining local-vs-crann gaps, and the nixos/home
+`desktop.nix` dedup are all done. What's left is deliberately out of scope
+(documented, not overlooked — see below), not an oversight. Still true going
+forward: **migration state can drift again** — check each host's
+`configuration.nix`/`home-configuration.nix` for its actual
+`inputs.crann.modules.*` imports rather than trusting this summary as it ages.
+Per-host state as of 2026-08-16:
 
-- **picard** (NixOS + home): `desktop` module pulls in crann's `niri`/`noctalia`/`stylix`
-  at the NixOS level; `crann.steam` (NixOS, picard-only); home-manager: `git`,
-  `kubernetes`, `shells`, `terminal`. Still on **local** `ai-utils`
-  (`inputs.self.homeModules.ai-utils`), not crann's.
-- **surface** (NixOS + home): same NixOS-level `desktop` module (niri/noctalia/stylix)
-  plus the new `crann.nix` wrapper (`inputs.crann.modules.nixos.optnix`); home-manager:
-  `git`, `kubernetes`, `shells`, `terminal`, `nix-utils`, `optnix`, `obsidian`, and
-  **`ai-utils`** — surface is currently the only host on crann's `ai-utils` module
-  (drives the `claude-code`/`claude-obsidian` context injection).
-- **worf** (NixOS + home, headless — no desktop stack at all): home-manager only,
-  `shells` and `terminal`. No `git`/`kubernetes`/niri/noctalia/stylix/vscode on worf.
-- **lore** (darwin): not migrated — still uses the original local
-  `git-utils.nix`/`kubernetes-utils.nix`/`shells.nix`/`terminals.nix`/`terminal-utils.nix`/
-  `vscode.nix` — don't delete those files until lore is switched over too.
+- **picard** (NixOS + home): `desktop` module pulls in crann's `niri`/
+  `noctalia`/`stylix`/**`desktop`** (audio, bluetooth, power, gvfs) at the
+  NixOS level; `crann.steam` (NixOS, picard-only, inline); home-manager:
+  `git`, `kubernetes`, `shells`, `terminal`, `nix-utils`, and now **`ai-utils`**
+  too (migrated off the local module in Phase 5 — see the known gap below).
+- **surface** (NixOS + home): same NixOS-level `desktop` module
+  (niri/noctalia/stylix/desktop); enabled inline
+  (`crann.optnix.enable = true` directly in `configuration.nix` — the old
+  per-host `nix/modules/nixos/crann.nix` wrapper file is gone, collapsed back
+  to inline in Phase 2 to match picard's style fleet-wide); home-manager:
+  `git`, `kubernetes`, `shells`, `terminal`, `nix-utils`, `optnix`, `obsidian`,
+  `ai-utils`. Still the only host on `crann.obsidian` — deliberately not yet
+  extended to picard (crann's newest, least battle-tested module; no fixed
+  date to change that).
+- **worf** (NixOS + home, headless — no desktop stack at all): home-manager:
+  `shells`, `terminal`, and now **`nix-utils`** too (Phase 3). No
+  `git`/`kubernetes`/niri/noctalia/stylix/vscode/ai-utils on worf — not needed
+  on a headless VPS.
+- **lore** (darwin): fully decommissioned and removed from this repo
+  2026-08-16 — see "Host Types and Naming" above. No darwin support remains
+  in this flake at all.
 
-picard's Sunshine/Hyprland game-streaming setup (`sunshine.nix`,
-`hyprland-sunshine.nix`) is staying local — porting it raises a separate
-Hyprland-in-crann design question. `nix/modules/nixos/crann.nix` (a thin wrapper
-enabling `crann.optnix`) is new/uncommitted as of 2026-08-16 and not yet used
-outside surface.
+**Known, deliberately accepted gap (picard, since 2026-08-16 Phase 5):**
+crann's `ai-utils` module only covers `claude-code`/`claude-obsidian`; it has
+no equivalent for what picard's old local `ai-utils.nix` also used to provide
+— `programs.aichat` (an Ollama client config), preset-based MCP servers
+(steampipe/argocd/grafana/gitlab, wired via `sops.secrets.mcp_env`), and the
+`kagent` package. These were dropped from picard by the migration rather than
+kept as a local supplement — an explicit call, not an oversight — pending
+that MCP tooling eventually being ported into crann itself.
+
+picard's Sunshine/Hyprland game-streaming setup (`sunshine.nix`) is staying
+local — porting it raises a separate Hyprland-in-crann design question; its
+dedicated-user session module (`hyprland-sunshine.nix`) was removed separately
+when Sunshine's dedicated user was retired (commit `370514a`, unrelated to
+this migration).
 
 **Gotchas learned the hard way:**
 - `crann.niri.enable = true;` must be set explicitly at the **NixOS** level (in
@@ -211,63 +255,63 @@ directly rather than inferring it from this repo.
 SOPS is configured with age encryption using per-host age keys. Secret files follow patterns:
 - `nix/secrets/personal.yaml` - Personal secrets (encrypted with personal key)
 - `nix/secrets/work.yaml` - Work secrets (encrypted with work key; includes heanet
-  identity/SSH secrets such as `heanet_id_rsa`, consumed by `nix/modules/home/work.nix`)
+  identity/SSH secrets such as `heanet_id_rsa`). **Now orphaned as of 2026-08-16:**
+  its only stated consumer, `nix/modules/home/work.nix`, was deleted in the
+  `blueprint-crann-restructuring` Phase 1 cleanup as zero-referenced — nothing in
+  this repo reads `work.yaml` or `heanet_id_rsa` anymore (checked directly, not
+  inferred). Flagged, not acted on — editing/removing secret file contents is a
+  separate call from a module cleanup.
 - `nix/secrets/turing.yaml` - Turing Pi / RPi-fleet-adjacent secrets (personal key)
 - `nix/hosts/secrets.yaml` - Shared host secrets (all host keys)
 - `nix/hosts/<hostname>/secrets.yaml` - Per-host secrets
 
 Age keys are defined in `.sops.yaml`. It still lists keys for the former RPi fleet
-hosts (`pi01`–`pi05`, `tpi01`–`tpi04`, `uconsole`) alongside the currently-relevant
-`hel-1`, `picard`, `surface`, `lore`, `worf` — those RPi entries are stale leftovers
-from before the `nix-pi` split, not evidence those hosts are still managed here.
+hosts (`pi01`–`pi05`, `tpi01`–`tpi04`, `uconsole`) — stale leftovers from before
+the `nix-pi` split, not evidence those hosts are still managed here — alongside
+the currently-relevant `hel-1`, `picard`, `surface`, `worf`. `lore`'s key was
+fully removed (`sops updatekeys` re-encrypted `nix/hosts/secrets.yaml` to drop
+it as a recipient) when lore itself was decommissioned 2026-08-16.
 
-### VPN Split Tunneling
+### VPN Split Tunneling (module removed 2026-08-16)
 
-The `vpn-split-tunnel` module enables automatic split tunneling for VPN connections, allowing simultaneous access to work VPN resources and local network resources (like the k3s cluster at `.lan` domains).
+The NixOS module that used to provide this (`nix/modules/nixos/vpn-split-tunnel.nix`,
+which exposed `networking.vpnSplitTunnel.enable`) was deleted in the
+`blueprint-crann-restructuring` Phase 1 cleanup (commit `276aeb6`) as
+zero-referenced — no host was importing it. It used to do: detect EduVPN
+connections via a NetworkManager dispatcher script, keep the VPN off the
+default route, split DNS so local `.lan` queries stay on the local resolver,
+and delete conflicting routes for local network ranges, so work-VPN and local
+(`.lan`/k3s) resources stayed simultaneously reachable.
 
-**How it works:**
-- NetworkManager dispatcher script detects when EduVPN connections are established
-- Automatically configures the VPN connection to not become the default route
-- Ignores routes pushed by the VPN server that conflict with local networks
-- Configures split DNS so local DNS (192.168.178.1) is used for `.lan` domains
-- Deletes any conflicting routes for local network ranges (192.168.0.0/16, 10.0.0.0/8)
-- Local network traffic and DNS queries stay on the local interface
-- Only work-specific networks and domains route through the VPN tunnel
-
-**Important:** After first deployment, disconnect and reconnect the VPN for DNS settings to take effect.
-
-**Usage:**
-```nix
-# In host configuration
-networking.vpnSplitTunnel.enable = true;
-```
-
-The module automatically detects VPN connections matching `*eduvpn*` (case-insensitive) and applies split tunneling configuration. No manual intervention needed after deployment.
-
-**Package:** `nix/packages/vpn-split-tunnel/` - Contains the NetworkManager dispatcher script
+**Not fully cleaned up:** `nix/packages/vpn-split-tunnel/` (the underlying
+NetworkManager dispatcher script package the deleted module wired in) still
+exists and still builds — it just has no consumer left. Flagged here as a
+loose end from the same cleanup, not yet acted on.
 
 ### Host Configuration Pattern
 
 Each host follows this structure:
 ```
 nix/hosts/<hostname>/
-├── configuration.nix        # Main system config (or darwin-configuration.nix for lore)
+├── configuration.nix        # Main system config
 ├── hardware-configuration.nix  # Hardware-specific settings (optional)
 └── users/
     └── <username>/
         └── home-configuration.nix  # User home-manager config
 ```
 
-All current hosts (picard, surface, worf, lore, dev) are standard — none use a
-`default.nix`; Blueprint automatically discovers them via `configuration.nix` or
-`darwin-configuration.nix`. The `mkRpiHost`/`default.nix` pattern this section
-used to describe belonged to the RPi fleet, which no longer lives in this repo
-(see "Former Raspberry Pi Fleet" above).
+All current hosts (picard, surface, worf) are standard — none use a
+`default.nix`; Blueprint automatically discovers them via `configuration.nix`.
+(There is no `darwin-configuration.nix` host anywhere in this repo anymore —
+lore, the only darwin host, was fully decommissioned 2026-08-16.) The
+`mkRpiHost`/`default.nix` pattern this section used to describe belonged to
+the RPi fleet, which no longer lives in this repo (see "Former Raspberry Pi
+Fleet" above).
 
 ### Cachix Integration
 
 The configuration uses these binary caches (`flake.nix` `nixConfig` +
-`host-shared.nix` on NixOS/darwin):
+`host-shared.nix` on NixOS):
 - `jdmacd.cachix.org` - Personal cache
 - `noctalia.cachix.org` - noctalia (niri shell) packages
 - `nix-community.cachix.org` - Community packages
@@ -280,17 +324,22 @@ Hyprland, for its desktop hosts.)
 
 - **blueprint** - Configuration organization framework
 - **crann** - Companion library flake of reusable NixOS/home-manager modules (niri,
-  noctalia, stylix, vscode, steam, git, kubernetes, shells, terminal); see "crann
-  Migration" above
-- **nix-darwin** - macOS system management
+  noctalia, stylix, desktop, vscode, steam, git, kubernetes, shells, terminal,
+  nix-utils, ai-utils, optnix, obsidian); see "crann Migration" above
 - **home-manager** - User environment management
 - **sops-nix** - Secrets management
 - **disko** - Declarative disk partitioning
-- **stylix** - System-wide theming (niri is the current desktop compositor, via
-  crann — see "crann Migration"; there is no Hyprland flake input in this repo)
+- **stylix** - System-wide theming, consumed only via crann's own `stylix`
+  module (`inputs.crann.modules.nixos.stylix`) — blueprint's own direct
+  `stylix` flake input was removed 2026-08-16 as unused (niri is the current
+  desktop compositor; there is no Hyprland flake input in this repo)
 - **nur** - Nix User Repository
-- **nixos-raspberrypi** - declared as a flake input but currently **unused** in
-  `nix/` — a leftover from before the RPi fleet moved to `nix-pi`
+
+(`nix-darwin` and `nixos-raspberrypi` were both removed as flake inputs
+2026-08-16, along with `attic`, `noctalia`, `devshell`, `treefmt-nix`, and
+`himmelblau` — all confirmed zero-referenced. `deploy-rs` and `nur` were kept:
+both are genuinely used, `deploy-rs` directly in `flake.nix`'s deploy helper
+and `nur` via `perSystem.nur.repos.rycee.firefox-addons` in `home/firefox.nix`.)
 
 ## Important Conventions
 
