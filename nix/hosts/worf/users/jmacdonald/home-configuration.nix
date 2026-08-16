@@ -11,17 +11,23 @@
     (with inputs.self.homeModules; [
       home-shared
       sops
-      nix-utils
     ])
     ++ [
       inputs.crann.modules.homeManager.shells
       inputs.crann.modules.homeManager.terminal
+      inputs.crann.modules.homeManager.nix-utils
     ];
 
   crann = {
     shells = {
       enable = true;
       flakeInspectPath = "${config.home.homeDirectory}/blueprint";
+    };
+    nix-utils = {
+      enable = true;
+      nh = {
+        flakePath = "${config.home.homeDirectory}/blueprint";
+      };
     };
     terminal = {
       enable = true;
