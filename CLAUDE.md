@@ -35,13 +35,16 @@ nix fmt
 nix fmt nix/hosts/
 ```
 
-**Known issue (found 2026-08-16, not yet root-caused):** `nix fmt` currently
-errors with `flake 'git+file:///home/jmacdonald/blueprint' does not provide
-attribute 'formatter.x86_64-linux'`, despite `nix/formatter.nix` existing and
-defining a formatter (deadnix + nixfmt-rfc-style) — likely a blueprint
-auto-discovery wiring gap. Confirmed pre-existing (reproduces on a clean
-checkout, unrelated to any recent change). Until fixed, format manually
-instead: `nix-shell -p deadnix nixfmt --run 'deadnix --no-lambda-pattern-names --edit <files>; nixfmt <files>'`.
+`nix fmt` previously failed with `flake ... does not provide attribute
+'formatter.x86_64-linux'` (a pre-existing bug, found 2026-08-16). Root cause
+(found 2026-08-16, commit `982fdce`): `flake.nix`'s `inherit (bp) ...` list
+never included `formatter`, so blueprint's formatter output
+(`nix/formatter.nix`, itself correctly wired) was never re-exported at the
+flake's top level — `nix eval .#formatter` misleadingly appeared to work by
+falling back to `packages.<system>.formatter` (which blueprint also
+populates), but `nix fmt` only ever checks the dedicated top-level
+`formatter.<system>` output. Fixed by adding `formatter` to that `inherit`
+list.
 
 ### Development Shell
 
