@@ -62,7 +62,6 @@ sops nix/hosts/<hostname>/secrets.yaml
 # Edit shared secrets
 sops nix/hosts/secrets.yaml
 sops nix/secrets/personal.yaml
-sops nix/secrets/work.yaml
 sops nix/secrets/turing.yaml
 ```
 
@@ -131,15 +130,13 @@ k3s-agent-gpu, and similar):
   niri/noctalia/stylix/**desktop** (audio, bluetooth, power, gvfs) in from
   **crann** — see "crann Migration" below
 
-`eduvpn.nix` and `vpn-split-tunnel.nix` (zero-referenced modules left over from
-before the `nix-pi` split) were deleted 2026-08-16 (commit `276aeb6`) — there is
-no VPN split-tunneling NixOS module in this repo anymore (see "VPN Split
-Tunneling" below for what's left of it). `homebrew.nix` (actually a darwin-only
-module — `system.primaryUser`/`homebrew.*`, misfiled under `nixos/`) still
-physically exists but is now fully orphaned: lore, its only possible consumer,
-was removed in the same cleanup and nothing imports it anymore. Not yet deleted
-— flagged here rather than acted on silently, since it fell outside that
-cleanup's original scope.
+`eduvpn.nix`, `vpn-split-tunnel.nix`, and `homebrew.nix` (a darwin-only
+module — `system.primaryUser`/`homebrew.*` — that had been misfiled under
+`nixos/` and was left orphaned when lore was removed) are all gone —
+deleted 2026-08-16, the first two in commit `276aeb6`, `homebrew.nix` in a
+follow-up cleanup pass (commit `bc3937e`) once it was flagged. There is no
+VPN split-tunneling NixOS module in this repo anymore (see "VPN Split
+Tunneling" below).
 
 **home-manager Modules** (`nix/modules/home/`):
 - `home-shared.nix` - Base home configuration (devbox, pre-commit, sops, ssh-agent)
@@ -254,13 +251,6 @@ directly rather than inferring it from this repo.
 
 SOPS is configured with age encryption using per-host age keys. Secret files follow patterns:
 - `nix/secrets/personal.yaml` - Personal secrets (encrypted with personal key)
-- `nix/secrets/work.yaml` - Work secrets (encrypted with work key; includes heanet
-  identity/SSH secrets such as `heanet_id_rsa`). **Now orphaned as of 2026-08-16:**
-  its only stated consumer, `nix/modules/home/work.nix`, was deleted in the
-  `blueprint-crann-restructuring` Phase 1 cleanup as zero-referenced — nothing in
-  this repo reads `work.yaml` or `heanet_id_rsa` anymore (checked directly, not
-  inferred). Flagged, not acted on — editing/removing secret file contents is a
-  separate call from a module cleanup.
 - `nix/secrets/turing.yaml` - Turing Pi / RPi-fleet-adjacent secrets (personal key)
 - `nix/hosts/secrets.yaml` - Shared host secrets (all host keys)
 - `nix/hosts/<hostname>/secrets.yaml` - Per-host secrets
@@ -272,21 +262,19 @@ the currently-relevant `hel-1`, `picard`, `surface`, `worf`. `lore`'s key was
 fully removed (`sops updatekeys` re-encrypted `nix/hosts/secrets.yaml` to drop
 it as a recipient) when lore itself was decommissioned 2026-08-16.
 
-### VPN Split Tunneling (module removed 2026-08-16)
+### VPN Split Tunneling (removed 2026-08-16)
 
-The NixOS module that used to provide this (`nix/modules/nixos/vpn-split-tunnel.nix`,
-which exposed `networking.vpnSplitTunnel.enable`) was deleted in the
-`blueprint-crann-restructuring` Phase 1 cleanup (commit `276aeb6`) as
-zero-referenced — no host was importing it. It used to do: detect EduVPN
-connections via a NetworkManager dispatcher script, keep the VPN off the
-default route, split DNS so local `.lan` queries stay on the local resolver,
-and delete conflicting routes for local network ranges, so work-VPN and local
-(`.lan`/k3s) resources stayed simultaneously reachable.
-
-**Not fully cleaned up:** `nix/packages/vpn-split-tunnel/` (the underlying
-NetworkManager dispatcher script package the deleted module wired in) still
-exists and still builds — it just has no consumer left. Flagged here as a
-loose end from the same cleanup, not yet acted on.
+This repo used to provide automatic VPN split tunneling: a NixOS module
+(`nix/modules/nixos/vpn-split-tunnel.nix`, exposing
+`networking.vpnSplitTunnel.enable`) plus a NetworkManager dispatcher script
+package (`nix/packages/vpn-split-tunnel/`) it wired in. It detected EduVPN
+connections, kept the VPN off the default route, split DNS so local `.lan`
+queries stayed on the local resolver, and deleted conflicting routes for
+local network ranges, so work-VPN and local (`.lan`/k3s) resources stayed
+simultaneously reachable. Both the module (zero-referenced, commit
+`276aeb6`) and the now-orphaned package (commit `bc3937e`) have been fully
+deleted — there is no VPN split-tunneling functionality left in this repo
+at all.
 
 ### Host Configuration Pattern
 
