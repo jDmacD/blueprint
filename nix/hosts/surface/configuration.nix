@@ -21,8 +21,12 @@
     lanzaboote
     tpm
     opendeck
-    crann
-  ]);
+  ])
+  ++ [
+    inputs.crann.modules.nixos.optnix
+  ];
+
+  crann.optnix.enable = true;
 
   environment = {
     systemPackages = with pkgs; [
