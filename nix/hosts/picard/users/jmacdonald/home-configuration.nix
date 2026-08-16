@@ -7,27 +7,26 @@
 }:
 {
 
-  imports =
-    [
-      inputs.crann.modules.homeManager.git
-      inputs.crann.modules.homeManager.kubernetes
-      inputs.crann.modules.homeManager.shells
-      inputs.crann.modules.homeManager.terminal
-    ]
-    ++ (with inputs.self.homeModules; [
-      home-shared
-      personal
-      ai-utils
-      dev-utils
-      nix-utils
-      cloud-utils
-      network-utils
-      sops
-      editors
-      rpi-utils
-      desktop
-      # openclaw
-    ]);
+  imports = [
+    inputs.crann.modules.homeManager.git
+    inputs.crann.modules.homeManager.kubernetes
+    inputs.crann.modules.homeManager.shells
+    inputs.crann.modules.homeManager.terminal
+  ]
+  ++ (with inputs.self.homeModules; [
+    home-shared
+    personal
+    ai-utils
+    dev-utils
+    nix-utils
+    cloud-utils
+    network-utils
+    sops
+    editors
+    rpi-utils
+    desktop
+    # openclaw
+  ]);
 
   crann = {
     git.enable = true;

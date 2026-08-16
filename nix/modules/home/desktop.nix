@@ -21,7 +21,6 @@
     };
   };
 
-
   programs = {
     rofi = {
       enable = false;

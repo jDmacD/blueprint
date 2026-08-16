@@ -21,6 +21,7 @@
     lanzaboote
     tpm
     opendeck
+    crann
   ]);
 
   environment = {
