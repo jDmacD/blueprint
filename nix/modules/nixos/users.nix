@@ -30,20 +30,6 @@ in
     ];
     packages = [ ];
   };
-  users.users.sunshine = {
-    enable = false;
-    isNormalUser = true;
-    description = "Sunshine";
-    openssh.authorizedKeys.keys = authorizedKeys;
-    initialPassword = "password";
-    extraGroups = [
-      "networkmanager"
-      "audio"
-      "sound"
-      "video"
-      "docker"
-    ];
-  };
   security.sudo.wheelNeedsPassword = false;
   nix.settings.trusted-users = [ "jmacdonald" ];
 }

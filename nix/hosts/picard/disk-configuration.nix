@@ -7,11 +7,10 @@
     "Z /spinner        0777    0       0       -    -"
   ];
 
-  # Share the Steam library on /steam between jmacdonald (owner) and sunshine
-  # (streaming session) via the `users` group. Default ACLs make new files
-  # created by either user group-writable regardless of umask, so Steam/Proton
-  # can write compatdata/shadercache from both accounts. The recursive pass only
-  # runs once to fix pre-existing files; new files inherit the default ACL.
+  # Share the Steam library on /steam via the `users` group. Default ACLs make
+  # new files group-writable regardless of umask, so Steam/Proton can write
+  # compatdata/shadercache. The recursive pass only runs once to fix
+  # pre-existing files; new files inherit the default ACL.
   system.activationScripts.steamLibraryAcl.text = ''
     if [ -d /steam/SteamLibrary ] && [ ! -e /steam/SteamLibrary/.acl-applied ]; then
       ${pkgs.acl}/bin/setfacl -R    -m g:users:rwX /steam/SteamLibrary

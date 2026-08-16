@@ -3,10 +3,6 @@
   # https://www.reddit.com/r/NixOS/comments/1qo9alr/need_help_with_gdmhyprlanduwsm_problem/
 
   services.displayManager = {
-    autoLogin = {
-      enable = true;
-      user = "sunshine";
-    };
     gdm = {
       enable = true;
     };
