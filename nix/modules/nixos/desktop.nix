@@ -19,7 +19,6 @@
     inputs.crann.modules.nixos.desktop
     inputs.crann.modules.nixos.gdm
     ./peripherals.nix
-    ./fonts.nix
     ./printing.nix
   ];
 
