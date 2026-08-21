@@ -23,8 +23,6 @@
     host-shared
     k3s-agent-gpu
     docker
-    builder-arm
-    builder-user
     sops
     nvidia
     sunshine
@@ -38,9 +36,41 @@
   ])
   ++ [
     inputs.crann.modules.nixos.steam
+    inputs.crann.modules.nixos.remote-builder
   ];
 
   crann.steam.enable = true;
+
+  # picard is both a client of worf (arm builds) and a server for surface
+  # (x86 builds) — see crann.remote-builder's module comment for why both
+  # roles can coexist on one host. Same shared builder_ed25519 keypair as
+  # surface: this is the client half; server.authorizedKeys below is the
+  # matching public key, already committed in blueprint's history before
+  # this migration (it isn't sensitive — public keys aren't secrets).
+  sops.secrets."builder_ed25519" = {
+    owner = "root";
+    mode = "0600";
+  };
+  crann.remote-builder.enable = true;
+  crann.remote-builder.machines = [
+    {
+      hostName = "worf.jtec.xyz";
+      system = "aarch64-linux";
+      sshKey = config.sops.secrets."builder_ed25519".path;
+      maxJobs = 1;
+      speedFactor = 2;
+      supportedFeatures = [
+        "nixos-test"
+        "benchmark"
+        "big-parallel"
+        "kvm"
+      ];
+    }
+  ];
+  crann.remote-builder.server.enable = true;
+  crann.remote-builder.server.authorizedKeys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnim/f3xwmFw/DB9zeHtQSr9i2uKxwsiXkEgE2FdFcY root@picard"
+  ];
 
   # Signs everything picard builds locally, so it can serve as a substituter
   # for other hosts (ssh-ng://picard.lan) without "not signed by any of the

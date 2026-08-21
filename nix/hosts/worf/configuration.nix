@@ -22,11 +22,21 @@
     docker
     docker-bedrock
     sops
-    builder-user
     locale
     #  eduvpn-server
 
-  ]);
+  ])
+  ++ [
+    inputs.crann.modules.nixos.remote-builder
+  ];
+
+  # worf is server-only — surface and picard both dispatch arm builds here.
+  # Same shared builder_ed25519 keypair as the other hosts; no client role
+  # (and so no sops secret) needed on this side, just the public half.
+  crann.remote-builder.server.enable = true;
+  crann.remote-builder.server.authorizedKeys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnim/f3xwmFw/DB9zeHtQSr9i2uKxwsiXkEgE2FdFcY root@picard"
+  ];
 
   boot = {
     initrd = {
