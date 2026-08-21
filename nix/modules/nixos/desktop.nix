@@ -17,9 +17,9 @@
     inputs.crann.modules.nixos.stylix
     # audio (pipewire) / bluetooth / power (upower) / gvfs
     inputs.crann.modules.nixos.desktop
+    inputs.crann.modules.nixos.gdm
     ./peripherals.nix
     ./fonts.nix
-    ./gdm.nix
     ./printing.nix
   ];
 
@@ -42,4 +42,6 @@
   };
 
   crann.desktop.enable = true;
+
+  crann.gdm.enable = true;
 }
