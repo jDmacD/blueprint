@@ -57,6 +57,7 @@
       hostName = "worf.jtec.xyz";
       system = "aarch64-linux";
       sshKey = config.sops.secrets."builder_ed25519".path;
+      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUdyalVZWDlpdXc2aEw3WXVLSDA3cUFieWs5Z0YxcjFrOEx1UWQwT2ZRaHQK";
       maxJobs = 1;
       speedFactor = 2;
       supportedFeatures = [
