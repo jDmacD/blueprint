@@ -176,11 +176,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1787320721,
-        "narHash": "sha256-yvaXJ5COsX5mjRMTso9uLdbYZEC3FkDt6UU/mWoLTm8=",
+        "lastModified": 1787586780,
+        "narHash": "sha256-HXPUt0Yo0AEUlizZ/MtjNbBzjpRMmc+EVG+q3i/pk3M=",
         "owner": "jDmacD",
         "repo": "crann",
-        "rev": "9e3b56cd3f12ec2c33b51e581819d59223f4ebe2",
+        "rev": "31645430d33a07527930e7b05474289c8ccbe429",
         "type": "github"
       },
       "original": {
@@ -521,17 +521,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1787176219,
-        "narHash": "sha256-djoRr6jBpe35q/0JwAvXpFXg1Ktf+X54NU2RLR7wnHw=",
+        "lastModified": 1787487906,
+        "narHash": "sha256-zIdM+8teujHm5hc5MIPDnV7k2UeOOT/pFyFtWjOCwsY=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c53d643b3737e2fcd04e6cb3b3580ef50b2087a0",
+        "rev": "cfba7ad5886b342b8dd63ba74354b3853ea4cfc9",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c53d643b3737e2fcd04e6cb3b3580ef50b2087a0",
+        "rev": "cfba7ad5886b342b8dd63ba74354b3853ea4cfc9",
         "type": "github"
       }
     },
@@ -649,33 +649,33 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1787286673,
-        "narHash": "sha256-HRmx7PnoqUNtA06P/FEyygZeUJIzbNUtx4zo9Jiiz9s=",
+        "lastModified": 1787462289,
+        "narHash": "sha256-JzRwvboh8r37Coj6UhtnDiL0LIdPyz3+0zknDqS1zi0=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "0bedd15c76b9422a649b05e44b82666196e5246f",
+        "rev": "5fae6955fa522382e640b65876fb2f456059f4c2",
         "type": "github"
       },
       "original": {
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "0bedd15c76b9422a649b05e44b82666196e5246f",
+        "rev": "5fae6955fa522382e640b65876fb2f456059f4c2",
         "type": "github"
       }
     },
     "multiverse": {
       "locked": {
-        "lastModified": 1787204501,
-        "narHash": "sha256-b4z25yQkSWThW9yfDdf4/TEV6zgqD3hGDpGPOJnqqFQ=",
+        "lastModified": 1787498586,
+        "narHash": "sha256-fbjmsVErYtk/Eos9K64wR5i3zB4wG0J9n5BpcwMBJKk=",
         "owner": "fzakaria",
         "repo": "nixpkgs-multiverse",
-        "rev": "12dbab7efc581bd661e4f2d7e20ad28afb7cbb9c",
+        "rev": "3a78aabd6d442ae61592b295a3e8914b108a88d0",
         "type": "github"
       },
       "original": {
         "owner": "fzakaria",
         "repo": "nixpkgs-multiverse",
-        "rev": "12dbab7efc581bd661e4f2d7e20ad28afb7cbb9c",
+        "rev": "3a78aabd6d442ae61592b295a3e8914b108a88d0",
         "type": "github"
       }
     },
@@ -692,17 +692,17 @@
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
       },
       "locked": {
-        "lastModified": 1787204310,
-        "narHash": "sha256-c3FK5Cwku75ga/6iODYpzCOGg75XghBSk+uOEM3rJm8=",
+        "lastModified": 1787495508,
+        "narHash": "sha256-/IMNSSuEix+2pvZhVUkSCUkB7mJ/fDnQgIwUxLI1WRw=",
         "owner": "epireyn",
         "repo": "niri-flake",
-        "rev": "840c81603e4c9e2befc984c2afc7f1f1e0b7a11c",
+        "rev": "5cf28562b112426ecac764300ee409e736a7e069",
         "type": "github"
       },
       "original": {
         "owner": "epireyn",
         "repo": "niri-flake",
-        "rev": "840c81603e4c9e2befc984c2afc7f1f1e0b7a11c",
+        "rev": "5cf28562b112426ecac764300ee409e736a7e069",
         "type": "github"
       }
     },
@@ -726,11 +726,11 @@
     "niri-unstable": {
       "flake": false,
       "locked": {
-        "lastModified": 1787128307,
-        "narHash": "sha256-dzLsp/FvMerhsjfsWtFK/BTlJ5FZwLWlhsFJRRxpmbU=",
+        "lastModified": 1787337984,
+        "narHash": "sha256-BNZUEVR2H96hCKENNKoLSSTFT8W4smp7v94hJc4Ehfc=",
         "owner": "niri-wm",
         "repo": "niri",
-        "rev": "b0eb8ad8c80094de34abd88c109aea421461622b",
+        "rev": "dd75865f547f0eac0e9b6c4d86d2cd00c0744252",
         "type": "github"
       },
       "original": {
@@ -870,11 +870,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1787101114,
-        "narHash": "sha256-gwrPcFf/rDjHPaVflbDZ040ZDmBTRj/7+s8ZmE2SaIM=",
+        "lastModified": 1787414105,
+        "narHash": "sha256-WncT27+3BOkgTaJZLnCsf3LcYf9RXMuR9ONSN4rzQ7s=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b18a4b905f8d028dc4476412e6d6891728695379",
+        "rev": "a9e6d84f9c2f9012f5fe7d964a7851352300e61a",
         "type": "github"
       },
       "original": {
@@ -951,17 +951,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1787272040,
-        "narHash": "sha256-YZxcF28MvmXOVt1sq0lXddgYVIj/5exDh0vztl/vIvw=",
+        "lastModified": 1787369379,
+        "narHash": "sha256-1WUdzP3Y9l95gRhn8muREP0UJu8PmvzEHmdIyfaYRac=",
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "791e557417ceeba0e57562af2ddcbd3d8b93f62a",
+        "rev": "7fd9f7bfa9604022b9de311b30a3da0c2c4415de",
         "type": "github"
       },
       "original": {
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "791e557417ceeba0e57562af2ddcbd3d8b93f62a",
+        "rev": "7fd9f7bfa9604022b9de311b30a3da0c2c4415de",
         "type": "github"
       }
     },
@@ -1486,16 +1486,16 @@
     "xwayland-satellite-stable": {
       "flake": false,
       "locked": {
-        "lastModified": 1771195969,
-        "narHash": "sha256-BUE41HjLIGPjq3U8VXPjf8asH8GaMI7FYdgrIHKFMXA=",
+        "lastModified": 1784679892,
+        "narHash": "sha256-Mb7jpqnrcYCfNSItIkkHpuR3YxWFxPuIBfcwNKlRBkk=",
         "owner": "Supreeeme",
         "repo": "xwayland-satellite",
-        "rev": "536bd32efc935bf876d6de385ec18a1b715c9358",
+        "rev": "8d135d3b2854b30fd01ea6cd6c27e523dd50a839",
         "type": "github"
       },
       "original": {
         "owner": "Supreeeme",
-        "ref": "v0.8.1",
+        "ref": "v0.8.2",
         "repo": "xwayland-satellite",
         "type": "github"
       }
