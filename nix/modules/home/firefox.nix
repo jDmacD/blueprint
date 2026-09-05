@@ -79,4 +79,18 @@
     };
   };
   stylix.targets.firefox.profileNames = [ "default" ];
+
+  # Declared explicitly because crann.thunar (nix/modules/nixos/desktop.nix)
+  # now enables xdg.mimeApps, which makes home-manager fully own
+  # mimeapps.list (a read-only nix-store symlink) instead of the mutable,
+  # self-registered file browsers normally write into on first run —
+  # without this, surface's existing "Firefox is my browser" default
+  # (previously just a runtime self-registration) would silently disappear.
+  xdg.mimeApps.defaultApplications = {
+    "x-scheme-handler/http" = [ "firefox.desktop" ];
+    "x-scheme-handler/https" = [ "firefox.desktop" ];
+    "x-scheme-handler/chrome" = [ "firefox.desktop" ];
+    "text/html" = [ "firefox.desktop" ];
+    "application/xhtml+xml" = [ "firefox.desktop" ];
+  };
 }
