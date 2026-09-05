@@ -40,6 +40,9 @@
     owner = "root";
     mode = "0600";
   };
+  sops.secrets."bitwarden_secret" = {
+    owner = "jmacdonald";
+  };
   crann.remote-builder.enable = true;
   crann.remote-builder.machines = [
     {
@@ -76,6 +79,7 @@
       docker-client
       cifs-utils
       rpi-imager
+      bws
     ];
     variables = {
       DOCKER_HOST = "tcp://picard.lan:2375";

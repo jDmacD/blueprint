@@ -106,6 +106,16 @@
   #   }
   # ];
 
+  # bitwarden_secret is decrypted at the NixOS level (nix/hosts/secrets.yaml,
+  # sops.secrets."bitwarden_secret" in configuration.nix) since it's shared
+  # across all hosts' host keys, not the personal-only home-manager sops file.
+  programs.zsh.initContent = ''
+    export BWS_ACCESS_TOKEN="$(cat ${osConfig.sops.secrets.bitwarden_secret.path})"
+  '';
+  programs.bash.initExtra = ''
+    export BWS_ACCESS_TOKEN="$(cat ${osConfig.sops.secrets.bitwarden_secret.path})"
+  '';
+
   home.packages = with pkgs; [
     # blender
     # inkscape
