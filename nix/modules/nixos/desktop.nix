@@ -18,6 +18,7 @@
     # audio (pipewire) / bluetooth / power (upower) / gvfs
     inputs.crann.modules.nixos.desktop
     inputs.crann.modules.nixos.gdm
+    inputs.crann.modules.nixos.thunar
     ./peripherals.nix
     ./printing.nix
   ];
@@ -43,4 +44,6 @@
   crann.desktop.enable = true;
 
   crann.gdm.enable = true;
+
+  crann.thunar.enable = true;
 }

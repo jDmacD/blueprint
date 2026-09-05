@@ -1,4 +1,4 @@
-{ flake, ... }:
+{ flake, inputs, ... }:
 {
   pkgs,
   osConfig,
@@ -6,7 +6,11 @@
 }:
 {
 
-  imports = [ ];
+  imports = [
+    inputs.crann.modules.homeManager.yazi
+  ];
+
+  crann.yazi.enable = true;
 
   programs = {
     home-manager = {
