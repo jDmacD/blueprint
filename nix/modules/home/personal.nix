@@ -19,7 +19,8 @@
 
     secrets.data = {
       sopsFile = ../../secrets/turing.yaml;
-      path = "${config.home.homeDirectory}/.kube/turing";
+      mode = "0600";
+      path = "${config.home.homeDirectory}/.kube/config";
     };
 
     secrets.id_ed25519 = {
