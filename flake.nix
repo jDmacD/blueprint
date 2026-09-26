@@ -36,7 +36,7 @@
     nixvirt.url = "github:AshleyYakeley/NixVirt/v0.6.0";
     nixvirt.inputs.nixpkgs.follows = "nixpkgs";
 
-    lanzaboote.url = "github:nix-community/lanzaboote/v1.1.0";
+    lanzaboote.url = "github:nix-community/lanzaboote/v1.2.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
     openclaw.url = "github:openclaw/nix-openclaw";
