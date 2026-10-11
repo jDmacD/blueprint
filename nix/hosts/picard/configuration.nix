@@ -15,7 +15,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     inputs.disko.nixosModules.disko
-    inputs.nixvirt.nixosModules.default
   ]
   ++ (with inputs.self.nixosModules; [
     ssh
@@ -83,14 +82,6 @@
   };
   nix.settings.secret-key-files = [ config.sops.secrets."nix_store_signing_key".path ];
 
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu = {
-      package = pkgs.qemu_kvm;
-      runAsRoot = true;
-      swtpm.enable = true;
-    };
-  };
   networking.interfaces = {
     enp3s0 = {
       useDHCP = true;

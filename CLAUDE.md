@@ -105,7 +105,7 @@ The repository manages hosts under `nix/hosts/`, mostly with Star Trek-themed
 names. Current hosts (verify against `ls nix/hosts/` — this list drifts):
 
 - **picard**: x86_64 Linux home server (k3s-agent-gpu, docker, NFS, Sunshine
-  game streaming; libvirtd is still enabled but has no VMs) with a niri desktop.
+  game streaming; libvirtd was retired 2026-10-11) with a niri desktop.
   Critical/actively deployed. Networking is dhcpcd directly on `enp3s0`
   (`192.168.178.103`, an OPNsense static mapping). The `vmbr0` bridge was
   removed 2026-10-11. Don't re-add a bridge on the NIC: with `br_netfilter`
