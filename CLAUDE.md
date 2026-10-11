@@ -164,6 +164,33 @@ Tunneling" below).
 - `personal.nix` - Personal development tools + git identity
 - `desktop.nix` - Desktop aggregator that pulls noctalia/vscode/wl-clipboard in
   from **crann**
+- `vault-sync.nix` - Git sync of the claude-obsidian vault
+  (`~/obsidian/technodrome`, Codeberg remote) on surface and picard. See
+  "Obsidian vault sync" below.
+
+#### Obsidian vault sync
+
+`vault-sync.nix` (added 2026-10-11, `17e8a5f`) keeps one claude-obsidian vault
+on surface and picard. It uses git rather than an NFS share, because surface is
+a laptop that leaves the LAN.
+
+- **Script:** `vault-sync` runs fetch, `rebase --autostash` and push. It clones
+  the vault if it's missing. It skips while `.vault-meta/mutation.lock` exists.
+  On a conflict it aborts the rebase and reports `CONFLICT`.
+- **Triggers:** a 5-min systemd user timer, plus Claude `SessionStart` and
+  `Stop --if-ahead` hooks.
+- **Hooks plugin:** the hooks and the `block-vault-writes` PreToolUse hook ship
+  as a managed plugin (`programs.claude-code.plugins.vault-sync`), not
+  `programs.claude-code.settings`. That keeps `~/.claude/settings.json` a
+  mutable file.
+- **Context:** the module appends sync guidance to `programs.claude-code.context`.
+  With `rerankOllamaUrl` set (both hosts: `https://ollama.local.jtec.xyz`), it
+  also records the standing approval for wiki-retrieve to rerank there with
+  `nomic-embed-text-v2-moe`.
+- **Retrieval index:** where one has been built (`.vault-meta/bm25`), each sync
+  rebuilds it, local-only, when the committed `wiki/` tree changes.
+- **Per-host state:** `.vault-meta/` is gitignored, so the methodology mode
+  (`para`) and retrieval index are per host. Set them up once on a new host.
 
 `terminals.nix`/`terminal-utils.nix` (superseded by crann's `terminal`),
 `kubernetes-utils.nix` (superseded by crann's `kubernetes`), `git-utils.nix`
@@ -201,6 +228,7 @@ Per-host state as of 2026-08-16:
   `noctalia`/`stylix`/**`desktop`** (audio, bluetooth, power, gvfs) at the
   NixOS level; `crann.steam` (NixOS, picard-only, inline); home-manager:
   `git`, `kubernetes`, `shells`, `terminal`, `nix-utils`, and now **`ai-utils`**
+  (with `claude-obsidian` enabled since 2026-10-11, for vault sync)
   too (migrated off the local module in Phase 5 — see the known gap below).
 - **surface** (NixOS + home): same NixOS-level `desktop` module
   (niri/noctalia/stylix/desktop); enabled inline
