@@ -18,8 +18,13 @@
 # On a rebase conflict the rebase is aborted, the local branch is left
 # untouched, and the conflict is reported (into Claude's context on
 # SessionStart) to be resolved by hand.
+# On hosts where a claude-obsidian retrieval index has been built
+# (.vault-meta/bm25 exists, via the wiki-retrieve skill), each sync also
+# rebuilds it, local-only (--no-llm), whenever the committed wiki/ tree has
+# changed. The index is gitignored, so each host keeps its own copy.
 let
   cfg = config.vault-sync;
+  obsidian = config.crann.ai-utils.claude-obsidian;
 
   vault-sync = pkgs.writeShellApplication {
     name = "vault-sync";
@@ -54,6 +59,20 @@ let
       cd "$vault"
       upstream_ahead() { git rev-list --count '@{u}..HEAD'; }
 
+      refresh_index() {
+        [ -d .vault-meta/bm25 ] || return 0
+        local tree
+        tree=$(git rev-parse HEAD:wiki)
+        [ "$tree" = "$(cat "$state/indexed-tree" 2>/dev/null)" ] && return 0
+        if ${obsidian.python.package}/bin/python3 ${obsidian.source}/scripts/contextual-prefix.py --vault "$vault" --all --no-llm >/dev/null \
+          && ${obsidian.python.package}/bin/python3 ${obsidian.source}/scripts/bm25-index.py --vault "$vault" build >/dev/null; then
+          printf '%s\n' "$tree" >"$state/indexed-tree"
+          echo "vault-sync: rebuilt the retrieval index"
+        else
+          echo "vault-sync: retrieval index rebuild failed; wiki-retrieve will fall back to text search" >&2
+        fi
+      }
+
       if $if_ahead && [ "$(upstream_ahead)" -eq 0 ]; then
         exit 0
       fi
@@ -69,6 +88,7 @@ let
 
       if ! timeout 30 git fetch --quiet origin; then
         echo "vault-sync: fetch failed (offline?); vault not synced"
+        refresh_index
         exit 0
       fi
 
@@ -98,6 +118,8 @@ let
           echo "vault-sync: push failed; $ahead commit(s) still unpushed" >&2
         fi
       fi
+
+      refresh_index
     '';
   };
 
