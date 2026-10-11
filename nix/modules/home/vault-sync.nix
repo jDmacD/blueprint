@@ -64,12 +64,13 @@ let
         local tree
         tree=$(git rev-parse HEAD:wiki)
         [ "$tree" = "$(cat "$state/indexed-tree" 2>/dev/null)" ] && return 0
-        if ${obsidian.python.package}/bin/python3 ${obsidian.source}/scripts/contextual-prefix.py --vault "$vault" --all --no-llm >/dev/null \
-          && ${obsidian.python.package}/bin/python3 ${obsidian.source}/scripts/bm25-index.py --vault "$vault" build >/dev/null; then
+        if ${obsidian.python.package}/bin/python3 ${obsidian.source}/scripts/contextual-prefix.py --vault "$vault" --all --no-llm >"$state/index.log" 2>&1 \
+          && ${obsidian.python.package}/bin/python3 ${obsidian.source}/scripts/bm25-index.py --vault "$vault" build >>"$state/index.log" 2>&1; then
           printf '%s\n' "$tree" >"$state/indexed-tree"
           echo "vault-sync: rebuilt the retrieval index"
         else
           echo "vault-sync: retrieval index rebuild failed; wiki-retrieve will fall back to text search" >&2
+          tail -n 5 "$state/index.log" >&2
         fi
       }
 
