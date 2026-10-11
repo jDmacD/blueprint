@@ -11,6 +11,7 @@
     with inputs.self.homeModules;
     [
       home-shared
+      vault-sync
       personal
       dev-utils
       network-utils
@@ -122,4 +123,6 @@
   ];
 
   home.stateVersion = "26.05";
+
+  vault-sync.enable = true;
 }

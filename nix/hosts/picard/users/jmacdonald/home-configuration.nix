@@ -18,6 +18,7 @@
   ]
   ++ (with inputs.self.homeModules; [
     home-shared
+    vault-sync
     personal
     dev-utils
     cloud-utils
@@ -70,6 +71,9 @@
           - search for tools and applications with `nh search <application name>`
         '';
       };
+      claude-obsidian = {
+        enable = true;
+      };
     };
   };
 
@@ -87,4 +91,6 @@
   ];
 
   home.stateVersion = "25.11";
+
+  vault-sync.enable = true;
 }
