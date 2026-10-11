@@ -132,6 +132,8 @@ All devices on the same NETGEAR JGS524 gigabit switch.
    - Speed: 1000Mb/s Full Duplex ✓
    - Zero errors on physical interface ✓
    - Proxmox bridge (vmbr0) showing packet drops (suspected symptom, not cause)
+     - *Note (2026-10-11):* picard no longer has a `vmbr0` bridge; DHCP is now
+       directly on `enp3s0`. Re-test iperf without the bridge if this comes up again.
 
 2. **Tested software configurations:**
    - Enabled scatter-gather and GSO offloads: No improvement

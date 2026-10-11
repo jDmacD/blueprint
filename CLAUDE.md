@@ -18,9 +18,21 @@ This repo is also mid-migration: reusable modules are being ported out into a co
 # Build a specific host configuration
 nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
 
-# Switch to new configuration (on target host)
-sudo nixos-rebuild switch --flake .
+# Switch to new configuration (on target host). nh is the usual tool.
+nh os switch .
+# or: sudo nixos-rebuild switch --flake .
 ```
+
+For changes that tear down the network path you're connected over (bridges,
+primary NIC, DHCP), use `nh os boot .` + reboot instead of `switch`. If the
+only access is SSH, add a boot-once fallback: `bootctl set-default` the
+current entry and `bootctl set-oneshot` the new one. Then `set-default` the
+new one once it's verified. A power cycle then falls back.
+
+**Don't build picard's closure on surface.** It's large (NVIDIA/CUDA), and on
+2026-10-11 it filled surface's root fs. Build it on picard instead: run nh in
+picard's own `~/blueprint` checkout, or use
+`nix build --eval-store auto --store ssh-ng://picard.lan .#nixosConfigurations.picard.config.system.build.toplevel`.
 
 (No darwin build/switch commands — there is no darwin host in this repo
 anymore; lore was the only one, decommissioned 2026-08-16.)
@@ -92,8 +104,13 @@ Blueprint provides a `perSystem` argument to modules, which allows accessing per
 The repository manages hosts under `nix/hosts/`, mostly with Star Trek-themed
 names. Current hosts (verify against `ls nix/hosts/` — this list drifts):
 
-- **picard**: x86_64 Linux home server/hypervisor (libvirtd, k3s-agent-gpu, docker,
-  NFS, Sunshine game streaming) with a niri desktop. Critical/actively deployed.
+- **picard**: x86_64 Linux home server (k3s-agent-gpu, docker, NFS, Sunshine
+  game streaming; libvirtd is still enabled but has no VMs) with a niri desktop.
+  Critical/actively deployed. Networking is dhcpcd directly on `enp3s0`
+  (`192.168.178.103`, an OPNsense static mapping). The `vmbr0` bridge was
+  removed 2026-10-11. Don't re-add a bridge on the NIC: with `br_netfilter`
+  loaded, it breaks the k3s/Cilium LoadBalancer IPs (see the catalogue repo's
+  `CLAUDE.md`).
 - **surface**: x86_64 Linux laptop (Surface device: lanzaboote secure boot, TPM,
   opendeck) with a niri desktop. Critical/actively deployed.
 - **worf**: VPS/cloud host (`worf.jtec.xyz`) with disko for disk management, no
