@@ -91,16 +91,9 @@
       swtpm.enable = true;
     };
   };
-  networking.bridges = {
-    "vmbr0" = {
-      interfaces = [ "enp3s0" ];
-    };
-  };
-
   networking.interfaces = {
-    vmbr0.useDHCP = true; # Bridge gets IP via DHCP
     enp3s0 = {
-      useDHCP = false; # Physical interface has no IP (part of bridge)
+      useDHCP = true;
       wakeOnLan.enable = true;
     };
   };
@@ -121,8 +114,8 @@
 
   networking = {
     hostName = "picard";
-    useDHCP = false; # Required for bridge configuration
-    networkmanager.enable = false; # Disable NetworkManager for bridge setup
+    useDHCP = false; # DHCP is enabled per-interface (enp3s0)
+    networkmanager.enable = false; # scripted networking + dhcpcd
     firewall = {
       checkReversePath = false;
       enable = true;

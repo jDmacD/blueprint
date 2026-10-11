@@ -23,8 +23,7 @@
   boot.kernelParams = [ "nvidia-drm.modeset=1" ];
   # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  # Disabled because we're using a bridge (vmbr0) for libvirt/virt-manager
-  # DHCP is explicitly configured per-interface in configuration.nix
+  # Global DHCP off; enp3s0 enables it per-interface in configuration.nix
   networking.useDHCP = lib.mkDefault false;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
