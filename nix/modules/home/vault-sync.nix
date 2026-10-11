@@ -238,6 +238,24 @@ in
       description = "Git remote the vault syncs with.";
     };
 
+    rerankOllamaUrl = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "https://ollama.local.jtec.xyz";
+      description = ''
+        Non-localhost Ollama endpoint that wiki-retrieve may rerank against.
+        Setting it records jDmacD's standing approval, in the Claude Code
+        context, to send queries and candidate chunk text there with
+        `--allow-remote-ollama`, using only `rerankModel`.
+      '';
+    };
+
+    rerankModel = lib.mkOption {
+      type = lib.types.str;
+      default = "nomic-embed-text-v2-moe";
+      description = "Embedding model wiki-retrieve reranks with on `rerankOllamaUrl`.";
+    };
+
     interval = lib.mkOption {
       type = lib.types.str;
       default = "5min";
@@ -250,29 +268,49 @@ in
 
     programs.claude-code.plugins.vault-sync = plugin;
 
-    programs.claude-code.context = lib.mkAfter ''
-      ---
-      ## Obsidian vault sync
+    programs.claude-code.context = lib.mkAfter (
+      ''
+        ---
+        ## Obsidian vault sync
 
-      The claude-obsidian vault lives at `${cfg.path}` on both surface and
-      picard, and is kept in sync through its git remote (`${cfg.remote}`) by
-      `vault-sync` (fetch, `rebase --autostash` onto origin, push). It runs from
-      a systemd user timer every ${cfg.interval}, on SessionStart, and after
-      each turn that leaves unpushed vault commits. It skips while
-      `.vault-meta/mutation.lock` exists.
+        The claude-obsidian vault lives at `${cfg.path}` on both surface and
+        picard, and is kept in sync through its git remote (`${cfg.remote}`) by
+        `vault-sync` (fetch, `rebase --autostash` onto origin, push). It runs from
+        a systemd user timer every ${cfg.interval}, on SessionStart, and after
+        each turn that leaves unpushed vault commits. It skips while
+        `.vault-meta/mutation.lock` exists.
 
-      - Checkpoint (commit) completed vault transactions so they get pushed;
-        uncommitted vault changes stay local to this host.
-      - If a transaction apply fails its expected-hash check, a sync probably
-        pulled newer content: re-read the hashes and rebuild the bundle, don't
-        force it.
-      - Run `vault-sync` by hand before a large ingest or save to start from
-        the latest vault.
-      - If vault-sync reports a CONFLICT (usually in the vault's log/index/hot
-        cache files), tell the user. Resolve it with a manual rebase in
-        `${cfg.path}`, keeping both sides' entries. Don't discard either side
-        or force-push.
-    '';
+        - Checkpoint (commit) completed vault transactions so they get pushed;
+          uncommitted vault changes stay local to this host.
+        - If a transaction apply fails its expected-hash check, a sync probably
+          pulled newer content: re-read the hashes and rebuild the bundle, don't
+          force it.
+        - Run `vault-sync` by hand before a large ingest or save to start from
+          the latest vault.
+        - If vault-sync reports a CONFLICT (usually in the vault's log/index/hot
+          cache files), tell the user. Resolve it with a manual rebase in
+          `${cfg.path}`, keeping both sides' entries. Don't discard either side
+          or force-push.
+      ''
+      + lib.optionalString (cfg.rerankOllamaUrl != null) ''
+
+        ### Retrieval reranking
+
+        jDmacD has given standing approval (2026-10-11) for wiki-retrieve to
+        rerank against the cluster Ollama at `${cfg.rerankOllamaUrl}` (LAN-only,
+        internal gateway), sending the query and candidate chunk text. This
+        approval covers only that URL and only the `${cfg.rerankModel}` model,
+        never the Ollama's `:cloud` models. Invoke it as:
+
+        ```bash
+        OLLAMA_URL=${cfg.rerankOllamaUrl} python3 "$RETRIEVE" --vault "$VAULT" "$QUERY" --top 5 --allow-remote-ollama --model ${cfg.rerankModel}
+        ```
+
+        A cold model load can make the first call return a gateway 504. The
+        strategy then reads `bm25+rerank:noop-embed-error` and results are in
+        plain BM25 order, so retry once.
+      ''
+    );
 
     systemd.user.services.vault-sync = {
       Unit.Description = "Sync the claude-obsidian vault with its git remote";

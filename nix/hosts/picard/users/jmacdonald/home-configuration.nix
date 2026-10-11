@@ -92,5 +92,8 @@
 
   home.stateVersion = "25.11";
 
-  vault-sync.enable = true;
+  vault-sync = {
+    enable = true;
+    rerankOllamaUrl = "https://ollama.local.jtec.xyz";
+  };
 }
