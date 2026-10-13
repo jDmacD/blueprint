@@ -26,6 +26,15 @@ let
   cfg = config.vault-sync;
   obsidian = config.crann.ai-utils.claude-obsidian;
 
+  # claude-obsidian's checkpoint ignores global git config
+  # (GIT_CONFIG_GLOBAL=/dev/null), so the commit identity has to live in the
+  # vault repo's own config.
+  gitUser = config.programs.git.settings.user or { };
+  setIdentity = lib.optionalString (gitUser ? name && gitUser ? email) ''
+    git -C "$vault" config user.name ${lib.escapeShellArg gitUser.name}
+    git -C "$vault" config user.email ${lib.escapeShellArg gitUser.email}
+  '';
+
   vault-sync = pkgs.writeShellApplication {
     name = "vault-sync";
     runtimeInputs = with pkgs; [
@@ -52,11 +61,13 @@ let
         fi
         mkdir -p "$(dirname "$vault")"
         timeout 60 git clone --quiet "$remote" "$vault"
+        ${setIdentity}
         echo "vault-sync: cloned $remote into $vault"
         exit 0
       fi
 
       cd "$vault"
+      ${setIdentity}
       upstream_ahead() { git rev-list --count '@{u}..HEAD'; }
 
       refresh_index() {
