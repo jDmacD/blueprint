@@ -82,11 +82,21 @@
         # Write tools are needed to create and update dashboards.
         readOnly = false;
       };
+      # Grafana alerts pushed into a `claude-alerts` session. Grafana's
+      # "Claude" webhook contact point posts to picard.lan:8788. picard's
+      # firewall is off (k3s-agent-gpu), so the bearer token is the only gate.
+      channels.grafana = {
+        enable = true;
+        host = "192.168.178.103";
+        tokenFile = config.sops.secrets.grafana_channel_token.path;
+      };
     };
   };
 
   # Editor-role service account token (Grafana > Administration > Service accounts).
   sops.secrets.grafana_mcp_token = { };
+  # Bearer token for the Claude contact point (Authorization header credentials).
+  sops.secrets.grafana_channel_token = { };
 
   # programs.noctalia-shell.wallpaper.monitorDirectories = [
   #   {
