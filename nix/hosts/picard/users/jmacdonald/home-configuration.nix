@@ -74,8 +74,19 @@
       claude-obsidian = {
         enable = true;
       };
+      mcp.grafana = {
+        enable = true;
+        # LAN-only route; grafana.jtec.xyz is behind Cloudflare Access.
+        url = "https://grafana.local.jtec.xyz";
+        tokenFile = config.sops.secrets.grafana_mcp_token.path;
+        # Write tools are needed to create and update dashboards.
+        readOnly = false;
+      };
     };
   };
+
+  # Editor-role service account token (Grafana > Administration > Service accounts).
+  sops.secrets.grafana_mcp_token = { };
 
   # programs.noctalia-shell.wallpaper.monitorDirectories = [
   #   {
