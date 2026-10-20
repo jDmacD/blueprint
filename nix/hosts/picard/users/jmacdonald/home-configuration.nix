@@ -19,6 +19,7 @@
   ++ (with inputs.self.homeModules; [
     home-shared
     vault-sync
+    cluster-sweep
     personal
     dev-utils
     cloud-utils
@@ -117,4 +118,6 @@
     enable = true;
     rerankOllamaUrl = "https://ollama.local.jtec.xyz";
   };
+
+  cluster-sweep.enable = true;
 }
