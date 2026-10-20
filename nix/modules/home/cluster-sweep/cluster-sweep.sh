@@ -64,13 +64,13 @@ kget jobs | jq -r --argjson now "$now" '.items[]
   | select(($now - ((.status.startTime // "1970-01-01T00:00:00Z") | fromdateiso8601)) < 86400)
   | "\(.metadata.namespace)/\(.metadata.name) failed=\(.status.failed)"' | report || echo "CHECK FAILED"
 
-section "warning events (last $((events_since / 60))m, grouped)"
+section "warning events (active in the last $((events_since / 60))m; counts are totals since first seen)"
 kget events | jq -r --argjson now "$now" --argjson since "$events_since" '[.items[]
   | select(.type == "Warning")
   | select(($now - ((.lastTimestamp // .eventTime // .metadata.creationTimestamp) | sub("\\.[0-9]+"; "") | fromdateiso8601)) < $since)
-  | {k: "\(.involvedObject.namespace // "-")/\(.involvedObject.kind)/\(.involvedObject.name) \(.reason)", m: (.message | gsub("\\s+"; " ") | .[0:140]), c: (.count // 1)}]
-  | group_by(.k) | map({k: .[0].k, m: .[-1].m, c: (map(.c) | add)})
-  | sort_by(-.c) | .[:20][] | "\(.c)x \(.k): \(.m)"' | report || echo "CHECK FAILED"
+  | {k: "\(.involvedObject.namespace // "-")/\(.involvedObject.kind)/\(.involvedObject.name) \(.reason)", m: (.message | gsub("\\s+"; " ") | .[0:140]), c: (.count // 1), f: (.firstTimestamp // .eventTime // .metadata.creationTimestamp)}]
+  | group_by(.k) | map({k: .[0].k, m: .[-1].m, c: (map(.c) | add), f: (map(.f) | min)})
+  | sort_by(-.c) | .[:20][] | "\(.c)x since \(.f | .[0:16])Z \(.k): \(.m)"' | report || echo "CHECK FAILED"
 
 section "ceph"
 kget cephclusters.ceph.rook.io | jq -r '.items[]
