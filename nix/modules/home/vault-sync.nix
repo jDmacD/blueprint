@@ -179,6 +179,70 @@ let
     '';
   };
 
+  # UserPromptSubmit hook: on a session's first real prompt, injects the
+  # vault's hot cache and the pages wiki-retrieve ranks highest for that
+  # prompt, so Claude checks the vault without being asked. Reranks against
+  # rerankOllamaUrl when set; a slow or failed rerank (cold model load) falls
+  # back to plain BM25 so the prompt isn't held up.
+  vault-recall = pkgs.writeShellApplication {
+    name = "vault-recall";
+    runtimeInputs = with pkgs; [
+      coreutils
+      findutils
+      gawk
+      jq
+    ];
+    text = ''
+      vault=${lib.escapeShellArg cfg.path}
+      input="$(cat)"
+      session="$(printf '%s' "$input" | jq -r '.session_id // empty')"
+      prompt="$(printf '%s' "$input" | jq -r '.prompt // empty')"
+
+      [ -n "$session" ] && [ -f "$vault/wiki/hot.md" ] || exit 0
+      # Slash commands make poor queries; wait for the first real prompt.
+      case "$prompt" in "" | /*) exit 0 ;; esac
+
+      state="''${XDG_RUNTIME_DIR:-/tmp}/vault-sync/recall"
+      mkdir -p "$state"
+      find "$state" -type f -mtime +7 -delete 2>/dev/null || true
+      marker="$state/$session"
+      [ -e "$marker" ] && exit 0
+      : >"$marker"
+
+      query="$(printf '%s' "$prompt" | head -c 2000)"
+      retrieve=(${obsidian.python.package}/bin/python3 ${obsidian.source}/scripts/retrieve.py
+        --vault "$vault" "$query" --top ${toString cfg.recall.top})
+      results=""
+      ${lib.optionalString (cfg.rerankOllamaUrl != null) ''
+        results="$(OLLAMA_URL=${lib.escapeShellArg cfg.rerankOllamaUrl} timeout ${toString cfg.recall.rerankTimeout} \
+          "''${retrieve[@]}" --allow-remote-ollama --model ${lib.escapeShellArg cfg.rerankModel} 2>/dev/null)" || results=""
+      ''}
+      [ -n "$results" ] || results="$("''${retrieve[@]}" --no-rerank 2>/dev/null)" || results=""
+
+      hot="$(awk 'NR == 1 && /^---$/ { fm = 1; next } fm && /^---$/ { fm = 0; next } !fm' "$vault/wiki/hot.md")"
+      matches="$(printf '%s' "$results" | jq -r '
+        .strategy as $s
+        | if (.candidates | length) == 0 then "No matching pages."
+          else "Ranked by `\($s)`:\n" + ([.candidates[]
+            | "- `\(.absolute_path)`: \(.snippet | gsub("\\s+"; " ") | .[0:200])"] | join("\n"))
+          end' 2>/dev/null)" \
+        || matches="Retrieval unavailable (index missing or stale); use claude-obsidian:wiki-query if the vault is relevant."
+
+      context="## Vault recall (auto-injected on this session's first prompt)
+
+      The claude-obsidian vault at \`$vault\` is jDmacD's second brain and project tracker. Below are its hot cache and the pages that best match this prompt. Search hits are pointers, not evidence: Read the relevant pages before answering. Ignore them if the prompt has nothing to do with the vault.
+
+      ### Hot cache (wiki/hot.md)
+
+      $hot
+
+      ### Matching pages
+
+      $matches"
+      jq -n --arg ctx "$context" '{hookSpecificOutput: {hookEventName: "UserPromptSubmit", additionalContext: $ctx}}'
+    '';
+  };
+
   # Hooks ship as a managed plugin rather than programs.claude-code.settings,
   # so ~/.claude/settings.json stays a mutable file.
   plugin = pkgs.runCommand "vault-sync-claude-plugin" { } ''
@@ -186,8 +250,8 @@ let
     cp ${
       pkgs.writers.writeJSON "plugin.json" {
         name = "vault-sync";
-        version = "1.0.0";
-        description = "Syncs the claude-obsidian vault via git and blocks raw writes into it";
+        version = "1.1.0";
+        description = "Syncs the claude-obsidian vault via git, recalls it on a session's first prompt, and blocks raw writes into it";
       }
     } $out/.claude-plugin/plugin.json
     cp ${
@@ -212,6 +276,17 @@ let
                   type = "command";
                   command = "${lib.getExe vault-sync} --if-ahead";
                   timeout = 90;
+                }
+              ];
+            }
+          ];
+          UserPromptSubmit = lib.optionals cfg.recall.enable [
+            {
+              hooks = [
+                {
+                  type = "command";
+                  command = lib.getExe vault-recall;
+                  timeout = cfg.recall.rerankTimeout + 15;
                 }
               ];
             }
@@ -267,6 +342,29 @@ in
       description = "Embedding model wiki-retrieve reranks with on `rerankOllamaUrl`.";
     };
 
+    recall = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = ''
+          Inject the vault's hot cache and the best-matching pages into
+          Claude's context on each session's first prompt.
+        '';
+      };
+
+      top = lib.mkOption {
+        type = lib.types.ints.between 1 20;
+        default = 5;
+        description = "How many matching pages to list.";
+      };
+
+      rerankTimeout = lib.mkOption {
+        type = lib.types.ints.positive;
+        default = 8;
+        description = "Seconds to wait for the rerank before falling back to BM25 order.";
+      };
+    };
+
     interval = lib.mkOption {
       type = lib.types.str;
       default = "5min";
@@ -302,6 +400,13 @@ in
           cache files), tell the user. Resolve it with a manual rebase in
           `${cfg.path}`, keeping both sides' entries. Don't discard either side
           or force-push.
+      ''
+      + lib.optionalString cfg.recall.enable ''
+        - A UserPromptSubmit hook injects a "Vault recall" block on each
+          session's first prompt: the hot cache plus the pages wiki-retrieve
+          ranks highest for that prompt. Read the relevant ones before
+          answering. A later prompt that turns to vault topics still needs
+          its own wiki-query or wiki-retrieve.
       ''
       + lib.optionalString (cfg.rerankOllamaUrl != null) ''
 
