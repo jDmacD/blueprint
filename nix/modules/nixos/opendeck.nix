@@ -6,8 +6,8 @@
 }:
 let
   opendeckUdev = pkgs.fetchurl {
-    url = "https://raw.githubusercontent.com/OpenActionAPI/rust-elgato-streamdeck/main/40-streamdeck.rules";
-    sha256 = "sha256-kxIzSbFTTzLXCfjuNvqBh+6SHCrvr31d84UUFxtHUBg=";
+    url = "https://raw.githubusercontent.com/OpenActionAPI/rust-elgato-streamdeck/aa9ca95ab41d7fd6f39bf2bc775d17879d045c8f/40-streamdeck.rules";
+    sha256 = "sha256-EQ4THULTJZVmMtfcLPJ7abJZySbHm2KENPdivE/kP14=";
   };
 in
 {
