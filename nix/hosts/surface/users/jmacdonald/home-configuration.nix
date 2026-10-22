@@ -76,6 +76,7 @@
           - Its hostname is surface
           - The local network domain name is .lan
           - The local subnet is 192.168.178.0/24
+          - The user's timezone is Europe/Dublin (IST, UTC+1, in summer; GMT, UTC+0, in winter). Clusters, logs and alerts use UTC, so give the user times in local time too
           - The nix-shell can be used use to access tools for instance
               - `nix-shell --packages ethtool dnsutils --quiet --run "dig +short picard.lan"`
               - `ssh lwh-hotapril.lan 'nix-shell --packages facter --quiet --run "facter -j"'`
