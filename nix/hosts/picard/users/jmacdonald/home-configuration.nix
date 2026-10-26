@@ -14,6 +14,7 @@
     inputs.crann.modules.homeManager.shells
     inputs.crann.modules.homeManager.terminal
     inputs.crann.modules.homeManager.nix-utils
+    inputs.crann.modules.homeManager.obsidian
     inputs.crann.modules.homeManager.ai-utils
   ]
   ++ (with inputs.self.homeModules; [
@@ -57,6 +58,9 @@
       };
       extraPackages = [ perSystem.self.cachix-update ];
     };
+    obsidian = {
+      enable = true;
+    };
     ai-utils = {
       enable = true;
       claude-code = {
@@ -94,6 +98,11 @@
       };
     };
   };
+
+  # Stylix's obsidian target symlinks its settings into the vault's .obsidian/,
+  # which escapes the vault root and breaks claude-obsidian writes
+  # (PATH_OUTSIDE_VAULT). Same override as surface.
+  stylix.targets.obsidian.enable = false;
 
   # Editor-role service account token (Grafana > Administration > Service accounts).
   sops.secrets.grafana_mcp_token = { };
