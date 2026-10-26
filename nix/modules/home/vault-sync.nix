@@ -429,7 +429,10 @@ in
 
         A cold model load can make the first call return a gateway 504. The
         strategy then reads `bm25+rerank:noop-embed-error` and results are in
-        plain BM25 order, so retry once.
+        plain BM25 order, so retry once. `bm25+rerank:noop-local-proof` means
+        the server didn't prove cloud is disabled (`/api/status` must report
+        `cloud.disabled: true`; catalogue sets `OLLAMA_NO_CLOUD=1`). Retrying
+        won't help, so tell the user.
       ''
     );
 
