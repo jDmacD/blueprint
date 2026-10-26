@@ -389,8 +389,13 @@ in
         each turn that leaves unpushed vault commits. It skips while
         `.vault-meta/mutation.lock` exists.
 
-        - Checkpoint (commit) completed vault transactions so they get pushed;
-          uncommitted vault changes stay local to this host.
+        - Checkpoint (`claude-obsidian checkpoint <operation-id>`) completed
+          vault transactions so they get pushed; uncommitted vault changes
+          stay local to this host. This is the user's standing request for
+          Git history, which claude-obsidian otherwise only makes on request.
+        - `.vault-meta/` is gitignored and per-host, except `mode.json`
+          (the methodology mode), which is tracked so every host files new
+          notes the same way.
         - If a transaction apply fails its expected-hash check, a sync probably
           pulled newer content: re-read the hashes and rebuild the bundle, don't
           force it.
