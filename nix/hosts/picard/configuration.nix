@@ -151,5 +151,22 @@
     MemoryMax = "2G";
   };
 
+  # A local build of picard's own toplevel (nixpkgs bump, max-jobs 16 /
+  # cores 0) exhausted RAM on 2026-10-30 and stalled the host in reclaim for
+  # 30 min until a hard reset; the OOM killer never fired. Cap the builds so
+  # an overrun kills a builder inside nix-daemon's cgroup instead, and leave
+  # room for the k3s workloads (31 GiB RAM, zram-only swap).
+  nix.settings = {
+    max-jobs = 4;
+    cores = 4;
+  };
+  systemd.services.nix-daemon.serviceConfig = {
+    MemoryHigh = "12G";
+    MemoryMax = "16G";
+  };
+  # Allow the full Magic SysRq set (REISUB) at the console; NixOS's default
+  # of 16 only allows sync, which is all that worked during that hang.
+  boot.kernel.sysctl."kernel.sysrq" = 1;
+
   system.stateVersion = "25.11"; # Did you read the comment?
 }
