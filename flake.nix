@@ -3,7 +3,9 @@
 
   # Add all your dependencies here
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    # nixpkgs comes from crann (pinned there, updated by its Renovate), so the
+    # builds crann CI pushes to jdmacd.cachix.org match ours by construction.
+    nixpkgs.follows = "crann/nixpkgs";
     nixpkgs-26-05.url = "github:NixOS/nixpkgs?ref=26.05";
     nixpkgs-25-11.url = "github:NixOS/nixpkgs?ref=25.11";
     nixpkgs-25-05.url = "github:NixOS/nixpkgs?ref=25.05";
@@ -48,10 +50,11 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     nix-flatpak.inputs.nixpkgs.follows = "nixpkgs";
 
-    crann = {
-      url = "github:jDmacD/crann";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    crann.url = "github:jDmacD/crann";
+
+    # Pins single packages to an exact version (see cloud-utils.nix). Follows
+    # crann's so there's one multiverse index.
+    multiverse.follows = "crann/multiverse";
   };
 
   nixConfig = {

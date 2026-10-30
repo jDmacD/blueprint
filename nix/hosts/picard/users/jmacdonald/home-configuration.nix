@@ -16,10 +16,10 @@
     inputs.crann.modules.homeManager.nix-utils
     inputs.crann.modules.homeManager.obsidian
     inputs.crann.modules.homeManager.ai-utils
+    inputs.crann.modules.homeManager.vault-sync
   ]
   ++ (with inputs.self.homeModules; [
     home-shared
-    vault-sync
     cluster-sweep
     personal
     dev-utils
@@ -99,11 +99,6 @@
     };
   };
 
-  # Stylix's obsidian target symlinks its settings into the vault's .obsidian/,
-  # which escapes the vault root and breaks claude-obsidian writes
-  # (PATH_OUTSIDE_VAULT). Same override as surface.
-  stylix.targets.obsidian.enable = false;
-
   # Editor-role service account token (Grafana > Administration > Service accounts).
   sops.secrets.grafana_mcp_token = { };
   # Bearer token for the Claude contact point (Authorization header credentials).
@@ -124,9 +119,12 @@
 
   home.stateVersion = "25.11";
 
-  vault-sync = {
+  crann.vault-sync = {
     enable = true;
+    remote = "ssh://git@codeberg.org/jDmacD/technodrome.git";
     rerankOllamaUrl = "https://ollama.local.jtec.xyz";
+    rerankApproval = "jDmacD has given standing approval (2026-10-11)";
+    recall.vaultDescription = "jDmacD's second brain and project tracker";
   };
 
   cluster-sweep.enable = true;

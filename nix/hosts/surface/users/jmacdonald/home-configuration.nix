@@ -11,7 +11,6 @@
     with inputs.self.homeModules;
     [
       home-shared
-      vault-sync
       personal
       dev-utils
       network-utils
@@ -34,6 +33,7 @@
       optnix
       obsidian
       ai-utils
+      vault-sync
     ]);
 
   crann = {
@@ -89,17 +89,6 @@
     };
   };
 
-  # Stylix's obsidian target writes programs.obsidian.defaultSettings.appearance
-  # and .cssSnippets, which home-manager symlinks into every enabled vault's
-  # .obsidian/ dir (the nixos stylix module already injects stylix's home
-  # module here, per the crann.stylix.enable in nix/modules/nixos/desktop.nix —
-  # same reason crann's own test host disables stylix.targets.kde locally
-  # rather than through crann.stylix.extraSettings). That symlink escapes the
-  # vault root and trips claude-obsidian's vault-root-separation check
-  # (PATH_OUTSIDE_VAULT) on adopt/init/every write, so keep Obsidian's own
-  # settings files plain and mutable instead.
-  stylix.targets.obsidian.enable = false;
-
   # programs.noctalia-shell.wallpaper.monitorDirectories = [
   #   {
   #     name = "eDP-1";
@@ -125,8 +114,11 @@
 
   home.stateVersion = "26.05";
 
-  vault-sync = {
+  crann.vault-sync = {
     enable = true;
+    remote = "ssh://git@codeberg.org/jDmacD/technodrome.git";
     rerankOllamaUrl = "https://ollama.local.jtec.xyz";
+    rerankApproval = "jDmacD has given standing approval (2026-10-11)";
+    recall.vaultDescription = "jDmacD's second brain and project tracker";
   };
 }

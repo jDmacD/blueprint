@@ -13,13 +13,12 @@
   crann.yazi.enable = true;
 
   # Preserves associations that were previously just runtime
-  # self-registrations into a mutable mimeapps.list (claude-code's own URL
-  # handler, rpi-imager's) now that crann.thunar (surface/picard) makes
+  # self-registrations into a mutable mimeapps.list (rpi-imager's; crann's
+  # ai-utils declares claude-code's own) now that crann.thunar (surface/picard) makes
   # home-manager fully own that file — inert here on worf, which never
   # enables xdg.mimeApps in the first place. See firefox.nix for the
   # browser-scheme-handler counterpart to this.
   xdg.mimeApps.defaultApplications = {
-    "x-scheme-handler/claude-cli" = [ "claude-code-url-handler.desktop" ];
     "x-scheme-handler/rpi-imager" = [ "com.raspberrypi.rpi-imager-uri-handler.desktop" ];
   };
 

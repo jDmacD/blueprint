@@ -164,33 +164,28 @@ Tunneling" below).
 - `personal.nix` - Personal development tools + git identity
 - `desktop.nix` - Desktop aggregator that pulls noctalia/vscode/wl-clipboard in
   from **crann**
-- `vault-sync.nix` - Git sync of the claude-obsidian vault
-  (`~/obsidian/technodrome`, Codeberg remote) on surface and picard. See
-  "Obsidian vault sync" below.
+- `cloud-utils.nix` - awscli, hcloud, azure-cli (pinned to 2.89.1 through
+  nixpkgs-multiverse while unstable's is broken), cloudflare-cli
 
 #### Obsidian vault sync
 
-`vault-sync.nix` (added 2026-10-11, `17e8a5f`) keeps one claude-obsidian vault
-on surface and picard. It uses git rather than an NFS share, because surface is
-a laptop that leaves the LAN.
+Vault sync is crann's `crann.vault-sync` home module since 2026-10-30 (crann
+#499; blueprint's own `vault-sync.nix`, added 2026-10-11 in `17e8a5f`, was
+upstreamed and deleted). surface and picard import
+`inputs.crann.modules.homeManager.vault-sync` and set the Codeberg remote, the
+rerank URL (`https://ollama.local.jtec.xyz`) and the jDmacD-specific wording
+(`rerankApproval`, `recall.vaultDescription`). It uses git rather than an NFS
+share, because surface is a laptop that leaves the LAN. See crann's
+`modules/home/vault-sync.nix` for the script, triggers (5-min timer,
+SessionStart, Stop when ahead) and first-prompt recall.
 
-- **Script:** `vault-sync` runs fetch, `rebase --autostash` and push. It clones
-  the vault if it's missing. It skips while `.vault-meta/mutation.lock` exists.
-  On a conflict it aborts the rebase and reports `CONFLICT`.
-- **Triggers:** a 5-min systemd user timer, plus Claude `SessionStart` and
-  `Stop --if-ahead` hooks.
-- **Hooks plugin:** the hooks and the `block-vault-writes` PreToolUse hook ship
-  as a managed plugin (`programs.claude-code.plugins.vault-sync`), not
-  `programs.claude-code.settings`. That keeps `~/.claude/settings.json` a
-  mutable file.
-- **Context:** the module appends sync guidance to `programs.claude-code.context`.
-  With `rerankOllamaUrl` set (both hosts: `https://ollama.local.jtec.xyz`), it
-  also records the standing approval for wiki-retrieve to rerank there with
-  `nomic-embed-text-v2-moe`.
-- **Retrieval index:** where one has been built (`.vault-meta/bm25`), each sync
-  rebuilds it, local-only, when the committed `wiki/` tree changes.
-- **Per-host state:** `.vault-meta/` is gitignored, so the methodology mode
-  (`para`) and retrieval index are per host. Set them up once on a new host.
+The PreToolUse hook that blocks raw Write/Edit in the vault is now crann's
+`crann.ai-utils.claude-obsidian.blockRawVaultWrites` (on by default), and
+stylix's obsidian target is turned off by `crann.obsidian`, so neither host
+overrides it any more.
+
+**Per-host state:** `.vault-meta/` is gitignored, so the methodology mode
+(`para`) and retrieval index are per host. Set them up once on a new host.
 
 `terminals.nix`/`terminal-utils.nix` (superseded by crann's `terminal`),
 `kubernetes-utils.nix` (superseded by crann's `kubernetes`), `git-utils.nix`
@@ -348,13 +343,24 @@ lore, the only darwin host, was fully decommissioned 2026-08-16.) The
 the RPi fleet, which no longer lives in this repo (see "Former Raspberry Pi
 Fleet" above).
 
-### Cachix Integration
+### Cachix Integration and nixpkgs
 
-The configuration uses these binary caches (`flake.nix` `nixConfig` +
-`host-shared.nix` on NixOS):
-- `jdmacd.cachix.org` - Personal cache
-- `noctalia.cachix.org` - noctalia (niri shell) packages
-- `nix-community.cachix.org` - Community packages
+**blueprint's `nixpkgs` follows crann's** (`nixpkgs.follows = "crann/nixpkgs"`,
+since 2026-10-30). crann pins nixpkgs and its Renovate moves it; a
+`nix flake update crann` here moves the hosts' nixpkgs too. crann CI builds its
+test hosts against that nixpkgs and pushes them to `jdmacd.cachix.org`, so
+noctalia, niri, claude-code and the like are fetched, not compiled. Don't
+point `nixpkgs` back at its own URL, or those builds stop matching.
+
+The substituters must be in the system config (`host-shared.nix`): the
+flakes' `nixConfig` is ignored because `accept-flake-config` is off.
+- `cache.nixos.org`, `nix-community.cachix.org`
+- `jdmacd.cachix.org` - crann CI's builds, plus the patched Pi kernels
+- `cache.numtide.com` - llm-agents (claude-code)
+- `noctalia.cachix.org` - via `crann.noctalia.cache.enable` (`desktop.nix`)
+
+To pin a single package to an exact version, use nixpkgs-multiverse (the
+`multiverse` input follows crann's), as `cloud-utils.nix` does for azure-cli.
 
 (No `nixos-raspberrypi.cachix.org` or `hyprland.cachix.org` — the RPi fleet
 moved to the separate `nix-pi` flake, and this repo now uses niri, not
