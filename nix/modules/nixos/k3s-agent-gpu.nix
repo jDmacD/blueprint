@@ -6,24 +6,21 @@
   perSystem,
   ...
 }:
+# k3s agent with NVIDIA GPU support. k3s itself comes from crann's k3s module
+# (package pinned through nixpkgs-multiverse by crann.k3s.version, kubelet
+# memory eviction, firewall ports, Ceph prerequisites), as on the nix-pi
+# fleet. The GPU wiring below (nvidia-container-toolkit from nixpkgs-25-11,
+# the nvidia containerd runtime) stays local; crann's k3s-nvidia is not used
+# yet, see docs/systems/gpu.md in catalogue for why the toolkit is pinned.
 let
   nvidia-container-toolkit = perSystem.nixpkgs-25-11.nvidia-container-toolkit;
 in
 {
+  imports = [ inputs.crann.modules.nixos.k3s ];
+
+  # crann.k3s turns the firewall off at normal priority; picard's
+  # configuration.nix enables it, so force it here.
   networking.firewall.enable = lib.mkForce false;
-  networking.firewall.checkReversePath = false;
-  networking.firewall.allowedTCPPorts = [
-    6443 # k3s: required so that pods can reach the API server (running on port 6443 by default)
-    # 2379 # k3s, etcd clients: required if using a "High Availability Embedded etcd" configuration
-    # 2380 # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
-    10250 # metrics port
-    4240 # cilium health
-    443
-    80
-  ];
-  networking.firewall.allowedUDPPorts = [
-    8472 # k3s, flannel: required if using multi-node for inter-node networking
-  ];
 
   hardware.nvidia-container-toolkit = {
     enable = true;
@@ -66,16 +63,14 @@ in
     owner = "root";
   };
 
-  services.k3s = {
+  crann.k3s = {
     enable = true;
-    package = pkgs.k3s_1_35;
     role = "agent";
-    tokenFile = "/run/secrets/k3s/token";
     serverAddr = "https://tpi01.lan:6443";
-    extraFlags = toString [
-      "--node-name ${config.networking.hostName}"
-      # "--nonroot-devices"
-    ];
+    tokenFile = config.sops.secrets."k3s/token".path;
+  };
+
+  services.k3s = {
     # https://github.com/NVIDIA/k8s-device-plugin/issues/1220
     # nvidia-ctk runtime configure --runtime=containerd
     # cat /var/lib/rancher/k3s/agent/etc/containerd/config.toml
@@ -94,18 +89,7 @@ in
     '';
   };
 
-  # needed for ceph
-  fileSystems."/lib/modules" = {
-    device = "/run/booted-system/kernel-modules/lib/modules";
-    fsType = "none";
-    options = [ "bind" ];
-    depends = [ "/run/booted-system/kernel-modules/lib/modules" ];
-  };
-
-  programs.nbd.enable = true; # required for ceph
-
   environment.systemPackages = with pkgs; [
-    lvm2
     nvidia-container-toolkit
     libnvidia-container
     runc

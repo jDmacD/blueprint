@@ -285,12 +285,16 @@ This repo does **not** define the k3s cluster's control plane or server-side fla
 lives in the separate [`nix-pi`](https://github.com/jDmacD/nix-pi) flake, on the
 `tpi01` control-plane node. This repo only defines **picard** as a k3s **agent**
 (`nix/modules/nixos/k3s-agent-gpu.nix`), which:
+- Uses crann's `k3s` module (`crann.k3s`, since 2026-10-30), like nix-pi. crann
+  provides the k3s package (pinned through nixpkgs-multiverse by
+  `crann.k3s.version`, so `nix flake update nixpkgs` doesn't move k3s), the
+  kubelet `memory.available<100Mi` eviction threshold, the firewall ports and
+  the Ceph prerequisites. To change k3s, set `crann.k3s.version` or bump crann.
 - Joins the cluster at `https://tpi01.lan:6443` using a token from
   `sops.secrets."k3s/token"` (SOPS-managed, resolves to `/run/secrets/k3s/token`).
-- Opens firewall ports 6443 (API), 10250 (metrics), 4240 (Cilium health), 443, 80
-  TCP and 8472 (Flannel/VXLAN) UDP, with the rest of the host firewall disabled.
+- Forces the host firewall off (`lib.mkForce`, since `configuration.nix` turns it on).
 - Adds NVIDIA container-toolkit wiring (GPU workloads via the `nvidia`
-  RuntimeClass) — this module is GPU-specific, not a generic k3s-agent module.
+  RuntimeClass) — kept local; crann's `k3s-nvidia` is not used yet.
 
 For the cluster's actual server-side behavior, read `nix-pi`'s own `CLAUDE.md`
 directly rather than inferring it from this repo.
