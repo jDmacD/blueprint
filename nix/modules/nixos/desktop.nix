@@ -43,6 +43,9 @@
 
   crann.desktop.enable = true;
 
+  # noctalia.cachix.org, for when noctalia's own builds match ours.
+  crann.noctalia.cache.enable = true;
+
   crann.gdm.enable = true;
 
   crann.thunar.enable = true;

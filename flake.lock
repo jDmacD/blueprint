@@ -200,20 +200,18 @@
         "llm-agents": "llm-agents",
         "multiverse": "multiverse",
         "niri": "niri",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs",
         "noctalia": "noctalia",
         "optnix": "optnix",
         "stylix": "stylix",
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1793344975,
-        "narHash": "sha256-bJRi+4iy6jOwSqKiJtD3/P/nOUOR0WNj/HV2j/jPZCQ=",
+        "lastModified": 1793348883,
+        "narHash": "sha256-hKfQ8tQ3Q+5nPAgf3c3xX0ACqVpS1IxsE3IEgZd1JB0=",
         "owner": "jDmacD",
         "repo": "crann",
-        "rev": "d9e75ef65e7a1d621aad794c70d8a64c66714460",
+        "rev": "3ac3f612bfb81f2dff0f14a7bd0d3a511dfcdcfb",
         "type": "github"
       },
       "original": {
@@ -790,17 +788,17 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1791456040,
-        "narHash": "sha256-H83yz/do+hjOO0uujHyH8RgtIQP2v7Mw+cLwcZK/xKc=",
-        "owner": "NixOS",
+        "lastModified": 1793341620,
+        "narHash": "sha256-5aOuSFyy/la+HXlO0KZJbsOiopo3ADXKTGTkqlPDtsI=",
+        "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e7439b6b14ad3cc35d05608ebca9bce01a25f5f8",
+        "rev": "964de16063afbdb3b6df676ee4570e7f308a621e",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "owner": "nixos",
         "repo": "nixpkgs",
+        "rev": "964de16063afbdb3b6df676ee4570e7f308a621e",
         "type": "github"
       }
     },
@@ -966,17 +964,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1793305173,
-        "narHash": "sha256-X94ky49Q1WPJZHIM71SyKldc3+m/ER2KKDyZDFwjNto=",
+        "lastModified": 1793323748,
+        "narHash": "sha256-VEgcl32h2oXdPNJ23K/WAbTkHLvSmAnn1cKfhFCeL9Q=",
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "5803e464b73ee2d016478b39b9ecbbec36d95fb0",
+        "rev": "1da2ac39231fbd351bbed0ce47a7050aef2df558",
         "type": "github"
       },
       "original": {
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "5803e464b73ee2d016478b39b9ecbbec36d95fb0",
+        "rev": "1da2ac39231fbd351bbed0ce47a7050aef2df558",
         "type": "github"
       }
     },
@@ -1134,8 +1132,15 @@
         "home-manager": "home-manager_2",
         "home-manager-25-05": "home-manager-25-05",
         "lanzaboote": "lanzaboote",
+        "multiverse": [
+          "crann",
+          "multiverse"
+        ],
         "nix-flatpak": "nix-flatpak",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": [
+          "crann",
+          "nixpkgs"
+        ],
         "nixpkgs-24-11": "nixpkgs-24-11",
         "nixpkgs-25-05": "nixpkgs-25-05",
         "nixpkgs-25-11": "nixpkgs-25-11",
