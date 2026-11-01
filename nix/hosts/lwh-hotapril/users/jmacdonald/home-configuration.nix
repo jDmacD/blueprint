@@ -70,6 +70,15 @@
     };
   };
 
+  # Blank the screen after 10 minutes idle. noctalia's built-in idle
+  # behaviors (lock, screen-off, lock-and-suspend) all default to disabled;
+  # only screen-off is turned on, since this host must never suspend.
+  crann.noctalia.extraSettings.idle.behavior.screen-off = {
+    enabled = true;
+    timeout = 600;
+    action = "screen_off";
+  };
+
   # bitwarden_secret is decrypted at the NixOS level, as on surface.
   programs.zsh.initContent = ''
     export BWS_ACCESS_TOKEN="$(cat ${osConfig.sops.secrets.bitwarden_secret.path})"

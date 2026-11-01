@@ -100,6 +100,29 @@
     };
   };
 
+  # A k3s node must never sleep: lid, keys, idle and the gdm greeter all
+  # ignore suspend, and the sleep targets are disabled outright. The screen
+  # still blanks via noctalia's idle screen-off (home-configuration.nix).
+  services.logind.settings.Login = {
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchExternalPower = "ignore";
+    HandleLidSwitchDocked = "ignore";
+    HandleSuspendKey = "ignore";
+    HandleHibernateKey = "ignore";
+    IdleAction = "ignore";
+  };
+  services.displayManager.gdm.autoSuspend = false;
+  systemd.targets = {
+    sleep.enable = false;
+    suspend.enable = false;
+    hibernate.enable = false;
+    hybrid-sleep.enable = false;
+    suspend-then-hibernate.enable = false;
+  };
+  # HybridSleep (the default) can't run with sleep disabled; on a critical
+  # battery off the dock, shut down cleanly instead.
+  services.upower.criticalPowerAction = "PowerOff";
+
   hardware = {
     enableAllFirmware = true;
     enableRedistributableFirmware = true;
