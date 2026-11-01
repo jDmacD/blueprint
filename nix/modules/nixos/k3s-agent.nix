@@ -19,5 +19,7 @@
     role = "agent";
     serverAddr = "https://tpi01.lan:6443";
     tokenFile = config.sops.secrets."k3s/token".path;
+    # Spegel image sharing, as on the nix-pi fleet (which sets it on the server).
+    embeddedRegistry.enable = true;
   };
 }
