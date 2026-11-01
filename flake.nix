@@ -131,6 +131,10 @@
               name = "surface";
               arch = "x86_64-linux";
             };
+            lwh-hotapril = mkNode {
+              name = "lwh-hotapril";
+              arch = "x86_64-linux";
+            };
           };
       };
     };
