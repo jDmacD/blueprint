@@ -8,7 +8,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH/+YL3IpUNE+6Y/OzZ76adq953Mlpt7nGCLU4pZ0OiX"
     ];
   }
-  // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
+  // lib.optionalAttrs (!pkgs.stdenv.hostPlatform.isDarwin) {
     extraGroups = [
       "wheel"
       "githubrunner"

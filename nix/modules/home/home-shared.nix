@@ -1,5 +1,7 @@
 { flake, inputs, ... }:
 {
+  config,
+  lib,
   pkgs,
   osConfig,
   ...
@@ -11,6 +13,9 @@
   ];
 
   crann.yazi.enable = true;
+  # Hosts on home.stateVersion < 26.05 keep the old `yy` wrapper; this pins it
+  # explicitly, which silences home-manager's default-changed warning.
+  programs.yazi.shellWrapperName = lib.mkIf (lib.versionOlder config.home.stateVersion "26.05") "yy";
 
   # Preserves associations that were previously just runtime
   # self-registrations into a mutable mimeapps.list (rpi-imager's; crann's
@@ -35,7 +40,7 @@
 
   # only available on linux, disabled on macos
   services.ssh-agent = {
-    enable = pkgs.stdenv.isLinux;
+    enable = pkgs.stdenv.hostPlatform.isLinux;
   };
 
   home.packages =
@@ -43,7 +48,7 @@
     [ virt-manager ]
     ++ (
       # you can access the host configuration using osConfig.
-      pkgs.lib.optionals (osConfig.programs.vim.enable && pkgs.stdenv.isDarwin) [ skhd ]
+      pkgs.lib.optionals (osConfig.programs.vim.enable && pkgs.stdenv.hostPlatform.isDarwin) [ skhd ]
     )
     ++ (with flake.packages.${pkgs.stdenv.hostPlatform.system}; [ hyprstart ]);
 
