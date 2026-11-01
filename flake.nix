@@ -48,7 +48,6 @@
     eduvpn.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
-    nix-flatpak.inputs.nixpkgs.follows = "nixpkgs";
 
     crann.url = "github:jDmacD/crann";
 
