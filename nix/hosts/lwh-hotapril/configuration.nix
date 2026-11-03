@@ -86,7 +86,27 @@
 
   networking = {
     hostName = "lwh-hotapril";
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      # Wi-Fi (wlo1) shares the LAN subnet with the dock's eno2. While it's up,
+      # Cilium could renew an Envoy gateway L2 lease over Wi-Fi after eno2
+      # drops, leaving the gateway IP unanswered (catalogue #757). So the radio
+      # goes off whenever eno2 comes up and back on when it goes down, which
+      # keeps the desktop usable off the dock. A noctalia toggle can still turn
+      # it on until eno2's next up event.
+      dispatcherScripts = [
+        {
+          type = "basic";
+          source = pkgs.writeShellScript "wifi-off-when-docked" ''
+            [ "$1" = eno2 ] || exit 0
+            case "$2" in
+              up) ${pkgs.networkmanager}/bin/nmcli radio wifi off ;;
+              down) ${pkgs.networkmanager}/bin/nmcli radio wifi on ;;
+            esac
+          '';
+        }
+      ];
+    };
     # The firewall stays off: crann.k3s disables it, as on picard.
   };
 
