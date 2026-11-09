@@ -29,7 +29,6 @@
     # github-runner
     # home-assistant
     forgejo-runner
-    acme
     desktop
     # openclaw
   ])
