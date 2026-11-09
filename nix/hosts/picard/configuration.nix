@@ -98,6 +98,21 @@
     };
   };
 
+  # Hardware watchdog: if systemd stops petting it for 30 s (a hard hang), the
+  # chipset resets the machine. Kernel panics already reboot via
+  # kernel.panic = 10; this covers hangs that never panic. Uses the PCH TCO
+  # watchdog (iTCO_wdt), not the newer intel_oc_wdt, which probes first and so
+  # takes /dev/watchdog0. The udev symlink pins it by name, because the
+  # watchdogN numbering follows driver probe order.
+  services.udev.extraRules = ''
+    SUBSYSTEM=="watchdog", ATTR{identity}=="iTCO_wdt", SYMLINK+="watchdog-itco"
+  '';
+  systemd.settings.Manager = {
+    WatchdogDevice = "/dev/watchdog-itco";
+    RuntimeWatchdogSec = "30s";
+    RebootWatchdogSec = "10min";
+  };
+
   hardware = {
     enableAllFirmware = true;
     enableRedistributableFirmware = true;
