@@ -93,7 +93,7 @@
 
     "opn" = {
       HostName = "opnsense.lan";
-      User = "jmacd";
+      User = "jmacdonald";
       IdentityFile = config.sops.secrets.id_ed25519.path;
     };
 
