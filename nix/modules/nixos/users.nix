@@ -25,7 +25,6 @@ in
       "sound"
       "video"
       "docker"
-      "acme"
     ];
     packages = [ ];
   };
