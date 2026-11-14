@@ -37,13 +37,16 @@ REMARSHAL = os.environ.get("REMARSHAL_BIN", "remarshal")
 HOST_PREFIXES = [
     ("lockscreen_widgets", "widget"),  # keyed by connector, absolute pixels
     ("lockscreen_widgets", "widget_order"),
+    ("desktop_widgets", "widget"),
+    ("desktop_widgets", "widget_order"),
     ("wallpaper", "default"),  # current picture
     ("wallpaper", "last"),
+    ("wallpaper", "monitors"),  # current picture per output
     ("wallpaper", "monitor"),  # per-output folders
     ("bar", "*", "monitor"),  # per-output bar overrides
     ("battery", "device"),  # per-device thresholds
     ("calendar", "accounts"),
-    ("lockscreen_widgets", "schema_version"),  # Noctalia's own marker
+    ("*", "schema_version"),  # Noctalia's own markers
     ("config_version",),
 ]
 # Credentials stay out of the repo. Plugin settings are otherwise shared (every
