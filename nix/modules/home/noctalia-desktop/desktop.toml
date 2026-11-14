@@ -1,4 +1,0 @@
-# The shared Noctalia desktop, installed as ~/.config/noctalia/desktop.toml on
-# every host. Loaded after config.toml (crann + stylix) and before host.toml.
-# Fill it from the GUI with:
-#   noctalia-capture --write ~/blueprint/nix/modules/home/noctalia-desktop/desktop.toml

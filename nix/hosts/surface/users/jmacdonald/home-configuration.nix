@@ -19,7 +19,6 @@
       editors
       rpi-utils
       desktop
-      noctalia-desktop
     ]
     ++ (with inputs.crann.modules.homeManager; [
       # niri's home config is provided by the crann NixOS module
@@ -38,9 +37,9 @@
     ]);
 
   crann = {
-    # Shared Noctalia desktop (desktop.toml) + this host's layer (host.toml).
-    # surface is the reference host: configure in the GUI here, then
-    # `noctalia-capture --write ~/blueprint/nix/modules/home/noctalia-desktop/desktop.toml`.
+    # Shared Noctalia desktop (crann's desktop.toml) + this host's layer
+    # (host.toml). surface is the reference host: configure in the GUI here, then
+    # `noctalia-capture --write ~/Code/crann/modules/_lib/noctalia/desktop.toml`.
     noctalia.desktop.enable = true;
     git.enable = true;
     kubernetes = {
