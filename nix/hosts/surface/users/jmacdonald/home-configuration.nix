@@ -37,6 +37,10 @@
     ]);
 
   crann = {
+    # Shared Noctalia desktop (crann's desktop.toml) + this host's layer
+    # (host.toml). surface is the reference host: configure in the GUI here, then
+    # `noctalia-capture --write ~/Code/crann/modules/_lib/noctalia/desktop.toml`.
+    noctalia.desktop.enable = true;
     git.enable = true;
     kubernetes = {
       enable = true;
