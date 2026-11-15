@@ -207,11 +207,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1794701135,
-        "narHash": "sha256-+kR8wVraE9n1/eQN+JzC21Ve+7raUsLWrLT2ll5SY2o=",
+        "lastModified": 1794705146,
+        "narHash": "sha256-RHWNr8LZ4IqA8JGpYxGkMqJVzvkeR58xS0Kekpf6cPE=",
         "owner": "jDmacD",
         "repo": "crann",
-        "rev": "ae53752d3d6d4d68864a5ed96c208c0336104950",
+        "rev": "1f304347ccef890ec2414b993c483e800a155c6f",
         "type": "github"
       },
       "original": {
@@ -662,17 +662,17 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1794674015,
-        "narHash": "sha256-7mufIALmKLzCvP5ZAGGvMa0OtMGk7DLa0EA6dNrKtU0=",
+        "lastModified": 1794697722,
+        "narHash": "sha256-kLUWR2G8oUYuciZVazof7fZ+M/baRaemoNjmwXH9Pic=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "1b7ee581dc08b305b31313a5de609c7c50b0cdcc",
+        "rev": "db5b3ff7fca0005b0162c3c417fb98e369534e5c",
         "type": "github"
       },
       "original": {
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "1b7ee581dc08b305b31313a5de609c7c50b0cdcc",
+        "rev": "db5b3ff7fca0005b0162c3c417fb98e369534e5c",
         "type": "github"
       }
     },
@@ -788,17 +788,17 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1794691626,
-        "narHash": "sha256-I5ZnPvE0vqCBtn2BcsQxyxPn9jyVgeuUV+ux3bPnmfM=",
+        "lastModified": 1794698525,
+        "narHash": "sha256-siEsnQvXEFH3CpE0tKjBK9k0y7X2qtmfcaCPY+vVbtw=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "1b5f16ba62a3ba8457872bb8cbf02825329dd1fc",
+        "rev": "65d3c96232a3f761323449328e80f41d0410fd1f",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "1b5f16ba62a3ba8457872bb8cbf02825329dd1fc",
+        "rev": "65d3c96232a3f761323449328e80f41d0410fd1f",
         "type": "github"
       }
     },
