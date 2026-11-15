@@ -54,7 +54,7 @@
     # surface runs, because f7cc75d has no cached firefox-unwrapped 160.0
     # yet and builds it from source. Drop this line (back to crann's own pin)
     # once cache.nixos.org has Firefox for crann's current nixpkgs.
-    crann.inputs.nixpkgs.url = "github:nixos/nixpkgs/65d3c96232a3f761323449328e80f41d0410fd1f";
+    crann.inputs.nixpkgs.url = "github:nixos/nixpkgs/v208";
 
     # Pins single packages to an exact version (see cloud-utils.nix). Follows
     # crann's so there's one multiverse index.
