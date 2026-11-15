@@ -33,6 +33,15 @@
   ]);
 
   crann = {
+    # Shared Noctalia desktop (crann's desktop.toml). This host's layer:
+    # Immich wallpapers for the 3840x1600 DP-1, from the two ultrawide tags.
+    noctalia = {
+      desktop.enable = true;
+      hostSettings.plugin_settings."jdmacd/immich-wallpaper".tags = [
+        "wallpapers/3840x1600"
+        "wallpapers/3440x1440"
+      ];
+    };
     git.enable = true;
     kubernetes = {
       enable = true;
