@@ -28,6 +28,13 @@
       path = "${config.home.homeDirectory}/.ssh/id_ed25519";
     };
 
+    # Read-only Immich key for the Noctalia Immich Wallpaper plugin
+    # (`api_key_file`); the same path on every host.
+    secrets.immich_wallpaper_key = {
+      mode = "0600";
+      path = "${config.home.homeDirectory}/.config/immich-wallpaper.key";
+    };
+
     secrets.id_ed25519_pub = {
       mode = "0600";
       path = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
