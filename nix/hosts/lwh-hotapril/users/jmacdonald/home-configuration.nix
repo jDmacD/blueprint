@@ -32,6 +32,19 @@
     ]);
 
   crann = {
+    # Shared Noctalia desktop (crann's desktop.toml). This host's layer:
+    # Immich wallpapers for the 1920x1080 eDP-1, from the 16:9 tags.
+    noctalia = {
+      desktop.enable = true;
+      hostSettings.plugin_settings."jdmacd/immich-wallpaper".tags = [
+        "wallpapers/1600x900"
+        "wallpapers/1920x1080"
+        "wallpapers/2000x1125"
+        "wallpapers/2499x1405"
+        "wallpapers/3840x2160"
+        "wallpapers/5120x2880"
+      ];
+    };
     git.enable = true;
     kubernetes.enable = true;
     shells = {
