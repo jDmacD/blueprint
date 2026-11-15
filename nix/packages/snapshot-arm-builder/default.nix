@@ -76,9 +76,18 @@ pkgs.writeShellApplication {
       # Each clone generates its own machine-id on first boot.
       sudo rm -f /etc/machine-id
     '
-    HOSTKEY=$(ssh-keyscan -t ed25519 "$IP" 2>/dev/null | cut -d" " -f2- | base64 -w0)
+    # ssh-keyscan also prints a "# host:22 SSH-2.0-…" comment line on stdout.
+    HOSTKEY=$(ssh-keyscan -t ed25519 "$IP" 2>/dev/null | grep -v '^#' | cut -d" " -f2- | base64 -w0)
 
-    hcloud server poweroff "$NAME" >/dev/null
+    # A clean shutdown, not `poweroff` (a hard power cut): otherwise the host
+    # keys generated on first boot may never reach the disk, and every clone
+    # makes new ones.
+    ssh "''${SSHO[@]}" "jmacdonald@$IP" 'sudo sync' || true
+    hcloud server shutdown "$NAME" >/dev/null
+    for _ in $(seq 60); do
+      [ "$(hcloud server describe "$NAME" -o format='{{.Status}}')" = off ] && break
+      sleep 5
+    done
     echo "snapshotting $NAME"
     hcloud server create-image --type snapshot \
       --description "nixos-arm-builder $REV" \
