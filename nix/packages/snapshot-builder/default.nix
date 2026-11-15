@@ -1,16 +1,18 @@
-# Build the Hetzner snapshot that temporary aarch64 build servers boot from.
+# Build the Hetzner snapshot that temporary build servers boot from.
 #
-#   nix run .#snapshot-arm-builder            # from a clean blueprint checkout
+#   nix run .#snapshot-builder -- arm      # from a clean blueprint checkout
+#   nix run .#snapshot-builder -- x86
 #
-# Creates a throwaway Ubuntu cax11, installs nixosConfigurations.arm-builder
-# on it with nixos-anywhere (kexec, built on the server itself), powers it
-# off, saves it as a snapshot labelled role=arm-builder, and deletes the
-# server, also on failure. Older role=arm-builder snapshots are kept; the
-# newest is the one consumers pick. Needs the hcloud CLI context on this host
-# (sops-nix ~/.config/hcloud/cli.toml).
+# Creates a throwaway Ubuntu server (cax11 / cx23), installs
+# nixosConfigurations.<arch>-builder on it with nixos-anywhere (kexec, built
+# on the server itself), shuts it down, saves it as a snapshot labelled
+# role=<arch>-builder, and deletes the server, also on failure. The snapshot's
+# description carries the image's SSH host key, which crann's build-ephemeral
+# pins. Older snapshots are kept; consumers pick the newest. Needs the hcloud
+# CLI context on this host (sops-nix ~/.config/hcloud/cli.toml).
 { pkgs, ... }:
 pkgs.writeShellApplication {
-  name = "snapshot-arm-builder";
+  name = "snapshot-builder";
   runtimeInputs = with pkgs; [
     hcloud
     nixos-anywhere
@@ -20,6 +22,16 @@ pkgs.writeShellApplication {
     coreutils
   ];
   text = ''
+    case "''${1:-}" in
+      arm) SEED_TYPE=cax11 ;;
+      x86) SEED_TYPE=cx23 ;;
+      *)
+        echo "usage: snapshot-builder <arm|x86>" >&2
+        exit 2
+        ;;
+    esac
+    ARCH=$1
+    HOST="$ARCH-builder"
     FLAKE=''${FLAKE:-.}
     SSH_KEY=''${SSH_KEY:-James@nixos-surface}
     LOCATION=''${LOCATION:-hel1}
@@ -29,7 +41,7 @@ pkgs.writeShellApplication {
       exit 1
     fi
     REV=$(git -C "$FLAKE" rev-parse --short HEAD)
-    NAME="arm-builder-seed-$(date -u +%Y%m%d%H%M)"
+    NAME="$HOST-seed-$(date -u +%Y%m%d%H%M)"
     KNOWN=$(mktemp)
     SSHO=(-o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$KNOWN" -o ConnectTimeout=5)
 
@@ -51,15 +63,15 @@ pkgs.writeShellApplication {
       return 1
     }
 
-    echo "creating $NAME (cax11, $LOCATION)"
-    hcloud server create --name "$NAME" --type cax11 --image ubuntu-24.04 \
+    echo "creating $NAME ($SEED_TYPE, $LOCATION)"
+    hcloud server create --name "$NAME" --type "$SEED_TYPE" --image ubuntu-24.04 \
       --location "$LOCATION" --ssh-key "$SSH_KEY" --without-ipv6 \
-      --label role=arm-builder-seed >/dev/null
+      --label role="$HOST-seed" >/dev/null
     IP=$(hcloud server ip "$NAME")
     wait_ssh "root@$IP"
 
-    echo "installing arm-builder ($REV) on $IP"
-    nixos-anywhere --flake "$FLAKE#arm-builder" --build-on remote \
+    echo "installing $HOST ($REV) on $IP"
+    nixos-anywhere --flake "$FLAKE#$HOST" --build-on remote \
       --ssh-option UserKnownHostsFile="$KNOWN" \
       --ssh-option StrictHostKeyChecking=no \
       --target-host "root@$IP"
@@ -67,17 +79,18 @@ pkgs.writeShellApplication {
     # The installed system has a new host key.
     : >"$KNOWN"
     wait_ssh "jmacdonald@$IP"
-    ssh "''${SSHO[@]}" "jmacdonald@$IP" '
+    # shellcheck disable=SC2029 # $HOST is meant to expand locally
+    ssh "''${SSHO[@]}" "jmacdonald@$IP" "
       set -e
-      test "$(hostname)" = arm-builder
+      test \"\$(hostname)\" = $HOST
       # nix-daemon is socket-activated; ask it instead of systemctl.
       nix store info --store daemon >/dev/null
       sudo nix-collect-garbage -d >/dev/null
       # Each clone generates its own machine-id on first boot.
       sudo rm -f /etc/machine-id
-    '
+    "
     # ssh-keyscan also prints a "# host:22 SSH-2.0-…" comment line on stdout.
-    HOSTKEY=$(ssh-keyscan -t ed25519 "$IP" 2>/dev/null | grep -v '^#' | cut -d" " -f2- | base64 -w0)
+    HOSTKEY=$(ssh-keyscan -t ed25519 "$IP" 2>/dev/null | grep -v '^#' | cut -d" " -f2-3)
 
     # A clean shutdown, not `poweroff` (a hard power cut): otherwise the host
     # keys generated on first boot may never reach the disk, and every clone
@@ -90,13 +103,13 @@ pkgs.writeShellApplication {
     done
     echo "snapshotting $NAME"
     hcloud server create-image --type snapshot \
-      --description "nixos-arm-builder $REV" \
-      --label role=arm-builder --label rev="$REV" \
+      --description "nixos-$HOST $REV $HOSTKEY" \
+      --label role="$HOST" --label rev="$REV" \
       "$NAME" >/dev/null
-    IMAGE=$(hcloud image list --type snapshot --selector "role=arm-builder,rev=$REV" -o json \
+    IMAGE=$(hcloud image list --type snapshot --selector "role=$HOST,rev=$REV" -o json \
       | jq -r 'max_by(.created) | .id')
 
-    echo "snapshot $IMAGE (rev $REV)"
-    echo "publicHostKey for clients: $HOSTKEY"
+    echo "snapshot $IMAGE ($HOST, rev $REV)"
+    echo "host key: $HOSTKEY"
   '';
 }
