@@ -70,7 +70,8 @@ pkgs.writeShellApplication {
     ssh "''${SSHO[@]}" "jmacdonald@$IP" '
       set -e
       test "$(hostname)" = arm-builder
-      systemctl is-active nix-daemon >/dev/null
+      # nix-daemon is socket-activated; ask it instead of systemctl.
+      nix store info --store daemon >/dev/null
       sudo nix-collect-garbage -d >/dev/null
       # Each clone generates its own machine-id on first boot.
       sudo rm -f /etc/machine-id
