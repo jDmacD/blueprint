@@ -62,6 +62,14 @@
   sops.secrets.nix_cache_aws = {
     path = "${config.home.homeDirectory}/.config/nix/jtec-nix-cache.aws";
   };
+  # Write-only key (IAM application nix-cache-pusher: Object Storage read +
+  # write, no delete, project `ephemeral`; BWS scaleway-nix-cache-pusher).
+  # crann's build-ephemeral stages it, with the signing key, in a temporary
+  # builder's RAM so the builder pushes to the cache itself and builds don't
+  # cross picard's WiFi backhaul twice.
+  sops.secrets.nix_cache_pusher_aws = {
+    path = "${config.home.homeDirectory}/.config/nix/jtec-nix-cache-pusher.aws";
+  };
 
   sops.secrets.cfcli_yml = {
     path = "${config.home.homeDirectory}/.cfcli.yml";
