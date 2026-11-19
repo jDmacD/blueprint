@@ -147,7 +147,7 @@ pkgs.writeShellApplication {
       keyb64=$(cut -d" " -f2 <<<"$HOSTKEY")
       IMAGE=$(scw instance image create zone="$ZONE" snapshot-id="$snap" arch=arm64 \
         name="nixos-$HOST-$REV" tags.0="role=$HOST" tags.1="rev=$REV" \
-        tags.2="hostkey=$keyb64" -o json | jq -r '.image.id')
+        tags.2="hostkey=$keyb64" -o json | jq -r '(.image // .Image // .).id')
     }
 
     cleanup() {
