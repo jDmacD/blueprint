@@ -138,7 +138,9 @@ pkgs.writeShellApplication {
     }
     scaleway_image() {
       local vol snap keyb64
-      vol=$(scw instance server get "$SERVER_ID" zone="$ZONE" -o json | jq -r '.volumes["0"].id')
+      # The CLI's own JSON view names it "Volumes" (the API: "volumes").
+      vol=$(scw instance server get "$SERVER_ID" zone="$ZONE" -o json \
+        | jq -r '[(.Volumes // .volumes)[]][0].id')
       snap=$(scw block snapshot create zone="$ZONE" volume-id="$vol" name="nixos-$HOST-$REV" \
         tags.0="role=$HOST" tags.1="rev=$REV" -o json | jq -r .id)
       scw block snapshot wait "$snap" zone="$ZONE" >/dev/null
