@@ -52,11 +52,15 @@
     mode = "0600";
   };
 
-  # Signs what nix-pi's build-push copies to the private S3 binary cache
-  # (s3://jtec-nix-cache, fsn1); the public half, jtec-nix-cache-1:jTim…,
-  # is in picard's trusted-public-keys.
+  # For nix-pi's build-push to the private S3 binary cache (Scaleway
+  # s3://jtec-nix-cache, nl-ams): the signing key (public half
+  # jtec-nix-cache-1:jTim… is in picard's trusted-public-keys) and an
+  # AWS-style credentials file for the `ephemeral` project's key.
   sops.secrets.nix_cache_signing_key = {
     path = "${config.home.homeDirectory}/.config/nix/jtec-nix-cache-1.sec";
+  };
+  sops.secrets.nix_cache_aws = {
+    path = "${config.home.homeDirectory}/.config/nix/jtec-nix-cache.aws";
   };
 
   sops.secrets.cfcli_yml = {
