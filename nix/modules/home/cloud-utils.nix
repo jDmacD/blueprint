@@ -47,6 +47,9 @@
   # and crann's build-ephemeral.
   sops.secrets.scaleway = {
     path = "${config.home.homeDirectory}/.config/scw/config.yaml";
+    # scw warns on anything but 0600 (sops-nix's default 0400 included), and
+    # prints the warning on stdout, which breaks `scw … -o json | jq`.
+    mode = "0600";
   };
 
   sops.secrets.cfcli_yml = {
