@@ -20,6 +20,12 @@ creation_rules:
     key_groups:
     - age:
       - *personal
+  # picard only: credentials that must not reach the rest of the fleet.
+  - path_regex: ^nix\/hosts\/picard\/secrets.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *personal
+      - *picard
   - path_regex: ^nix\/hosts\/secrets.(yaml|json|env|ini)$
     key_groups:
     - age:
