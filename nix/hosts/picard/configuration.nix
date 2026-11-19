@@ -80,6 +80,25 @@
   };
   nix.settings.secret-key-files = [ config.sops.secrets."nix_store_signing_key".path ];
 
+  # Private binary cache on Scaleway Object Storage (bucket jtec-nix-cache,
+  # nl-ams, project `ephemeral`). Unlike cachix's free tier it never evicts,
+  # so the Pi kernels stay fetchable for rollbacks and images. Pushes come
+  # from jmacdonald (nix-pi's build-push), signed with jtec-nix-cache-1 (home
+  # sops nix_cache_signing_key); the daemon only reads. The credentials are
+  # the `ephemeral` project's key (claude-ephemeral-builder), which can't
+  # reach anything outside that project; kept to picard (./secrets.yaml).
+  sops.secrets."nix_cache_aws" = {
+    sopsFile = ./secrets.yaml;
+    owner = "root";
+    mode = "0400";
+  };
+  systemd.services.nix-daemon.environment.AWS_SHARED_CREDENTIALS_FILE =
+    config.sops.secrets."nix_cache_aws".path;
+  nix.settings = {
+    substituters = [ "s3://jtec-nix-cache?endpoint=s3.nl-ams.scw.cloud&region=nl-ams" ];
+    trusted-public-keys = [ "jtec-nix-cache-1:jTimDGKpmSD8PAWRS3TZsGl8Yu57ZrlsQ6OHwp6u/L8=" ];
+  };
+
   networking.interfaces = {
     enp3s0 = {
       useDHCP = true;
