@@ -34,11 +34,19 @@
   home.packages = with pkgs; [
     hcloud
     lazyhetzner
+    scaleway-cli
     cloudflare-cli
   ];
 
   sops.secrets.hetzner = {
     path = "${config.home.homeDirectory}/.config/hcloud/cli.toml";
+  };
+
+  # Project `ephemeral` only (IAM application claude-ephemeral-builder; key
+  # from BWS scaleway-claude-ephemeral, expires 2027-11-19): snapshot-builder
+  # and crann's build-ephemeral.
+  sops.secrets.scaleway = {
+    path = "${config.home.homeDirectory}/.config/scw/config.yaml";
   };
 
   sops.secrets.cfcli_yml = {
