@@ -207,11 +207,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1795132313,
-        "narHash": "sha256-WN9w0XaRcuVXcp8ETi0jz4l4negM2uZn9T6fnsU2fqM=",
+        "lastModified": 1795134646,
+        "narHash": "sha256-l8zc449rwsxf2ITkss3L9c7ATkXxbITTDpJsuHGB6Q8=",
         "owner": "jDmacD",
         "repo": "crann",
-        "rev": "d2d179236a3efc466a7c48a0b6d9569d124c3aee",
+        "rev": "3a0dcb61de48a96f35a53ba1b273c520f8973e7d",
         "type": "github"
       },
       "original": {
@@ -678,17 +678,17 @@
     },
     "multiverse": {
       "locked": {
-        "lastModified": 1795019436,
-        "narHash": "sha256-w2/eJdcKyrv3gTm/RMKusvtNWqOtTTI1aA8mjai4aIg=",
+        "lastModified": 1795130755,
+        "narHash": "sha256-irQFntIvwozY4ikZtTZYakf3rkQDkBWgFJJtaIWmyiQ=",
         "owner": "fzakaria",
         "repo": "nixpkgs-multiverse",
-        "rev": "775a72ca88bb85da0d813f1f2590a2b912b7d2ad",
+        "rev": "c705ba657fcfa6b4df58e033e4d039c0f5ce902e",
         "type": "github"
       },
       "original": {
         "owner": "fzakaria",
         "repo": "nixpkgs-multiverse",
-        "rev": "775a72ca88bb85da0d813f1f2590a2b912b7d2ad",
+        "rev": "c705ba657fcfa6b4df58e033e4d039c0f5ce902e",
         "type": "github"
       }
     },
