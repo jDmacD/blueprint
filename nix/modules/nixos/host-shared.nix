@@ -1,9 +1,16 @@
 {
   pkgs,
   lib,
+  inputs,
   ...
 }:
 {
+  # The blueprint commit each system is built from, read back with
+  # `nixos-version --configuration-revision`. The jdmacd/nix-overview Noctalia
+  # plugin compares it with origin/main to show how far a host is behind.
+  # A dirty tree records `<rev>-dirty`.
+  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
+
   # Shared Nix configuration
   nixpkgs.config.allowUnfree = true;
 
