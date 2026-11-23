@@ -19,6 +19,20 @@
       aurral.url = "https://music.local.jtec.xyz";
       # Lidarr's public MusicBrainz mirror (editions, track lists); no key.
       metadata.url = "https://api.lidarr.audio/api/v0.4";
+      # Servarr apps (arr_* tools); BWS keys `<app>-api`, bare keys.
+      sonarr.url = "https://sonarr.local.jtec.xyz";
+      radarr.url = "https://radarr.local.jtec.xyz";
+      lidarr.url = "https://lidarr.local.jtec.xyz";
+      prowlarr.url = "https://prowlarr.local.jtec.xyz";
+      whisparr.url = "https://whisparr.local.jtec.xyz";
+      chaptarr.url = "https://chaptarr.local.jtec.xyz";
+      # WebAPI key (BWS `qbittorrent-api-key`), sent as a Bearer token.
+      qbittorrent.url = "https://qbittorrent.local.jtec.xyz";
+      jellyfin = {
+        url = "https://jellyfin.local.jtec.xyz";
+        key_field = "apiKey";
+      };
+      bazarr.url = "https://bazarr.local.jtec.xyz";
     };
     # BWS project `jtec`, the one the cluster's external-secrets store reads.
     secretspec.provider = "bws://f2fc98e1-f97e-4cd2-bedf-b24c00954124";
