@@ -17,6 +17,8 @@
       };
       # BWS key `aurral-api` holds the bare admin API key.
       aurral.url = "https://music.local.jtec.xyz";
+      # Lidarr's public MusicBrainz mirror (editions, track lists); no key.
+      metadata.url = "https://api.lidarr.audio/api/v0.4";
     };
     # BWS project `jtec`, the one the cluster's external-secrets store reads.
     secretspec.provider = "bws://f2fc98e1-f97e-4cd2-bedf-b24c00954124";
