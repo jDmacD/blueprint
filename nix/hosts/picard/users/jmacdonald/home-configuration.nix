@@ -20,6 +20,7 @@
   ]
   ++ (with inputs.self.homeModules; [
     home-shared
+    jtec-mcp
     cluster-sweep
     personal
     dev-utils

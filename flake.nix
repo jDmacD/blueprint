@@ -51,6 +51,13 @@
 
     crann.url = "github:jDmacD/crann";
 
+    # MCP server with workflow-level tools for cluster and home services
+    # (slskd, ...); its Home Manager module registers it with Claude Code.
+    jtec-mcp = {
+      url = "github:jDmacD/jtec-mcp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Pins single packages to an exact version (see cloud-utils.nix). Follows
     # crann's so there's one multiverse index.
     multiverse.follows = "crann/multiverse";
