@@ -26,7 +26,7 @@
 
     ## Using and extending jtec-mcp
 
-    jtec-mcp (`mcp__jtec__*` tools; repo `~/Code/jtec-mcp`,
+    jtec-mcp (`mcp__plugin_hm_jtec__*` tools; repo `~/Code/jtec-mcp`,
     github.com/jDmacD/jtec-mcp) is jDmacD's MCP server for cluster and home
     services. Use it before calling a service's API by hand. When a task needs
     a service API by hand (curl, `kubectl exec`, port-forwards, ad-hoc scripts)
