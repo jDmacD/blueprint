@@ -11,6 +11,7 @@
     with inputs.self.homeModules;
     [
       home-shared
+      jtec-mcp
       personal
       dev-utils
       network-utils
