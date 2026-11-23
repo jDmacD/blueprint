@@ -9,10 +9,14 @@
 
   services.jtec-mcp = {
     enable = true;
-    settings.services.slskd = {
-      # LAN-only route on the internal gateway.
-      url = "https://slskd.local.jtec.xyz";
-      key_field = "SLSKD_API_KEY";
+    # LAN-only routes on the internal gateway.
+    settings.services = {
+      slskd = {
+        url = "https://slskd.local.jtec.xyz";
+        key_field = "SLSKD_API_KEY";
+      };
+      # BWS key `aurral-api` holds the bare admin API key.
+      aurral.url = "https://music.local.jtec.xyz";
     };
     # BWS project `jtec`, the one the cluster's external-secrets store reads.
     secretspec.provider = "bws://f2fc98e1-f97e-4cd2-bedf-b24c00954124";

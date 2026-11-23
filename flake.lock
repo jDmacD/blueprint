@@ -636,11 +636,11 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1795465654,
-        "narHash": "sha256-KOmezfVvHLU56lO89xW2AMQHMrJXsoiqil7KCQcObiE=",
+        "lastModified": 1795467180,
+        "narHash": "sha256-L8Jk0KtR5YfcvgTZVf7nXssOtx8nIP06zmlhnD33sSE=",
         "owner": "jDmacD",
         "repo": "jtec-mcp",
-        "rev": "9dc9d4f476ab1f3c80d4c1ce59b96610edf99dfa",
+        "rev": "63da01a9230aa48eb99c6419d73c762aebad4e6f",
         "type": "github"
       },
       "original": {
