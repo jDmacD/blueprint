@@ -17,6 +17,7 @@
     inputs.crann.modules.homeManager.obsidian
     inputs.crann.modules.homeManager.ai-utils
     inputs.crann.modules.homeManager.vault-sync
+    inputs.jtec-mcp.homeManagerModules.default
   ]
   ++ (with inputs.self.homeModules; [
     home-shared
@@ -82,6 +83,7 @@
               - `nix-shell --packages ethtool dnsutils --quiet --run "dig +short picard.lan"`
               - `ssh lwh-hotapril.lan 'nix-shell --packages facter --quiet --run "facter -j"'`
           - search for tools and applications with `nh search <application name>`
+          - jtec-mcp (`mcp__jtec__*` tools; repo `~/Code/jtec-mcp`, github.com/jDmacD/jtec-mcp) is jDmacD's MCP server for cluster and home services. Use it before calling a service's API by hand. When a task needs a service API by hand (curl, `kubectl exec`, port-forwards, ad-hoc scripts) for a step likely to recur, extend jtec-mcp proactively: finish the user's task first, then open a branch + PR in jtec-mcp following its CLAUDE.md (prefer a maintained Python library, then the service's OpenAPI/Swagger spec, then hand-written httpx). jDmacD wants this without being asked; say in one line that you opened it.
         '';
       };
       claude-obsidian = {
@@ -105,6 +107,21 @@
       };
     };
   };
+
+  # jtec-mcp: API keys come from BWS via secretspec; the server reads only
+  # the BWS access token (Claude's `bws.claude` machine-account token).
+  services.jtec-mcp = {
+    enable = true;
+    settings.services.slskd = {
+      # LAN-only route on the internal gateway.
+      url = "https://slskd.local.jtec.xyz";
+      key_field = "SLSKD_API_KEY";
+    };
+    # BWS project `jtec`, the one the cluster's external-secrets store reads.
+    secretspec.provider = "bws://f2fc98e1-f97e-4cd2-bedf-b24c00954124";
+    secretFiles.BWS_ACCESS_TOKEN = config.sops.secrets."bws/claude".path;
+  };
+  sops.secrets."bws/claude" = { };
 
   # Editor-role service account token (Grafana > Administration > Service accounts).
   sops.secrets.grafana_mcp_token = { };
