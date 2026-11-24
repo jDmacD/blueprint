@@ -123,6 +123,9 @@
   home.packages = with pkgs; [
     pinta
     upscayl
+    # gcloud: Google Trust Services ACME EAB keys (`gcloud publicca
+    # external-account-keys create`) for catalogue's GTS ClusterIssuer.
+    google-cloud-sdk
   ];
 
   home.stateVersion = "25.11";
