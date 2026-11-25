@@ -33,6 +33,9 @@
         key_field = "apiKey";
       };
       bazarr.url = "https://bazarr.local.jtec.xyz";
+      # API user `jtec-mcp` (Unbound, Kea v4, firewall live log privileges);
+      # BWS `opnsense-api` holds its apikey.txt or {"key", "secret"}.
+      opnsense.url = "https://opn.lan.jtec.xyz";
     };
     # BWS project `jtec`, the one the cluster's external-secrets store reads.
     secretspec.provider = "bws://f2fc98e1-f97e-4cd2-bedf-b24c00954124";
