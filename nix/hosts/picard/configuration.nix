@@ -99,6 +99,18 @@
     trusted-public-keys = [ "jtec-nix-cache-1:jTimDGKpmSD8PAWRS3TZsGl8Yu57ZrlsQ6OHwp6u/L8=" ];
   };
 
+  # Claude Code managed settings: permission rules declared here, so
+  # ~/.claude/settings.json stays a mutable file (as crann intends). Managed
+  # rules merge with the user's own and take precedence. An allow rule also
+  # skips auto mode's classifier for that tool.
+  environment.etc."claude-code/managed-settings.json".text = builtins.toJSON {
+    permissions.allow = [
+      # Cancelling an album's Aurral downloads, e.g. to replace a multi-peer
+      # download with one complete folder (jtec-mcp). Approved 2026-11-25.
+      "mcp__plugin_hm_jtec__aurral_cancel_album_downloads"
+    ];
+  };
+
   networking.interfaces = {
     enp3s0 = {
       useDHCP = true;
