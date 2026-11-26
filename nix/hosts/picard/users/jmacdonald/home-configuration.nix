@@ -30,6 +30,7 @@
     editors
     rpi-utils
     desktop
+    zlib
     # openclaw
   ]);
 
