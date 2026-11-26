@@ -11,8 +11,8 @@
 # `zlib login` would write. No password is stored or passed on a command
 # line. The cookies stay valid until the account password changes.
 #
-# sops keys (nix/secrets/personal.yaml), from a one-off login in a scratch
-# HOME (`jq .cookies ~/.config/zlib/session.json`):
+# sops keys (nix/secrets/personal.yaml), from a one-off login through
+# ZLIB_PROXY in a scratch HOME (`jq .cookies ~/.config/zlib/session.json`):
 #   zlib/remix_userid
 #   zlib/remix_userkey
 let
@@ -42,6 +42,10 @@ in
   # Set in the environment, not ~/.config/zlib/.env: zlib's own settings
   # screens write that file, so leave it to them.
   home.sessionVariables = {
+    # gluetun's HTTP proxy (catalogue gluetun/, LoadBalancer
+    # 192.168.178.245), so Z-Library sees the AirVPN exit, not the home IP.
+    # Also carries zlib's metadata lookups and cover downloads.
+    ZLIB_PROXY = "http://gluetun.lan.jtec.xyz:8888";
     ZLIB_DOWNLOAD_DIR = "${config.home.homeDirectory}/Downloads";
     ZLIB_SEARCH_EXTENSIONS = "epub";
   };
