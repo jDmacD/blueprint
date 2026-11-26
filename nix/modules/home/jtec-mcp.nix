@@ -36,6 +36,16 @@
       # API user `jtec-mcp` (Unbound, Kea v4, firewall live log privileges);
       # BWS `opnsense-api` holds its apikey.txt or {"key", "secret"}.
       opnsense.url = "https://opn.lan.jtec.xyz";
+      # FileBrowser Quantum over /store (files_* tools), and Chaptarr's drop
+      # folder (chaptarr_import_file). BWS `filebrowser-api`: the API token
+      # of the non-admin Quantum user `claude`.
+      filebrowser = {
+        url = "https://files.local.jtec.xyz";
+        source = "books";
+        upload_dir = "/downloads/zlib";
+        # The same folder as Chaptarr sees it.
+        chaptarr_dir = "/store/books/downloads/zlib";
+      };
     };
     # BWS project `jtec`, the one the cluster's external-secrets store reads.
     secretspec.provider = "bws://f2fc98e1-f97e-4cd2-bedf-b24c00954124";
